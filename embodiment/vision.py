@@ -24,9 +24,31 @@ def project(points, calibration):
                      points[..., 1]/z*calibration['focal_px']+calibration['cy']), axis=-1)
 
 
+def match_stereo(gray, other, current, calibration, mode='legacy21'):
+    """Metric observations from RGB only; small patches reduce depth-edge mixing."""
+    if mode not in ('legacy21', 'refined11'):
+        raise ValueError(f'Unknown stereo mode: {mode}')
+    size = 21 if mode == 'legacy21' else 11
+    kwargs = dict(winSize=(size, size), maxLevel=4,
+                  criteria=(cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 40, .01))
+    initial = current.copy()
+    initial[:, :, 0] -= calibration['focal_px']*calibration['baseline_m']/.9
+    matched, ok, error = cv2.calcOpticalFlowPyrLK(
+        gray, other, current, initial, flags=cv2.OPTFLOW_USE_INITIAL_FLOW, **kwargs)
+    reverse, reverse_ok, _ = cv2.calcOpticalFlowPyrLK(other, gray, matched, None, **kwargs)
+    points, valid = triangulate(current[:, 0], matched[:, 0], calibration)
+    valid &= (ok[:, 0].astype(bool) & reverse_ok[:, 0].astype(bool)
+              & (error[:, 0] < 22) & (np.linalg.norm(reverse[:, 0]-current[:, 0], axis=1) < 1.))
+    points[~valid] = 0
+    return points, valid
+
+
 class StereoTracks:
     """Reference-anchored image features retain identity without arm labels."""
-    def __init__(self, left, calibration):
+    def __init__(self, left, calibration, mode='legacy21'):
+        if mode not in ('legacy21', 'refined11'):
+            raise ValueError(f'Unknown stereo mode: {mode}')
+        self.mode = mode
         self.calibration = calibration
         self.reference = cv2.cvtColor(left, cv2.COLOR_RGB2GRAY)
         height, width = self.reference.shape
@@ -56,19 +78,12 @@ class StereoTracks:
         valid = (ok[:, 0].astype(bool) & back_ok[:, 0].astype(bool)
                  & (np.linalg.norm(back[:, 0]-self.reference_points[:, 0], axis=1) < 1.2)
                  & (error[:, 0] < 28))
-        initial_right = current.copy()
-        initial_right[:, :, 0] -= self.calibration['focal_px']*self.calibration['baseline_m']/.9
-        matched, stereo_ok, stereo_error = cv2.calcOpticalFlowPyrLK(
-            gray, other, current, initial_right, flags=cv2.OPTFLOW_USE_INITIAL_FLOW, **self.kwargs)
-        reverse, reverse_ok, _ = cv2.calcOpticalFlowPyrLK(other, gray, matched, None, **self.kwargs)
-        points, stereo_valid = triangulate(current[:, 0], matched[:, 0], self.calibration)
+        points, stereo_valid = match_stereo(gray, other, current, self.calibration, self.mode)
         height, width = gray.shape
-        valid &= (stereo_ok[:, 0].astype(bool) & reverse_ok[:, 0].astype(bool) & stereo_valid
-                  & (stereo_error[:, 0] < 22)
-                  & (np.linalg.norm(reverse[:, 0]-current[:, 0], axis=1) < 1.)
+        valid &= (stereo_valid
                   & (current[:, 0, 0] > 2) & (current[:, 0, 0] < width-3)
                   & (current[:, 0, 1] > 2) & (current[:, 0, 1] < height-3))
-        self.previous_points = current
+        self.previous_points = current.copy()
         self.previous_points[~valid] = self.reference_points[~valid]
         points[~valid] = 0
         return {'xyz': points, 'valid': valid, 'uv': current[:, 0].copy()}

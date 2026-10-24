@@ -63,7 +63,13 @@ def protocol(seed):
     return records
 
 
-def collect(output, scene='sim/scenes/robot-eye-v6.xml', seed=20261210):
+def evaluation_protocol(seed):
+    """New local motions with a home anchor; contains no fitting/selection frames."""
+    return [('test', HOME.copy(), True) for _ in range(10)] + [
+        row for row in protocol(seed) if row[0] not in ('train', 'val')]
+
+
+def collect(output, scene='sim/scenes/robot-eye-v6.xml', seed=20261210, evaluation_only=False):
     output = Path(output)
     if output.exists() and any(output.iterdir()):
         raise FileExistsError('Choose a fresh experiment data directory')
@@ -84,7 +90,8 @@ def collect(output, scene='sim/scenes/robot-eye-v6.xml', seed=20261210):
     rows = []
     renderer = mujoco.Renderer(model, height=calibration['height'], width=calibration['width'])
     try:
-        for index, (phase, target, available) in enumerate(protocol(seed)):
+        schedule = evaluation_protocol(seed) if evaluation_only else protocol(seed)
+        for index, (phase, target, available) in enumerate(schedule):
             data.ctrl[:] = target
             mujoco.mj_step(model, data, nstep=round(.1/model.opt.timestep))
             environment.advance_bounded(data)
@@ -121,6 +128,7 @@ def collect(output, scene='sim/scenes/robot-eye-v6.xml', seed=20261210):
     finally:
         renderer.close()
     metadata = dict(format='body-entity-stereo-v1', seed=seed, calibration=calibration,
+                    evaluation_only=evaluation_only,
                     scene_sha256=hashlib.sha256(Path(scene).read_bytes()).hexdigest(),
                     environment_xml_sha256=environment_hash, frames=rows,
                     feedback='measured q after physical stepping, no commands in learner inputs',
@@ -135,4 +143,5 @@ if __name__ == '__main__':
     parser.add_argument('--output', required=True)
     parser.add_argument('--scene', default='sim/scenes/robot-eye-v6.xml')
     parser.add_argument('--seed', type=int, default=20261210)
+    parser.add_argument('--evaluation-only', action='store_true')
     collect(**vars(parser.parse_args()))

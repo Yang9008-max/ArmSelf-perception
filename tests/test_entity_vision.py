@@ -2,11 +2,26 @@ import unittest
 import tempfile
 from pathlib import Path
 import mujoco
+import cv2
 import numpy as np
 from embodiment.vision import triangulate, project
 
 
 class EntityVisionTests(unittest.TestCase):
+    def test_refined_stereo_recovers_known_depth_and_rejects_textureless_patch(self):
+        from embodiment.vision import match_stereo
+        rng = np.random.default_rng(8)
+        left = cv2.GaussianBlur(rng.integers(0, 256, (160, 240), dtype=np.uint8), (3, 3), .7)
+        right = cv2.warpAffine(left, np.float32([[1, 0, -24], [0, 1, 0]]), (240, 160))
+        calibration = dict(focal_px=360., baseline_m=.06, cx=119.5, cy=79.5)
+        uv = np.array([[[100, 70]], [[150, 90]], [[190, 110]]], dtype=np.float32)
+        xyz, valid = match_stereo(left, right, uv, calibration, 'refined11')
+        self.assertTrue(valid.all())
+        np.testing.assert_allclose(xyz[:, 2], .9, atol=.001)
+        blank = np.zeros_like(left)
+        _, valid = match_stereo(blank, blank, uv, calibration, 'refined11')
+        self.assertFalse(valid.any())
+
     def test_real_eye_pair_has_parallel_axes_and_metric_baseline(self):
         from embodiment.collect import stereo_scene
         with tempfile.TemporaryDirectory() as directory:
