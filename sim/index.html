@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>机械臂 · 感知试验台</title>
+  <style>
+    :root { color-scheme: dark; --bg:#101519; --panel:#181f24; --panel-deep:#131a1f; --line:#303a42; --text:#e8eef1; --muted:#8d9ca7; --accent:#88e1ca; --accent-dim:#233d37; --warn:#f1bd7a; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font:14px/1.5 "Segoe UI","Microsoft YaHei",sans-serif; }
+    button,input { font:inherit; }
+    button { cursor:pointer; border:1px solid var(--line); border-radius:7px; color:var(--text); background:#222c33; min-height:37px; padding:7px 13px; transition:background .15s,border-color .15s; }
+    button:hover:not(:disabled) { background:#2c3941; border-color:#647780; }
+    button:disabled,input:disabled { opacity:.4; cursor:not-allowed; }
+    button:focus-visible,input:focus-visible { outline:2px solid var(--accent); outline-offset:4px; }
+    button.primary { color:#132a25; border-color:var(--accent); background:var(--accent); font-weight:650; }
+    button.primary:hover:not(:disabled) { background:#aff4e2; }
+    button.active { background:var(--accent-dim); color:var(--accent); border-color:#497368; }
+    .shell { max-width:1530px; margin:0 auto; padding:27px 36px 23px; }
+    .masthead { display:flex; align-items:center; justify-content:space-between; gap:20px; margin-bottom:23px; }
+    .brand { display:flex; align-items:center; gap:14px; }
+    .brand-mark { width:35px; height:35px; display:grid; place-items:center; border:1px solid #4e756b; border-radius:9px; background:#20342f; color:var(--accent); }
+    h1 { margin:0; font-size:21px; font-weight:600; letter-spacing:.03em; }
+    .eyebrow { color:var(--muted); font-size:10px; letter-spacing:.18em; margin-top:2px; }
+    .connection { display:flex; align-items:center; gap:8px; font-size:12px; color:var(--muted); white-space:nowrap; }
+    .dot { display:inline-block; width:7px; height:7px; background:var(--warn); border-radius:50%; }
+    .connection.online .dot { background:var(--accent); box-shadow:0 0 12px #88e1ca30; }
+    .workspace { display:grid; grid-template-columns:minmax(0,1fr) 344px; gap:20px; align-items:start; }
+    .panel { background:var(--panel); border:1px solid var(--line); border-radius:11px; overflow:hidden; }
+    .panel-head { display:flex; justify-content:space-between; align-items:center; padding:15px 19px; gap:12px; }
+    .panel-title { font-size:14px; font-weight:600; margin:0; }
+    .panel-kicker { font-size:10px; color:var(--muted); letter-spacing:.12em; margin-bottom:3px; }
+    .small { font-size:11px; color:var(--muted); }
+    .camera-label { display:flex; align-items:center; gap:7px; font-size:11px; color:#becbd3; }
+    .camera-label::before { content:""; display:inline-block; width:11px; height:8px; border:1px solid #8d9ca7; border-radius:2px; }
+    .viewport { position:relative; background:#0b1013; aspect-ratio:4/3; border-block:1px solid var(--line); }
+    .viewport img { width:100%; height:100%; object-fit:contain; display:block; }
+    .viewport:not(.has-frame) img { visibility:hidden; }
+    .frame-label { position:absolute; top:15px; left:17px; color:#e5eeed; font-size:10px; letter-spacing:.12em; background:#101b20b0; padding:4px 8px; border:1px solid #d4e8e51a; border-radius:4px; pointer-events:none; }
+    .frame-message { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:11px; background:#0b1013b3; color:#a9b7bf; text-align:center; padding:30px; }
+    .frame-message[hidden] { display:none; }
+    .frame-message svg { width:35px; height:35px; color:#667e89; }
+    .viewer-foot { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; padding:14px 18px; }
+    .actions { display:flex; align-items:center; gap:8px; }
+    .metric { font-family:Consolas,"SFMono-Regular",monospace; font-size:12px; color:#c8d4db; font-variant-numeric:tabular-nums; }
+    .metrics { display:flex; align-items:center; gap:15px; }
+    .metric-label { font:10px "Segoe UI","Microsoft YaHei",sans-serif; color:var(--muted); margin-right:6px; }
+    .scene-note { display:flex; align-items:flex-start; gap:8px; margin:12px 2px 18px; color:var(--muted); font-size:12px; }
+    .scene-note span:first-child { color:var(--accent); }
+    .environment { display:grid; grid-template-columns:1fr 1.15fr; align-items:center; gap:22px; padding:18px 20px; }
+    .lighting-title { display:flex; align-items:center; gap:15px; }
+    .switch-label { display:flex; gap:10px; align-items:center; cursor:pointer; font-size:13px; }
+    .switch-label input { appearance:none; width:33px; height:19px; margin:0; background:#45515a; border-radius:20px; position:relative; transition:background .15s; cursor:pointer; flex-shrink:0; }
+    .switch-label input::after { content:""; position:absolute; width:13px; height:13px; top:3px; left:3px; border-radius:50%; background:#b6c4cb; transition:transform .15s; }
+    .switch-label input:checked { background:#427466; }
+    .switch-label input:checked::after { background:#b5f2e2; transform:translateX(14px); }
+    .light-control label { display:flex; justify-content:space-between; gap:10px; margin-bottom:7px; font-size:12px; }
+    .light-control output { color:var(--accent); font-family:Consolas,monospace; }
+    input[type=range] { display:block; width:100%; height:17px; margin:0; padding:0; accent-color:var(--accent); cursor:pointer; }
+    input[type=range]::-webkit-slider-runnable-track { height:4px; background:linear-gradient(to right,#79bcae 0%,#79bcae var(--fill,50%),#36434c var(--fill,50%),#36434c 100%); border-radius:4px; }
+    input[type=range]::-webkit-slider-thumb { appearance:none; width:12px; height:12px; border-radius:50%; background:var(--accent); margin-top:-4px; border:2px solid #b9f0e2; }
+    input[type=range] { -webkit-appearance:none; appearance:none; background:transparent; }
+    input[type=range]::-moz-range-track { height:4px; border-radius:4px; background:#36434c; }
+    input[type=range]::-moz-range-progress { height:4px; background:#79bcae; }
+    input[type=range]::-moz-range-thumb { width:9px; height:9px; border:2px solid #b9f0e2; background:var(--accent); border-radius:50%; }
+    .controls .panel-head { padding-bottom:11px; }
+    .auto-button { font-size:12px; min-height:32px; padding:5px 10px; }
+    .exploration-state { margin:0 19px 13px; color:var(--muted); font-size:11px; display:flex; gap:7px; align-items:center; min-height:17px; }
+    .exploration-state::before { content:""; display:block; width:5px; height:5px; background:#697983; border-radius:50%; }
+    .exploration-state.running { color:var(--accent); }
+    .exploration-state.running::before { background:var(--accent); }
+    .joint-list { border-top:1px solid var(--line); padding:0 19px; }
+    .joint { padding:13px 0 10px; border-bottom:1px solid #2b353d; }
+    .joint:last-child { border-bottom:0; }
+    .joint-top { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:7px; }
+    .joint-name { display:flex; align-items:center; gap:8px; font-size:12px; font-weight:500; }
+    .joint-code { font:10px Consolas,monospace; color:var(--muted); min-width:19px; }
+    .joint-values { display:flex; align-items:center; gap:10px; white-space:nowrap; font-size:10px; color:var(--muted); }
+    .joint-values output { font:12px Consolas,monospace; font-variant-numeric:tabular-nums; color:var(--text); margin-left:4px; display:inline-block; min-width:35px; text-align:right; }
+    .joint-values .target { color:var(--accent); }
+    .joint-limits { display:flex; justify-content:space-between; color:#788b97; font:9px Consolas,monospace; margin-top:3px; }
+    .empty-controls { color:var(--muted); padding:23px 0; font-size:12px; }
+    .control-hint { margin:0; padding:10px 19px 15px; font-size:11px; color:var(--muted); }
+    .capture { margin-top:15px; padding:17px 19px; }
+    .capture-heading { display:flex; justify-content:space-between; align-items:center; gap:15px; }
+    .capture p { margin:5px 0 13px; color:var(--muted); font-size:11px; }
+    .capture button { width:100%; }
+    .snapshot-result { margin-top:11px; font-size:11px; color:#a9c9be; overflow-wrap:anywhere; }
+    .snapshot-result:empty { display:none; }
+    .notice { margin-top:13px; padding:11px 14px; border:1px solid #675039; background:#33291f; color:var(--warn); border-radius:7px; font-size:12px; overflow-wrap:anywhere; }
+    .notice[hidden] { display:none; }
+    footer { margin-top:20px; display:flex; justify-content:space-between; gap:12px; color:#687d89; font-size:10px; letter-spacing:.04em; }
+    @media(min-width:1400px) { .workspace { grid-template-columns:minmax(0,1fr) 370px; } .joint { padding-block:17px 13px; } }
+    @media(max-width:1050px) { .shell { padding:23px; } .workspace { gap:15px; grid-template-columns:minmax(0,1fr) 320px; } .environment { grid-template-columns:1fr; gap:16px; } .joint-list { padding-inline:15px; } .metrics { gap:9px; } }
+    @media(max-width:780px) { .shell { padding:20px 15px; } .workspace { grid-template-columns:1fr; } .masthead { margin-bottom:18px; } h1 { font-size:18px; } .brand { gap:10px; } .brand-mark { width:31px; height:31px; } .environment { grid-template-columns:1fr 1fr; } .joint { padding-block:15px 11px; } .joint-values output { min-width:44px; } .scene-note { margin-bottom:15px; } footer { margin-top:17px; } }
+    @media(max-width:420px) { .shell { padding:16px 10px; } .eyebrow { font-size:8px; } .connection { font-size:10px; } .brand-mark { display:none; } .environment { grid-template-columns:1fr; gap:14px; padding:16px; } .viewer-foot { padding:12px; } .metrics { width:100%; justify-content:flex-end; } .panel-head { padding-inline:15px; } }
+    @media(prefers-reduced-motion:reduce) { * { transition:none!important; } }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="masthead">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 20h12M8 20v-5l5-4-5-5 3-3 7 7-4 7v3M18 10l3-1 1 3-2 2"/><circle cx="9" cy="15" r="2"/><circle cx="8" cy="6" r="2"/></svg></div>
+        <div><h1>机械臂 · 感知试验台</h1><div class="eyebrow">MUJOCO / BODY PERCEPTION SANDBOX</div></div>
+      </div>
+      <div class="connection" id="connection" role="status"><span class="dot"></span><span id="connectionText">正在连接</span></div>
+    </header>
+
+    <div class="workspace">
+      <section aria-label="相机观察与环境">
+        <div class="panel">
+          <div class="panel-head"><div><div class="panel-kicker">OBSERVATION / 01</div><h2 class="panel-title">相机观察</h2></div><div class="camera-label">固定视角 <span class="small">· 640 × 480</span></div></div>
+          <div class="viewport" id="viewport">
+            <img id="frame" alt="固定相机拍摄的机械臂与环境实时画面">
+            <div class="frame-label" aria-hidden="true">RGB OBSERVATION</div>
+            <div class="frame-message" id="frameMessage" role="status"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="4" y="8" width="24" height="18" rx="3"/><path d="m10 8 2-3h8l2 3"/><circle cx="16" cy="17" r="5"/></svg><span id="frameMessageText">等待相机画面…</span></div>
+          </div>
+          <div class="viewer-foot">
+            <div class="actions"><button id="pauseButton" type="button" data-control disabled>暂停运动</button><button id="homeButton" type="button" data-control disabled>回到初始姿态</button></div>
+            <div class="metrics"><span class="metric"><span class="metric-label">仿真时间</span><span id="simTime">0.0 s</span></span><span class="metric"><span id="fps">—</span><span class="metric-label"> FPS</span></span></div>
+          </div>
+        </div>
+        <p class="scene-note"><span aria-hidden="true">↳</span><span>通用六关节机械臂与双指夹爪；固定底座视为环境。</span></p>
+        <div class="panel environment">
+          <div><div class="panel-kicker">ENVIRONMENT</div><div class="lighting-title"><h2 class="panel-title">照明实验</h2><label class="switch-label"><input id="shadowsInput" type="checkbox" checked data-control disabled><span>阴影</span></label></div></div>
+          <div class="light-control"><label for="lightInput">光照方向 <output id="lightValue" for="lightInput">0°</output></label><input id="lightInput" type="range" min="-180" max="180" step="1" value="0" data-control disabled></div>
+        </div>
+      </section>
+
+      <aside aria-label="机械臂控制">
+        <section class="panel controls">
+          <div class="panel-head"><div><div class="panel-kicker">ACTION / 02</div><h2 class="panel-title">关节控制</h2></div><button id="autoButton" class="auto-button" type="button" aria-pressed="false" data-control disabled>自动探索</button></div>
+          <div class="exploration-state" id="explorationState" role="status">手动模式 · 每次观察一个变化</div>
+          <div class="joint-list" id="jointList"><div class="empty-controls">等待关节状态…</div></div>
+          <p class="control-hint">拖动滑块设置目标，实测值显示当前姿态。<br>手动调节关节会停止自动探索。</p>
+        </section>
+        <section class="panel capture">
+          <div class="capture-heading"><h2 class="panel-title">保存这一刻</h2><span class="small">SNAPSHOT</span></div>
+          <p>记录当前画面与关节状态，便于比较不同动作和光照。</p>
+          <button id="snapshotButton" class="primary" type="button" data-control disabled>保存观测快照</button>
+          <div class="snapshot-result" id="snapshotResult" role="status" aria-live="polite"></div>
+        </section>
+      </aside>
+    </div>
+    <div class="notice" id="notice" role="alert" hidden></div>
+    <footer><span>先改变动作，再观察画面。</span><span>LOCAL SIMULATION / 初步感知实验</span></footer>
+  </main>
+
+  <script>
+    'use strict';
+    const $ = id => document.getElementById(id);
+    const ui = { connection: $('connection'), connectionText: $('connectionText'), viewport: $('viewport'), frame: $('frame'), frameMessage: $('frameMessage'), frameMessageText: $('frameMessageText'), pause: $('pauseButton'), home: $('homeButton'), auto: $('autoButton'), shadows: $('shadowsInput'), light: $('lightInput'), lightValue: $('lightValue'), exploration: $('explorationState'), joints: $('jointList'), snapshot: $('snapshotButton'), snapshotResult: $('snapshotResult'), notice: $('notice') };
+    let state = null, connected = false, rows = [], targets = [], localTargetsUntil = 0;
+    let commandQueue = [], sending = false, sendTimer = null, currentCommand = null, saving = false;
+    let frameHealthy = false, frameStarted = 0, frameTimer = null, frameSequence = 0;
+    const optimistic = new Map();
+    const dragging = new Set();
+
+    const finite = value => typeof value === 'number' && Number.isFinite(value);
+    const numberText = (value, digits = 1) => finite(value) ? value.toFixed(digits) : '—';
+    const setText = (element, value) => { if (element.textContent !== value) element.textContent = value; };
+    function fillSlider(slider) {
+      const proportion = (Number(slider.value) - Number(slider.min)) / (Number(slider.max) - Number(slider.min));
+      slider.style.setProperty('--fill', `${Math.max(0, Math.min(100, proportion * 100))}%`);
+    }
+    function showNotice(message) {
+      ui.notice.textContent = message || '';
+      ui.notice.hidden = !message;
+    }
+    function pendingValue(key, fallback) {
+      const entry = optimistic.get(key);
+      if (entry && (entry.until > Date.now() || commandQueue.some(command => key in command) || (currentCommand && key in currentCommand))) return entry.value;
+      optimistic.delete(key);
+      return fallback;
+    }
+    function lockDrag(slider) {
+      slider.addEventListener('pointerdown', () => dragging.add(slider));
+      slider.addEventListener('pointerup', () => dragging.delete(slider));
+      slider.addEventListener('pointercancel', () => dragging.delete(slider));
+      slider.addEventListener('blur', () => dragging.delete(slider));
+    }
+    window.addEventListener('pointerup', () => dragging.clear());
+    window.addEventListener('pointercancel', () => dragging.clear());
+    window.addEventListener('blur', () => dragging.clear());
+
+    function setAvailability() {
+      const ready = connected && state && state.ready && !state.error;
+      document.querySelectorAll('[data-control]').forEach(control => { control.disabled = !ready; });
+      ui.snapshot.disabled = !ready || saving;
+    }
+    function renderStatus() {
+      const ready = connected && state && state.ready && !state.error;
+      ui.connection.classList.toggle('online', Boolean(ready && frameHealthy));
+      setText(ui.connectionText, !connected ? '连接中断 · 正在重连' : state && state.error ? '仿真异常' : !ready ? '仿真准备中' : !frameHealthy ? '等待画面' : '本地仿真已连接');
+      ui.frameMessage.hidden = Boolean(ready && frameHealthy);
+      setText(ui.frameMessageText, !connected ? '连接已中断，正在自动重连…' : state && state.error ? '仿真暂不可用，请查看下方提示' : !ready ? '仿真正在准备中…' : '等待相机画面…');
+      setAvailability();
+    }
+    function displayFlags() {
+      if (!state) return;
+      const paused = pendingValue('paused', state.paused);
+      const automatic = pendingValue('auto', state.auto);
+      ui.pause.textContent = paused ? '继续运动' : '暂停运动';
+      ui.pause.classList.toggle('active', Boolean(paused));
+      ui.pause.setAttribute('aria-pressed', String(Boolean(paused)));
+      ui.auto.textContent = automatic ? '停止探索' : '自动探索';
+      ui.auto.classList.toggle('active', Boolean(automatic));
+      ui.auto.setAttribute('aria-pressed', String(Boolean(automatic)));
+      ui.exploration.classList.toggle('running', Boolean(automatic && !paused));
+      setText(ui.exploration, automatic ? (paused ? '自动探索已暂停' : `单关节探索中${state.active_joint ? ' · ' + state.active_joint : ''}`) : (paused ? '运动已暂停 · 可调整目标与光照' : '手动模式 · 每次观察一个变化'));
+      ui.shadows.checked = Boolean(pendingValue('shadows', state.shadows));
+      if (!dragging.has(ui.light) && document.activeElement !== ui.light) {
+        ui.light.value = pendingValue('light_angle', state.light_angle);
+        ui.lightValue.textContent = `${Math.round(Number(ui.light.value))}°`;
+        fillSlider(ui.light);
+      }
+    }
+
+    function createJointRows(joints) {
+      ui.joints.replaceChildren();
+      rows = joints.map((joint, index) => {
+        const root = document.createElement('div'); root.className = 'joint';
+        const top = document.createElement('div'); top.className = 'joint-top';
+        const label = document.createElement('label'); label.className = 'joint-name'; label.htmlFor = `joint-${index}`;
+        const code = document.createElement('span'); code.className = 'joint-code'; code.textContent = joint.unit === 'mm' ? 'GR' : `J${index + 1}`;
+        const name = document.createElement('span'); name.textContent = joint.label.replace(/^J\d+\s*/, '');
+        label.append(code, name);
+        const values = document.createElement('div'); values.className = 'joint-values';
+        const actualLabel = document.createElement('span'); actualLabel.textContent = '实测';
+        const actual = document.createElement('output'); actual.setAttribute('aria-label', `${joint.label}实测值`);
+        actualLabel.append(actual);
+        const targetLabel = document.createElement('span'); targetLabel.textContent = '目标';
+        const target = document.createElement('output'); target.className = 'target'; target.htmlFor = `joint-${index}`; target.setAttribute('aria-label', `${joint.label}目标值`);
+        targetLabel.append(target); values.append(actualLabel, targetLabel); top.append(label, values);
+        const slider = document.createElement('input'); slider.type = 'range'; slider.id = `joint-${index}`; slider.min = joint.unit === 'mm' ? joint.min : Math.ceil(joint.min); slider.max = joint.unit === 'mm' ? joint.max : Math.floor(joint.max); slider.step = joint.unit === 'mm' ? '0.5' : '0.1'; slider.value = joint.target; slider.dataset.control = ''; slider.disabled = true; slider.setAttribute('aria-label', joint.label);
+        const limits = document.createElement('div'); limits.className = 'joint-limits'; limits.setAttribute('aria-hidden', 'true');
+        const minLabel = document.createElement('span'), maxLabel = document.createElement('span');
+        const unit = joint.unit === 'mm' ? ' mm' : '°';
+        minLabel.textContent = `${numberText(Number(slider.min), 0)}${unit}`; maxLabel.textContent = `${numberText(Number(slider.max), 0)}${unit}`; limits.append(minLabel, maxLabel);
+        root.append(top, slider, limits); ui.joints.append(root);
+        lockDrag(slider);
+        slider.addEventListener('input', () => {
+          targets[index] = Number(slider.value);
+          target.textContent = `${numberText(targets[index], 1)}${unit}`;
+          slider.setAttribute('aria-valuetext', `${targets[index]}${unit}`);
+          fillSlider(slider); localTargetsUntil = Date.now() + 900;
+          enqueue({ targets: targets.slice(), auto: false });
+        });
+        return { root, slider, actual, target, unit, name: joint.name };
+      });
+    }
+
+    function applyState(next) {
+      state = next; connected = true;
+      const joints = Array.isArray(next.joints) ? next.joints : [];
+      if (joints.length && (rows.length !== joints.length || joints.some((joint, i) => rows[i].name !== joint.name))) {
+        targets = joints.map(joint => joint.target); createJointRows(joints);
+      }
+      const targetsPending = Boolean(currentCommand && currentCommand.targets) || commandQueue.some(command => command.targets) || Date.now() < localTargetsUntil;
+      joints.forEach((joint, index) => {
+        const row = rows[index];
+        row.actual.textContent = `${numberText(joint.actual)}${row.unit}`;
+        if (!targetsPending && !dragging.has(row.slider) && document.activeElement !== row.slider) {
+          targets[index] = joint.target; row.slider.value = joint.target;
+          row.target.textContent = `${numberText(joint.target)}${row.unit}`;
+          row.slider.setAttribute('aria-valuetext', `${joint.target}${row.unit}`);
+          fillSlider(row.slider);
+        }
+      });
+      $('simTime').textContent = `${numberText(next.sim_time)} s`;
+      $('fps').textContent = numberText(next.fps, 0);
+      if (next.last_snapshot && !saving && !ui.snapshotResult.textContent) ui.snapshotResult.textContent = `最近保存：${next.last_snapshot}`;
+      if (next.error) showNotice(`仿真提示：${next.error}`);
+      else if (ui.notice.dataset.source === 'connection' || ui.notice.dataset.source === 'simulation') showNotice('');
+      if (next.error) ui.notice.dataset.source = 'simulation';
+      displayFlags(); renderStatus();
+    }
+
+    async function pollState() {
+      try {
+        const response = await fetch('/api/state', { cache: 'no-store', signal: AbortSignal.timeout(4000) });
+        if (!response.ok) throw new Error(`状态请求失败 (${response.status})`);
+        applyState(await response.json());
+      } catch (error) {
+        connected = false;
+        ui.notice.dataset.source = 'connection';
+        showNotice('暂时无法连接本地仿真。请保持启动窗口运行；连接恢复后页面会自动继续。');
+        renderStatus();
+      } finally {
+        setTimeout(pollState, connected ? 400 : 1400);
+      }
+    }
+
+    function enqueue(command, discrete = false) {
+      for (const key of ['paused', 'auto', 'shadows', 'light_angle']) {
+        if (key in command) optimistic.set(key, { value: command[key], until: Date.now() + 1000 });
+      }
+      if (command.home) {
+        commandQueue.forEach(queued => { delete queued.targets; });
+        localTargetsUntil = 0;
+        if (document.activeElement && document.activeElement.type === 'range') document.activeElement.blur();
+      }
+      const last = commandQueue[commandQueue.length - 1];
+      if (!discrete && last && !last.home && !last.snapshot) Object.assign(last, command);
+      else commandQueue.push(command);
+      displayFlags();
+      if (!sending && !sendTimer) sendTimer = setTimeout(sendNext, discrete ? 0 : 55);
+    }
+
+    async function sendNext() {
+      sendTimer = null;
+      if (sending || !commandQueue.length) return;
+      sending = true;
+      const command = commandQueue.shift(); currentCommand = command;
+      try {
+        const response = await fetch('/api/control', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(command), signal: AbortSignal.timeout(command.snapshot ? 20000 : 6000) });
+        const result = await response.json();
+        if (!response.ok || result.error || result.ok === false) throw new Error(result.error || `操作失败 (${response.status})`);
+        for (const key of Object.keys(command)) {
+          const optimisticEntry = optimistic.get(key);
+          if (optimisticEntry && optimisticEntry.value === command[key]) optimisticEntry.until = Date.now() + 500;
+        }
+        if (command.snapshot) ui.snapshotResult.textContent = `已保存：${result.path || '快照保存成功'}`;
+        if (ui.notice.dataset.source === 'command') showNotice('');
+      } catch (error) {
+        Object.keys(command).forEach(key => optimistic.delete(key));
+        ui.notice.dataset.source = 'command';
+        showNotice(`操作未完成：${error.name === 'TimeoutError' ? '请求超时，请检查仿真是否仍在运行。' : error.message}`);
+        if (command.snapshot) ui.snapshotResult.textContent = '快照未确认保存，请检查提示后重试。';
+      } finally {
+        if (command.snapshot) { saving = false; ui.snapshot.textContent = '保存观测快照'; }
+        sending = false; currentCommand = null; setAvailability();
+        if (commandQueue.length) sendTimer = setTimeout(sendNext, 35);
+      }
+    }
+
+    ui.pause.addEventListener('click', () => enqueue({ paused: !pendingValue('paused', state.paused) }));
+    ui.home.addEventListener('click', () => enqueue({ home: true, auto: false }, true));
+    ui.auto.addEventListener('click', () => enqueue({ auto: !pendingValue('auto', state.auto) }, true));
+    ui.shadows.addEventListener('change', () => enqueue({ shadows: ui.shadows.checked }));
+    lockDrag(ui.light);
+    ui.light.addEventListener('input', () => {
+      ui.lightValue.textContent = `${ui.light.value}°`; fillSlider(ui.light);
+      enqueue({ light_angle: Number(ui.light.value) });
+    });
+    ui.snapshot.addEventListener('click', () => {
+      saving = true; ui.snapshot.disabled = true; ui.snapshot.textContent = '正在保存…'; ui.snapshotResult.textContent = '';
+      enqueue({ snapshot: true }, true);
+    });
+
+    function nextFrame() {
+      frameStarted = performance.now();
+      ui.frame.src = `/frame.jpg?frame=${++frameSequence}`;
+    }
+    ui.frame.addEventListener('load', () => {
+      frameHealthy = true; ui.viewport.classList.add('has-frame'); renderStatus();
+      frameTimer = setTimeout(nextFrame, Math.max(0, 67 - (performance.now() - frameStarted)));
+    });
+    ui.frame.addEventListener('error', () => {
+      frameHealthy = false; renderStatus();
+      frameTimer = setTimeout(nextFrame, 1200);
+    });
+    window.addEventListener('pagehide', () => { clearTimeout(frameTimer); });
+    window.addEventListener('pageshow', event => { if (event.persisted) nextFrame(); });
+    fillSlider(ui.light);
+    pollState();
+    nextFrame();
+  </script>
+</body>
+</html>

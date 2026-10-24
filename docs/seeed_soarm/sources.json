@@ -1,0 +1,88 @@
+{
+  "retrieved_date": "2026-10-23",
+  "timezone": "Asia/Shanghai",
+  "scope": "Seeed SO-ARM100/101 camera placement, servo feedback, and learned body-perception inputs",
+  "webpage_storage": "Chinese research notes and source links; not full webpage mirrors",
+  "sources": [
+    {
+      "id": "seeed-hardware",
+      "publisher": "Seeed Studio",
+      "title": "Chapter 2 - Hardware and the Open-Source Project",
+      "url": "https://wiki.seeedstudio.com/robotics/soarm_physical_ai_course_chapter_2/",
+      "relevant_sections": ["2.1", "2.2", "2.4", "2.5"]
+    },
+    {
+      "id": "seeed-servos",
+      "publisher": "Seeed Studio",
+      "title": "Chapter 4 - Fundamentals of Robotic Arms and Bus Servos",
+      "url": "https://wiki.seeedstudio.com/robotics/soarm_physical_ai_course_chapter_4/",
+      "relevant_sections": ["4.1", "4.3"]
+    },
+    {
+      "id": "seeed-feedback-tool",
+      "publisher": "Seeed Studio",
+      "title": "Chapter 7 - Servo Debugging with the Steering Gear Tool",
+      "url": "https://wiki.seeedstudio.com/robotics/soarm_physical_ai_course_chapter_7/",
+      "relevant_sections": ["7.1", "7.6"]
+    },
+    {
+      "id": "seeed-cameras",
+      "publisher": "Seeed Studio",
+      "title": "Chapter 12 - Camera Configuration and LeRobot Data Collection",
+      "url": "https://wiki.seeedstudio.com/robotics/soarm_physical_ai_course_chapter_12/",
+      "relevant_sections": ["12.1", "12.3", "12.4"]
+    },
+    {
+      "id": "seeed-dataset",
+      "publisher": "Seeed Studio",
+      "title": "Chapter 13 - Dataset Structure and Quality Inspection",
+      "url": "https://wiki.seeedstudio.com/robotics/soarm_physical_ai_course_chapter_13/",
+      "relevant_sections": ["13.1"]
+    },
+    {
+      "id": "sts3215-c001-datasheet",
+      "publisher": "FEETECH; hosted by Seeed Studio",
+      "url": "https://files.seeedstudio.com/products/Feetech/108090023_STS3215-C001_Datasheet.pdf",
+      "local_file": "originals/STS3215-C001_Datasheet.pdf",
+      "included_in_repository": false,
+      "distribution_note": "Local reference download only; use the official source URL for the PDF.",
+      "edition": "A/1",
+      "document_date": "2023-06-23",
+      "pages": 8,
+      "relevant_printed_pages": [4],
+      "relevant_sections": ["6-6", "7-10"],
+      "bytes": 597661,
+      "sha256": "291f59ae59fcbefa9a05c1943647c56b613c2a02127440ced9a40231d45f595d",
+      "modified": false
+    },
+    {
+      "id": "feetech-feedback-meaning",
+      "publisher": "FEETECH",
+      "title": "Feetech 2020 new product STS3215 Magnetic Encoder 360 Serial bus Servo Evaluation",
+      "url": "https://www.feetechrc.com/20210430-56680.html",
+      "publication_date": "2021-04-30",
+      "relevant_section": "8: Multiple feedback",
+      "applicability_note": "Older STS3215 manufacturer explanation; recheck actual servo variant and firmware before applying conversions."
+    },
+    {
+      "id": "lerobot-so-follower",
+      "publisher": "Hugging Face",
+      "url": "https://github.com/huggingface/lerobot/blob/main/src/lerobot/robots/so_follower/so_follower.py",
+      "read_url": "https://raw.githubusercontent.com/huggingface/lerobot/main/src/lerobot/robots/so_follower/so_follower.py",
+      "branch": "main",
+      "commit_sha": null,
+      "relevant_symbols": ["SOFollower.__init__", "SOFollower.get_observation", "SOFollower.send_action"],
+      "version_note": "Observed on retrieval date; branch contents are not pinned."
+    },
+    {
+      "id": "lerobot-so-follower-config",
+      "publisher": "Hugging Face",
+      "url": "https://github.com/huggingface/lerobot/blob/main/src/lerobot/robots/so_follower/config_so_follower.py",
+      "read_url": "https://raw.githubusercontent.com/huggingface/lerobot/main/src/lerobot/robots/so_follower/config_so_follower.py",
+      "branch": "main",
+      "commit_sha": null,
+      "relevant_symbols": ["SOFollowerConfig.use_degrees", "SOFollowerRobotConfig"],
+      "version_note": "Observed on retrieval date; branch contents are not pinned."
+    }
+  ]
+}

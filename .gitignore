@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+outputs/
+*.log
+*.py[cod]
+.env
+.env.*
+!.env.example
+
+# Local research documents and downloaded third-party originals.
+*.docx
+docs/seeed_soarm/originals/
+
+# Local implementation work notes.
+docs/superpowers/
