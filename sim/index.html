@@ -35,6 +35,14 @@
     .camera-label { display:flex; align-items:center; gap:7px; font-size:11px; color:#becbd3; }
     .camera-label::before { content:""; display:inline-block; width:11px; height:8px; border:1px solid #8d9ca7; border-radius:2px; }
     .viewport { position:relative; background:#0b1013; aspect-ratio:4/3; border-block:1px solid var(--line); }
+    .views { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1px; background:var(--line); }
+    .view { min-width:0; background:var(--panel); }
+    .view-head { display:flex; align-items:center; justify-content:space-between; gap:10px; min-height:49px; padding:12px 15px; }
+    .view-head h3 { margin:0; font-size:12px; font-weight:600; }
+    .camera-link { color:var(--accent); font-size:11px; text-decoration:none; }
+    .camera-link:hover { text-decoration:underline; }
+    .model-note { padding:11px 18px 14px; margin:0; border-top:1px solid var(--line); font-size:11px; color:var(--muted); }
+    .prediction-meta { display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px; padding:10px 18px; font-size:11px; color:var(--muted); }
     .viewport img { width:100%; height:100%; object-fit:contain; display:block; }
     .viewport:not(.has-frame) img { visibility:hidden; }
     .frame-label { position:absolute; top:15px; left:17px; color:#e5eeed; font-size:10px; letter-spacing:.12em; background:#101b20b0; padding:4px 8px; border:1px solid #d4e8e51a; border-radius:4px; pointer-events:none; }
@@ -96,6 +104,7 @@
     @media(max-width:780px) { .shell { padding:20px 15px; } .workspace { grid-template-columns:1fr; } .masthead { margin-bottom:18px; } h1 { font-size:18px; } .brand { gap:10px; } .brand-mark { width:31px; height:31px; } .environment { grid-template-columns:1fr 1fr; } .joint { padding-block:15px 11px; } .joint-values output { min-width:44px; } .scene-note { margin-bottom:15px; } footer { margin-top:17px; } }
     @media(max-width:420px) { .shell { padding:16px 10px; } .eyebrow { font-size:8px; } .connection { font-size:10px; } .brand-mark { display:none; } .environment { grid-template-columns:1fr; gap:14px; padding:16px; } .viewer-foot { padding:12px; } .metrics { width:100%; justify-content:flex-end; } .panel-head { padding-inline:15px; } }
     @media(prefers-reduced-motion:reduce) { * { transition:none!important; } }
+    @media(max-width:1100px) { .views { grid-template-columns:1fr; } }
   </style>
 </head>
 <body>
@@ -111,18 +120,33 @@
     <div class="workspace">
       <section aria-label="相机观察与环境">
         <div class="panel">
-          <div class="panel-head"><div><div class="panel-kicker">OBSERVATION / 01</div><h2 class="panel-title">相机观察</h2></div><div class="camera-label">固定视角 <span class="small">· 640 × 480</span></div></div>
-          <div class="viewport" id="viewport">
-            <img id="frame" alt="固定相机拍摄的机械臂与环境实时画面">
-            <div class="frame-label" aria-hidden="true">RGB OBSERVATION</div>
-            <div class="frame-message" id="frameMessage" role="status"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="4" y="8" width="24" height="18" rx="3"/><path d="m10 8 2-3h8l2 3"/><circle cx="16" cy="17" r="5"/></svg><span id="frameMessageText">等待相机画面…</span></div>
+          <div class="panel-head"><div><div class="panel-kicker">OBSERVATION / 01</div><h2 class="panel-title">摄像头与身体感知</h2></div><div class="camera-label">机器人眼位 <span class="small">· 640 × 480</span></div></div>
+          <div class="views">
+            <div class="view">
+              <div class="view-head"><h3>摄像头原始画面</h3><a class="camera-link" href="/camera" target="_blank" rel="noopener">单独打开 ↗</a></div>
+              <div class="viewport" id="viewport">
+                <img id="frame" alt="摄像头原始 RGB 实时画面，无预测叠加">
+                <div class="frame-label" aria-hidden="true">CAMERA / RGB</div>
+                <div class="frame-message" id="frameMessage" role="status"><span id="frameMessageText">等待相机画面…</span></div>
+              </div>
+            </div>
+            <div class="view">
+              <div class="view-head"><h3>模型感知结果</h3><span class="small" id="modelBadge">绿色为预测身体</span></div>
+              <div class="viewport" id="predictionViewport">
+                <img id="predictionFrame" alt="模型预测的身体区域，绿色叠加在同一帧相机画面上">
+                <div class="frame-label" aria-hidden="true">MODEL / BODY PREDICTION</div>
+                <div class="frame-message" id="predictionMessage" role="status">等待模型预测…</div>
+              </div>
+            </div>
           </div>
+          <div class="prediction-meta"><span id="modelStatus" role="status">模型准备中…</span><span class="metric" id="predictionTime">等待同步画面</span></div>
+          <p class="model-note" id="modelNote">绿色为模型预测，误判和漏检均如实显示。</p>
           <div class="viewer-foot">
             <div class="actions"><button id="pauseButton" type="button" data-control disabled>暂停运动</button><button id="homeButton" type="button" data-control disabled>回到初始姿态</button></div>
             <div class="metrics"><span class="metric"><span class="metric-label">仿真时间</span><span id="simTime">0.0 s</span></span><span class="metric"><span id="fps">—</span><span class="metric-label"> FPS</span></span></div>
           </div>
         </div>
-        <p class="scene-note"><span aria-hidden="true">↳</span><span>通用六关节机械臂与双指夹爪；固定底座视为环境。</span></p>
+        <p class="scene-note"><span aria-hidden="true">↳</span><span>机械臂安装在桌面上，桌上放置球、方块与长条物体；桌子、物体和固定底座均视为环境。</span></p>
         <div class="panel environment">
           <div><div class="panel-kicker">ENVIRONMENT</div><div class="lighting-title"><h2 class="panel-title">照明实验</h2><label class="switch-label"><input id="shadowsInput" type="checkbox" checked data-control disabled><span>阴影</span></label></div></div>
           <div class="light-control"><label for="lightInput">光照方向 <output id="lightValue" for="lightInput">0°</output></label><input id="lightInput" type="range" min="-180" max="180" step="1" value="0" data-control disabled></div>
@@ -151,10 +175,10 @@
   <script>
     'use strict';
     const $ = id => document.getElementById(id);
-    const ui = { connection: $('connection'), connectionText: $('connectionText'), viewport: $('viewport'), frame: $('frame'), frameMessage: $('frameMessage'), frameMessageText: $('frameMessageText'), pause: $('pauseButton'), home: $('homeButton'), auto: $('autoButton'), shadows: $('shadowsInput'), light: $('lightInput'), lightValue: $('lightValue'), exploration: $('explorationState'), joints: $('jointList'), snapshot: $('snapshotButton'), snapshotResult: $('snapshotResult'), notice: $('notice') };
+    const ui = { connection: $('connection'), connectionText: $('connectionText'), viewport: $('viewport'), frame: $('frame'), frameMessage: $('frameMessage'), frameMessageText: $('frameMessageText'), predictionViewport: $('predictionViewport'), predictionFrame: $('predictionFrame'), predictionMessage: $('predictionMessage'), modelStatus: $('modelStatus'), predictionTime: $('predictionTime'), pause: $('pauseButton'), home: $('homeButton'), auto: $('autoButton'), shadows: $('shadowsInput'), light: $('lightInput'), lightValue: $('lightValue'), exploration: $('explorationState'), joints: $('jointList'), snapshot: $('snapshotButton'), snapshotResult: $('snapshotResult'), notice: $('notice') };
     let state = null, connected = false, rows = [], targets = [], localTargetsUntil = 0;
     let commandQueue = [], sending = false, sendTimer = null, currentCommand = null, saving = false;
-    let frameHealthy = false, frameStarted = 0, frameTimer = null, frameSequence = 0;
+    let frameHealthy = false, frameStarted = 0, frameTimer = null;
     const optimistic = new Map();
     const dragging = new Set();
 
@@ -350,18 +374,41 @@
       enqueue({ snapshot: true }, true);
     });
 
-    function nextFrame() {
+    async function nextFrame() {
       frameStarted = performance.now();
-      ui.frame.src = `/frame.jpg?frame=${++frameSequence}`;
+      try {
+        const response = await fetch('/api/observation', { cache: 'no-store', signal: AbortSignal.timeout(6000) });
+        if (!response.ok) throw new Error('画面暂不可用');
+        const observation = await response.json();
+        const camera = new Image(); camera.src = observation.camera;
+        const prediction = observation.prediction ? new Image() : null;
+        if (prediction) prediction.src = observation.prediction;
+        await Promise.all([camera.decode(), ...(prediction ? [prediction.decode()] : [])]);
+        // Both decoded images belong to this one observation and measured q.
+        ui.frame.src = camera.src;
+        ui.viewport.classList.add('has-frame');
+        if (prediction) ui.predictionFrame.src = prediction.src;
+        else ui.predictionFrame.removeAttribute('src');
+        ui.predictionViewport.classList.toggle('has-frame', Boolean(prediction));
+        ui.predictionMessage.hidden = Boolean(prediction);
+        const model = observation.perception || {};
+        setText($('modelBadge'), `${model.model || '模型'} · 绿色为预测身体`);
+        setText($('modelNote'), `训练场景：${model.training_scene || '未标注'}。绿色为模型预测，误判和漏检均如实显示。`);
+        setText(ui.modelStatus, prediction ? `${model.model || '模型'} 正在推理 · ${numberText(model.inference_ms, 0)} ms / 帧` : '模型未接通 · 摄像头正常');
+        if (!prediction) setText(ui.predictionMessage, `模型暂不可用${model.error ? '：' + model.error : ''}`);
+        setText(ui.predictionTime, `同帧 #${observation.frame_id} · t=${numberText(observation.sim_time, 2)} s`);
+        frameHealthy = true;
+      } catch (error) {
+        frameHealthy = false;
+        ui.predictionViewport.classList.remove('has-frame');
+        ui.predictionMessage.hidden = false;
+        setText(ui.predictionMessage, '画面连接中断，正在重连…');
+        setText(ui.modelStatus, '等待实时画面恢复');
+      } finally {
+        renderStatus();
+        frameTimer = setTimeout(nextFrame, frameHealthy ? Math.max(0, 100-(performance.now()-frameStarted)) : 1200);
+      }
     }
-    ui.frame.addEventListener('load', () => {
-      frameHealthy = true; ui.viewport.classList.add('has-frame'); renderStatus();
-      frameTimer = setTimeout(nextFrame, Math.max(0, 67 - (performance.now() - frameStarted)));
-    });
-    ui.frame.addEventListener('error', () => {
-      frameHealthy = false; renderStatus();
-      frameTimer = setTimeout(nextFrame, 1200);
-    });
     window.addEventListener('pagehide', () => { clearTimeout(frameTimer); });
     window.addEventListener('pageshow', event => { if (event.persisted) nextFrame(); });
     fillSlider(ui.light);

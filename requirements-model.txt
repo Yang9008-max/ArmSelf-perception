@@ -1,0 +1,6 @@
+-r requirements.txt
+# CPU wheel was used for the first experiment; CUDA is not required.
+torch==2.14.1
+opencv-python==4.13.0.92
+# Optional experiment learning-curve export.
+matplotlib==3.11.2

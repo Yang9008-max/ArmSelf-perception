@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>摄像头原始画面 · 机械臂</title>
+  <style>
+    * { box-sizing:border-box; }
+    body { margin:0; background:#101519; color:#e8eef1; font:14px/1.5 "Segoe UI","Microsoft YaHei",sans-serif; }
+    main { max-width:1080px; padding:20px; margin:auto; }
+    header { display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom:14px; }
+    h1 { font-size:17px; margin:0; }
+    p { color:#8d9ca7; font-size:12px; margin:4px 0 0; }
+    a { color:#88e1ca; font-size:12px; white-space:nowrap; }
+    .camera { position:relative; background:#0b1013; aspect-ratio:4/3; border:1px solid #303a42; border-radius:10px; overflow:hidden; }
+    img { width:100%; height:100%; object-fit:contain; display:block; }
+    #status { display:block; margin-top:10px; color:#8d9ca7; font:12px Consolas,monospace; }
+  </style>
+</head>
+<body>
+  <main>
+    <header><div><h1>摄像头原始画面</h1><p>机器人眼位 · 肩部侧上方 · 640 × 480 · 无预测叠加</p></div><a href="/">返回感知试验台</a></header>
+    <div class="camera"><img id="camera" alt="固定摄像头的实时 RGB 原始画面"></div>
+    <output id="status" role="status">正在连接摄像头…</output>
+  </main>
+  <script>
+    const camera = document.getElementById('camera');
+    const status = document.getElementById('status');
+    let cameraTimer;
+    async function nextFrame() {
+      const started = performance.now();
+      let healthy = false;
+      try {
+        const response = await fetch('/api/observation', { cache:'no-store', signal:AbortSignal.timeout(6000) });
+        if (!response.ok) throw new Error('摄像头暂不可用');
+        const frame = await response.json();
+        const image = new Image(); image.src = frame.camera; await image.decode();
+        camera.src = image.src;
+        status.textContent = `实时画面 #${frame.frame_id} · 仿真时间 ${frame.sim_time.toFixed(2)} s`;
+        healthy = true;
+      } catch (error) { status.textContent = '连接中断，正在重连…'; }
+      cameraTimer = setTimeout(nextFrame, healthy ? Math.max(0,100-(performance.now()-started)) : 1200);
+    }
+    window.addEventListener('pagehide', () => clearTimeout(cameraTimer));
+    window.addEventListener('pageshow', event => { if (event.persisted) nextFrame(); });
+    nextFrame();
+  </script>
+</body>
+</html>

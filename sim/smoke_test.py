@@ -1,5 +1,6 @@
 """Checks the running sandbox's actual dynamics, rendering and saved observations."""
 import argparse
+import base64
 from io import BytesIO
 import json
 from pathlib import Path
@@ -11,7 +12,7 @@ import numpy as np
 from PIL import Image
 
 
-def run(base):
+def run(base, require_model=False):
     def get(path):
         with urlopen(base + path, timeout=10) as response:
             return response.read()
@@ -45,6 +46,28 @@ def run(base):
         rgb = np.asarray(Image.open(BytesIO(get('/frame.jpg'))))
         assert rgb.shape == (480, 640, 3) and rgb.std() > 10
         print('PASS: scene loads, camera renders, pause freezes simulation time')
+
+        observation = json.loads(get('/api/observation'))
+        camera_bytes = base64.b64decode(observation['camera'].split(',', 1)[1])
+        assert camera_bytes == get('/frame.jpg'), 'Standalone camera differs from paired raw frame'
+        assert len(observation['measured_q_rad_or_m']) == 7
+        assert observation['sim_time'] == t
+        assert '摄像头原始画面' in get('/camera').decode('utf-8')
+        model_ready = observation['perception']['ready']
+        if require_model:
+            assert model_ready, observation['perception']
+        if model_ready:
+            model = observation['perception']
+            assert model['frame_id'] == observation['frame_id']
+            assert model['sim_time'] == observation['sim_time']
+            assert model['inference_ms'] > 0 and len(model['checkpoint_sha256']) == 64
+            overlay = np.asarray(Image.open(BytesIO(base64.b64decode(observation['prediction'].split(',', 1)[1]))))
+            assert overlay.shape == rgb.shape
+            expected_q = np.array([joint['actual'] for joint in initial['joints']])
+            expected_q[:6] *= np.pi/180
+            expected_q[6] /= 1000
+            np.testing.assert_allclose(observation['measured_q_rad_or_m'], expected_q, atol=1e-6)
+            print(f"PASS: {model['model']} loaded; synchronized raw camera / prediction / seven measured positions; {model['inference_ms']:.0f} ms inference")
 
         targets = [j['target'] for j in initial['joints']]
         targets[0] += 15
@@ -91,6 +114,20 @@ def run(base):
         assert np.array_equal(mask, clear_mask), 'Lighting changed geometric body mask'
         assert shadow_state['sim_time'] == clear_state['sim_time']
         assert shadow_state['qpos_rad_or_m'] == clear_state['qpos_rad_or_m']
+        assert len(shadow_state['joint_names']) == len(shadow_state['qpos_rad_or_m']) == 8
+        assert len(shadow_state['qvel_rad_s_or_m_s']) == 8
+        assert all(not name.startswith('table_object_') for name in shadow_state['joint_names'])
+        if model_ready:
+            probability = np.load(shadow_path / 'prediction/probability.npy')
+            predicted_mask = np.asarray(Image.open(shadow_path / 'prediction/body_mask.png')) > 0
+            predicted_overlay = np.asarray(Image.open(shadow_path / 'prediction/overlay.png'))
+            provenance = json.loads((shadow_path / 'prediction/metadata.json').read_text(encoding='utf-8'))
+            assert probability.shape == (144, 192) and np.isfinite(probability).all()
+            assert probability.min() >= 0 and probability.max() <= 1
+            assert predicted_mask.shape == (480, 640)
+            assert provenance['sim_time'] == shadow_state['sim_time']
+            np.testing.assert_array_equal(predicted_overlay[~predicted_mask], shadow[~predicted_mask])
+            print('PASS: model prediction and provenance saved separately from evaluation truth')
         changed = np.max(np.abs(shadow - clear), axis=2) > 10
         assert (changed & ~mask).sum() > 100, 'No visible cast-shadow change outside body'
         # Coupled fingers should report the same positive displacement.
@@ -104,4 +141,6 @@ def run(base):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--url', default='http://127.0.0.1:8765')
-    run(parser.parse_args().url.rstrip('/'))
+    parser.add_argument('--require-model', action='store_true')
+    args = parser.parse_args()
+    run(args.url.rstrip('/'), require_model=args.require_model)

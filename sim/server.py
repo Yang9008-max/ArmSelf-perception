@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import base64
 from concurrent.futures import Future, TimeoutError as FutureTimeout
 from datetime import datetime
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -10,6 +11,7 @@ import json
 import math
 from pathlib import Path
 import queue
+import sys
 import threading
 import time
 import traceback
@@ -20,6 +22,7 @@ import numpy as np
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parent.parent
+DEFAULT_CHECKPOINT = ROOT / "outputs/perception/v6-eye/model/model.pt"
 WIDTH, HEIGHT = 640, 480
 LABELS = ["J1 底部旋转", "J2 肩关节", "J3 肘关节", "J4 腕部旋转", "J5 腕部俯仰", "J6 末端旋转", "夹爪单侧行程"]
 
@@ -56,13 +59,18 @@ def validate_control(payload: object) -> dict:
 
 
 class Simulation:
-    def __init__(self):
+    def __init__(self, checkpoint=DEFAULT_CHECKPOINT):
         self.commands: queue.Queue = queue.Queue(maxsize=64)
         self.lock = threading.Lock()
         self.ready = threading.Event()
         self.stop = threading.Event()
         self.state = {"ready": False, "error": None}
         self.jpeg = b""
+        self.observation = {}
+        self.frame_id = 0
+        self.checkpoint = Path(checkpoint)
+        self.predictor = None
+        self.perception_status = {"ready": False, "model": "模型", "error": None}
         self.thread = threading.Thread(target=self._run, name="mujoco-render", daemon=True)
 
     def start(self):
@@ -84,6 +92,10 @@ class Simulation:
     def read_frame(self):
         with self.lock:
             return self.jpeg
+
+    def read_observation(self):
+        with self.lock:
+            return dict(self.observation)
 
     def command(self, payload):
         payload = validate_control(payload)
@@ -113,6 +125,11 @@ class Simulation:
         self.limits = self.model.actuator_ctrlrange * self.scales[:, None]
         self.joint_ids = self.model.actuator_trnid[:, 0]
         self.qpos_ids = self.model.jnt_qposadr[self.joint_ids]
+        # Export only robot feedback, including the passive coupled finger.
+        # Free-object poses and quaternion coordinates are environment state.
+        self.feedback_joint_ids = np.unique(np.r_[self.joint_ids, self.model.joint("finger_right").id])
+        self.feedback_qpos_ids = self.model.jnt_qposadr[self.feedback_joint_ids]
+        self.feedback_qvel_ids = self.model.jnt_dofadr[self.feedback_joint_ids]
         self.body_geom_ids = np.flatnonzero(self.model.geom_group == 1)
         self.paused = False
         self.auto = False
@@ -123,6 +140,28 @@ class Simulation:
         self.last_snapshot = None
         self._home()
         self._light()
+        try:
+            # Also support launching as `python sim/server.py` from the repo.
+            if str(ROOT) not in sys.path:
+                sys.path.insert(0, str(ROOT))
+            from perception.live import LiveBodyPredictor
+            self.predictor = LiveBodyPredictor(self.checkpoint)
+            self.perception_status = {**self.predictor.metadata, "ready": True,
+                                      "error": None}
+        except Exception as exc:
+            self.perception_status = {"ready": False, "model": "模型", "error": str(exc)}
+            print(f"Perception unavailable; camera and controls remain active: {exc}", flush=True)
+
+    def _predict(self, rgb, measured_q):
+        if self.predictor is None:
+            return None
+        try:
+            return self.predictor.predict(rgb, measured_q)
+        except Exception as exc:
+            self.perception_status = {**self.perception_status, "ready": False, "error": str(exc)}
+            self.predictor = None
+            print(f"Perception stopped; camera and controls remain active: {exc}", flush=True)
+            return None
 
     def _home(self):
         mujoco.mj_resetDataKeyframe(self.model, self.data, self.home_id)
@@ -135,7 +174,7 @@ class Simulation:
         angle = math.radians(self.light_angle)
         position = np.array([1.7 * math.cos(angle), 1.7 * math.sin(angle), 2.3])
         self.model.light_pos[self.light_id] = position
-        direction = np.array([0.15, 0, 0.35]) - position
+        direction = self.model.stat.center - position
         self.model.light_dir[self.light_id] = direction / np.linalg.norm(direction)
         self.model.light_castshadow[self.light_id] = self.shadows
 
@@ -205,18 +244,42 @@ class Simulation:
         return dict(ready=True, sim_time=float(self.data.time), paused=self.paused,
                     auto=self.auto, shadows=self.shadows, light_angle=self.light_angle,
                     fps=round(self.fps, 1), joints=joints, active_joint=self.active_joint,
-                    last_snapshot=self.last_snapshot, error=None)
+                    last_snapshot=self.last_snapshot, perception=self.perception_status, error=None)
+
+    @staticmethod
+    def _encode_jpeg(rgb):
+        image = BytesIO()
+        Image.fromarray(rgb).save(image, format="JPEG", quality=88)
+        return image.getvalue()
 
     def _publish(self):
         rgb = self._render_rgb()
-        image = BytesIO()
-        Image.fromarray(rgb).save(image, format="JPEG", quality=88)
+        measured_q = self.data.qpos[self.qpos_ids].copy()
+        prediction = self._predict(rgb, measured_q)
+        camera_jpeg = self._encode_jpeg(rgb)
+        self.frame_id += 1
+        sim_time = float(self.data.time)
+        if prediction is not None:
+            self.perception_status = {**self.perception_status, "frame_id": self.frame_id,
+                                      "sim_time": sim_time,
+                                      "inference_ms": round(prediction["inference_ms"], 2),
+                                      "predicted_body_pixels": int(prediction["mask"].sum())}
+        observation = {"frame_id": self.frame_id, "sim_time": sim_time,
+                       "measured_q_rad_or_m": measured_q.tolist(),
+                       "camera": "data:image/jpeg;base64,"+base64.b64encode(camera_jpeg).decode("ascii"),
+                       "prediction": None, "perception": self.perception_status}
+        if prediction is not None:
+            observation["prediction"] = "data:image/jpeg;base64,"+base64.b64encode(
+                self._encode_jpeg(prediction["overlay"])).decode("ascii")
         with self.lock:
-            self.jpeg = image.getvalue()
+            self.jpeg = camera_jpeg
+            self.observation = observation
             self.state = self._state()
 
     def _snapshot(self):
         rgb = self._render_rgb()
+        measured_q = self.data.qpos[self.qpos_ids].copy()
+        prediction = self._predict(rgb, measured_q)
         try:
             self.renderer.enable_depth_rendering()
             depth = self.renderer.render().copy()
@@ -236,11 +299,25 @@ class Simulation:
         Image.fromarray(mask.astype(np.uint8) * 255).save(evaluation / "body_mask.png")
         np.save(evaluation / "depth_m.npy", depth)
         observation = self._state()
+        if prediction is not None:
+            prediction_dir = output / "prediction"
+            prediction_dir.mkdir()
+            Image.fromarray(prediction["overlay"]).save(prediction_dir / "overlay.png")
+            Image.fromarray(prediction["mask"].astype(np.uint8)*255).save(prediction_dir / "body_mask.png")
+            np.save(prediction_dir / "probability.npy", prediction["probability"])
+            metadata = {**self.perception_status, "sim_time": float(self.data.time),
+                        "source": "snapshot", "inference_ms": prediction["inference_ms"],
+                        "measured_q_rad_or_m": measured_q.tolist(),
+                        "predicted_body_pixels": int(prediction["mask"].sum())}
+            metadata.pop("frame_id", None)
+            (prediction_dir / "metadata.json").write_text(
+                json.dumps(metadata, ensure_ascii=False, indent=2), encoding="utf-8")
+            observation["perception"] = metadata
         observation.update(schema_version=1, mujoco_version=mujoco.__version__,
-                           qpos_rad_or_m=self.data.qpos.tolist(),
-                           qvel_rad_s_or_m_s=self.data.qvel.tolist(),
+                           qpos_rad_or_m=self.data.qpos[self.feedback_qpos_ids].tolist(),
+                           qvel_rad_s_or_m_s=self.data.qvel[self.feedback_qvel_ids].tolist(),
                            command_rad_or_m=self.data.ctrl.tolist(),
-                           joint_names=[self.model.joint(i).name for i in range(self.model.njnt)],
+                           joint_names=[self.model.joint(int(i)).name for i in self.feedback_joint_ids],
                            image_width=WIDTH, image_height=HEIGHT,
                            camera={"name": "fixed", "vertical_fov_deg": float(self.model.cam_fovy[self.camera_id]),
                                    "world_position_m": self.data.cam_xpos[self.camera_id].tolist(),
@@ -336,6 +413,11 @@ def make_handler(simulation):
                 self.reply(200, (ROOT / "sim" / "index.html").read_bytes(), "text/html; charset=utf-8")
             elif path == "/api/state":
                 self.json_reply(200, simulation.read_state())
+            elif path == "/api/observation":
+                observation = simulation.read_observation()
+                self.json_reply(200 if observation else 503, observation)
+            elif path == "/camera":
+                self.reply(200, (ROOT / "sim" / "camera.html").read_bytes(), "text/html; charset=utf-8")
             elif path == "/frame.jpg":
                 frame = simulation.read_frame()
                 self.reply(200 if frame else 503, frame, "image/jpeg")
@@ -373,8 +455,9 @@ def main():
     parser = argparse.ArgumentParser(description="MuJoCo local perception sandbox")
     parser.add_argument("--port", type=int, default=8765)
     parser.add_argument("--open-browser", action="store_true")
+    parser.add_argument("--checkpoint", type=Path, default=DEFAULT_CHECKPOINT)
     args = parser.parse_args()
-    simulation = Simulation()
+    simulation = Simulation(checkpoint=args.checkpoint)
     server = ThreadingHTTPServer(("127.0.0.1", args.port), make_handler(simulation))
     server.daemon_threads = True
     try:

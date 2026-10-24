@@ -1,0 +1,138 @@
+<mujoco model="Arm perception tabletop sandbox">
+  <compiler angle="radian" autolimits="true" />
+  <option timestep="0.002" integrator="implicitfast" gravity="0 0 -9.81" />
+  <size njmax="500" nconmax="100" />
+  <visual>
+    <global offwidth="1280" offheight="960" azimuth="135" elevation="-25" />
+    <quality shadowsize="4096" offsamples="4" />
+    <headlight ambient="0.18 0.18 0.18" diffuse="0.35 0.35 0.35" specular="0.15 0.15 0.15" />
+    <map znear="0.01" zfar="10" shadowclip="5" />
+    <rgba haze="0.87 0.90 0.94 1" />
+  </visual>
+  <statistic center=".12 0 .95" extent="1.5" />
+  <asset>
+    <texture name="sky" type="skybox" builtin="gradient" rgb1="0.77 0.83 0.90" rgb2="0.95 0.97 0.99" width="512" height="3072" />
+    <texture name="floor_pattern" type="2d" builtin="checker" rgb1="0.73 0.78 0.83" rgb2="0.84 0.88 0.91" width="512" height="512" />
+    <material name="floor" texture="floor_pattern" texrepeat="10 10" texuniform="true" reflectance="0" specular="0.05" shininess="0.1" />
+    <material name="navy" rgba="0.10 0.20 0.31 1" specular="0.4" shininess="0.45" />
+    <material name="orange" rgba="0.97 0.42 0.12 1" specular="0.3" shininess="0.35" />
+    <material name="metal" rgba="0.62 0.70 0.76 1" specular="0.65" shininess="0.6" />
+    <material name="rubber" rgba="0.055 0.075 0.09 1" specular="0.1" shininess="0.1" />
+    <material name="base_material" rgba="0.28 0.34 0.40 1" specular="0.3" shininess="0.3" />
+    <material name="table_wood" rgba=".63 .50 .35 1" specular=".12" shininess=".15" />
+    <material name="table_legs" rgba=".23 .28 .32 1" specular=".25" shininess=".25" />
+  </asset>
+  <default>
+    <joint damping="2" armature="0.025" frictionloss="0.05" />
+    <geom density="800" friction="0.8 0.01 0.001" condim="3" margin="0.001" />
+    <position kp="140" kv="20" forcerange="-45 45" />
+    <default class="moving">
+      <geom group="1" material="navy" />
+    </default>
+    <default class="finger">
+      <joint type="slide" range="0 0.035" damping="4" armature="0.01" frictionloss="0.02" />
+      <geom group="1" material="metal" />
+    </default>
+  </default>
+  <worldbody>
+    <light name="key" directional="true" pos="1.2020815280171309 -1.2020815280171309 2.3" dir="-0.5136256956305496 0.5705854365371424 -0.6407970851991703" diffuse="0.85 0.82 0.77" specular="0.3 0.3 0.3" ambient="0.08 0.08 0.08" castshadow="true" />
+    <geom name="ground" type="plane" size="0 0 0.1" material="floor" group="0" />
+    <!-- The stationary pedestal intentionally belongs to the environment. -->
+    <body name="table" pos=".12 0 .72">
+      <geom name="tabletop" type="box" size=".80 .55 .04" material="table_wood" group="0" friction="1.0 .01 .002" />
+      <geom name="table_leg_0" type="box" pos="-0.69 -0.44 -.38" size=".035 .035 .34" material="table_legs" group="0" />
+      <geom name="table_leg_1" type="box" pos="-0.69 0.44 -.38" size=".035 .035 .34" material="table_legs" group="0" />
+      <geom name="table_leg_2" type="box" pos="0.69 -0.44 -.38" size=".035 .035 .34" material="table_legs" group="0" />
+      <geom name="table_leg_3" type="box" pos="0.69 0.44 -.38" size=".035 .035 .34" material="table_legs" group="0" />
+    </body>
+    <body name="arm_mount" pos="-.26 .14 .76">
+      <geom name="pedestal_foot" type="cylinder" pos="0 0 0.025" size="0.115 0.025" material="base_material" group="0" />
+      <geom name="pedestal" type="cylinder" pos="0 0 0.075" size="0.075 0.025" material="base_material" group="0" />
+      <geom name="base_ring" type="cylinder" pos="0 0 0.105" size="0.080 0.005" material="metal" group="0" />
+      <body name="yaw_link" pos="0 0 0.112" childclass="moving" gravcomp="1">
+        <joint name="j1" axis="0 0 1" range="-2.6 2.6" />
+        <geom name="yaw_housing" type="cylinder" pos="0 0 0.025" size="0.065 0.025" />
+        <geom name="shoulder_column" type="box" pos="0 0 0.105" size="0.038 0.040 0.060" />
+        <geom name="column_accent" type="box" pos="0 -0.042 0.105" size="0.026 0.003 0.042" material="orange" />
+        <body name="upper_arm" pos="0 0 0.168" gravcomp="1">
+          <joint name="j2" axis="0 1 0" range="-0.5 0.7" />
+          <geom name="shoulder_motor" type="cylinder" size="0.058 0.053" quat="0.7071068 0.7071068 0 0" />
+          <geom name="shoulder_cap" type="cylinder" pos="0 -0.057 0" size="0.039 0.004" quat="0.7071068 0.7071068 0 0" material="orange" />
+          <geom name="upper_link" type="box" pos="0 0 0.148" size="0.032 0.038 0.108" />
+          <geom name="upper_accent" type="box" pos="0 -0.041 0.148" size="0.022 0.003 0.080" material="orange" />
+          <body name="forearm" pos="0 0 0.29" gravcomp="1">
+            <joint name="j3" axis="0 1 0" range="-0.2 1.35" />
+            <geom name="elbow_motor" type="cylinder" size="0.049 0.047" quat="0.7071068 0.7071068 0 0" />
+            <geom name="elbow_cap" type="cylinder" pos="0 -0.051 0" size="0.033 0.004" quat="0.7071068 0.7071068 0 0" material="orange" />
+            <geom name="forearm_link" type="box" pos="0 0 0.137" size="0.028 0.032 0.099" />
+            <geom name="forearm_accent" type="box" pos="0 -0.035 0.137" size="0.018 0.003 0.073" material="orange" />
+            <body name="wrist_roll" pos="0 0 0.25" gravcomp="1">
+              <joint name="j4" axis="0 0 1" range="-2.4 2.4" damping="1" armature="0.01" />
+              <geom name="wrist_roll_housing" type="cylinder" pos="0 0 0.018" size="0.037 0.025" material="metal" />
+              <body name="wrist_pitch" pos="0 0 0.055" gravcomp="1">
+                <joint name="j5" axis="0 1 0" range="-1.0 1.0" damping="1" armature="0.01" />
+                <geom name="wrist_pitch_motor" type="cylinder" size="0.034 0.036" quat="0.7071068 0.7071068 0 0" />
+                <geom name="wrist_pitch_cap" type="cylinder" pos="0 -0.040 0" size="0.023 0.004" quat="0.7071068 0.7071068 0 0" material="orange" />
+                <body name="tool_roll" pos="0 0 0.045" gravcomp="1">
+                  <joint name="j6" axis="0 0 1" range="-2.8 2.8" damping="0.8" armature="0.008" />
+                  <geom name="tool_roll_housing" type="cylinder" pos="0 0 0.019" size="0.030 0.021" material="metal" />
+                  <geom name="gripper_palm" type="box" pos="0 0 0.061" size="0.033 0.056 0.022" />
+                  <geom name="gripper_label" type="box" pos="0.035 0 0.061" size="0.002 0.032 0.012" material="orange" />
+                  <body name="left_finger" pos="0 0.015 0.087" childclass="finger" gravcomp="1">
+                    <joint name="finger_left" axis="0 1 0" />
+                    <geom name="left_finger_metal" type="box" pos="0 0 0.035" size="0.014 0.009 0.035" />
+                    <geom name="left_finger_pad" type="box" pos="0 -0.0105 0.044" size="0.013 0.0015 0.024" material="rubber" />
+                  </body>
+                  <body name="right_finger" pos="0 -0.015 0.087" childclass="finger" gravcomp="1">
+                    <joint name="finger_right" axis="0 -1 0" />
+                    <geom name="right_finger_metal" type="box" pos="0 0 0.035" size="0.014 0.009 0.035" />
+                    <geom name="right_finger_pad" type="box" pos="0 0.0105 0.044" size="0.013 0.0015 0.024" material="rubber" />
+                  </body>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+      <camera name="fixed" mode="fixed" pos="-0.18000000 -0.30000000 0.80000000" xyaxes="0.21693046 -0.97618706 0.00000000 0.53246567 0.11832570 0.83814041" fovy="68" />
+    </body>
+    <body name="table_object_0" pos="0.36 0.26 0.784">
+      <joint name="table_object_0_free" type="free" damping=".03" armature="0" frictionloss="0" />
+      <geom name="table_object_0_core" type="capsule" fromto="-.075 0 0 .075 0 0" size=".023" material="navy" group="2" friction="1.0 .01 .002" density="550" />
+      <geom name="table_object_0_stripe" type="box" pos="0 -.024 0" size=".05 .003 .014" material="orange" mass="0" contype="0" conaffinity="0" group="2" friction="1.0 .01 .002" density="550" />
+    </body>
+    <body name="table_object_1" pos="0.19 -0.27 0.796">
+      <joint name="table_object_1_free" type="free" damping=".03" armature="0" frictionloss="0" />
+      <geom name="table_object_1_core" type="box" size=".055 .030 .035" material="navy" group="2" friction="1.0 .01 .002" density="550" />
+      <geom name="table_object_1_stripe" type="box" pos="0 -.032 0" size=".033 .003 .021" material="orange" mass="0" contype="0" conaffinity="0" group="2" friction="1.0 .01 .002" density="550" />
+    </body>
+    <body name="table_object_2" pos="0.55 -0.03 0.803">
+      <joint name="table_object_2_free" type="free" damping=".03" armature="0" frictionloss="0" />
+      <geom name="table_object_2_core" type="sphere" size=".042" material="orange" group="2" friction="1.0 .01 .002" density="550" />
+    </body>
+    <camera name="overview" mode="fixed" pos="1.05 -1.45 1.08" xyaxes="0.857 0.514 0 -0.171 0.285 0.944" fovy="46" />
+  </worldbody>
+  <equality>
+    <joint joint1="finger_left" joint2="finger_right" polycoef="0 1 0 0 0" solref="0.005 1" />
+  </equality>
+  <contact>
+    <!-- Adjacent cosmetic housings may overlap at their physical hinge. -->
+    <exclude body1="yaw_link" body2="forearm" />
+    <exclude body1="forearm" body2="wrist_pitch" />
+    <exclude body1="wrist_roll" body2="tool_roll" />
+    <exclude body1="wrist_pitch" body2="left_finger" />
+    <exclude body1="wrist_pitch" body2="right_finger" />
+  </contact>
+  <actuator>
+    <position name="joint1" joint="j1" ctrlrange="-2.6 2.6" />
+    <position name="joint2" joint="j2" ctrlrange="-0.5 0.7" />
+    <position name="joint3" joint="j3" ctrlrange="-0.2 1.35" />
+    <position name="joint4" joint="j4" ctrlrange="-2.4 2.4" kp="70" kv="10" forcerange="-15 15" />
+    <position name="joint5" joint="j5" ctrlrange="-1.0 1.0" kp="70" kv="10" forcerange="-15 15" />
+    <position name="joint6" joint="j6" ctrlrange="-2.8 2.8" kp="55" kv="8" forcerange="-10 10" />
+    <position name="gripper" joint="finger_left" ctrlrange="0 0.035" kp="350" kv="15" forcerange="-15 15" />
+  </actuator>
+  <keyframe>
+    <key name="home" qpos="0 0.4 1.0 0 -0.5 0 0.022 0.022 0.36 0.26 0.784 1 0 0 0 0.19 -0.27 0.796 1 0 0 0 0.55 -0.03 0.803 1 0 0 0" ctrl="0 0.4 1.0 0 -0.5 0 0.022" />
+  </keyframe>
+</mujoco>
