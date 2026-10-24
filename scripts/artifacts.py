@@ -7,6 +7,7 @@ import json
 from pathlib import Path, PurePosixPath
 import shutil
 import time
+from urllib.parse import quote, urlsplit
 from urllib.request import Request, urlopen
 import zipfile
 
@@ -61,6 +62,29 @@ def restore(archive, bundle, root):
     print(f'Restored {len(members)} verified files from {bundle["asset"]}', flush=True)
 
 
+def download_url(bundle):
+    """Use the public asset API, avoiding an extra github.com redirect hop."""
+    parsed = urlsplit(bundle['url'])
+    parts = parsed.path.strip('/').split('/')
+    if parsed.hostname != 'github.com' or len(parts) != 6 or parts[2:4] != ['releases', 'download']:
+        return bundle['url']
+    owner, repo, _, _, tag, _ = parts
+    endpoint = f'https://api.github.com/repos/{owner}/{repo}/releases/tags/{quote(tag, safe="")}'
+    try:
+        request = Request(endpoint, headers={'User-Agent': 'ArmSelf-perception-artifact-restore',
+                                             'Accept': 'application/vnd.github+json'})
+        with urlopen(request, timeout=20) as response:
+            release = json.load(response)
+        asset = next(entry for entry in release['assets'] if entry['name'] == bundle['asset'])
+        if asset['size'] != bundle['bytes'] or asset['state'] != 'uploaded':
+            raise ValueError(f'Release asset is incomplete: {bundle["asset"]}')
+        print(f'Downloading {bundle["asset"]} through the public GitHub asset API', flush=True)
+        return asset['url']
+    except OSError as error:
+        print(f'GitHub API lookup unavailable; trying the direct Release URL: {error}', flush=True)
+        return bundle['url']
+
+
 def download(bundle, cache):
     archive = cache/bundle['asset']
     if archive.is_file() and sha256(archive) == bundle['sha256']:
@@ -71,16 +95,21 @@ def download(bundle, cache):
             partial.replace(archive)
             return archive
         partial.unlink()
+    url = download_url(bundle)
     for attempt in range(3):
         try:
             offset = partial.stat().st_size if partial.exists() else 0
-            headers = {'User-Agent': 'ArmSelf-perception-artifact-restore'}
+            headers = {'User-Agent': 'ArmSelf-perception-artifact-restore',
+                       'Accept': 'application/octet-stream'}
             if offset:
                 headers['Range'] = f'bytes={offset}-'
-            with urlopen(Request(bundle['url'], headers=headers), timeout=60) as response:
+            with urlopen(Request(url, headers=headers), timeout=60) as response:
                 append = offset > 0 and response.status == 206
                 with partial.open('ab' if append else 'wb') as stream:
-                    shutil.copyfileobj(response, stream, length=1024*1024)
+                    # Save each available block; read(n) can lose an incomplete
+                    # large block when a slow connection times out mid-read.
+                    while chunk := response.read1(1024*1024):
+                        stream.write(chunk)
             if sha256(partial) != bundle['sha256']:
                 partial.unlink()
                 raise ValueError(f'Download SHA-256 mismatch: {bundle["asset"]}')

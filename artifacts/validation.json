@@ -8,8 +8,9 @@
   "restored_files": 4406,
   "per_file_sha256_all_match": true,
   "unit_tests": {
-    "count": 59,
-    "result": "pass"
+    "count": 62,
+    "result": "pass",
+    "scope": "Latest source including public API selection and interrupted-download resume checks"
   },
   "e1_e2": {
     "phase_summaries_exactly_reproduced": true,
@@ -48,5 +49,21 @@
     "torch": "2.14.1+cpu",
     "opencv-python": "4.13.0.92",
     "matplotlib": "3.11.2"
-  }
+  },
+  "relocated_unit_tests": {
+    "count": 59,
+    "result": "pass"
+  },
+  "github_public_release": {
+    "tag": "handoff-2026-10-24",
+    "public_without_auth": true,
+    "assets": 5,
+    "all_server_sizes_and_sha256_match": true
+  },
+  "online_download_verification": {
+    "public_asset_api_redirect_and_zip_header": "pass",
+    "full_runtime_redownload": "not completed: local connections timed out or stalled; helper processes stopped",
+    "offline_full_restore_and_frozen_evaluation": "pass"
+  },
+  "followup_utc": "2026-10-24T08:03:52.930492+00:00"
 }
