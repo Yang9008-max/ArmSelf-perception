@@ -1,4 +1,5 @@
 .venv/
+.artifacts/
 __pycache__/
 outputs/
 *.log

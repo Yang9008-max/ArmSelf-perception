@@ -5,11 +5,12 @@ import argparse
 import csv
 import json
 from pathlib import Path
+from project_paths import recorded_path
+from project_plot import configure_chinese_font
 
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-from matplotlib import font_manager
 import numpy as np
 
 
@@ -54,11 +55,7 @@ def compare(baseline, candidate, output):
                 writer.writerow([name, r['frame'], r['phase'], r['time'], r['valid_features'], r['body_features'],
                                  np.sqrt(r['squared_error_sum']/r['valid_features'])*1000 if r['valid_features'] else '',
                                  np.sqrt(r['body_geometric_error_sum']/r['body_features'])*1000 if r['body_features'] else '', r['status']])
-    chinese = Path('C:/Windows/Fonts/msyh.ttc')
-    if chinese.exists():
-        font_manager.fontManager.addfont(str(chinese))
-        plt.rcParams['font.family'] = font_manager.FontProperties(fname=str(chinese)).get_name()
-    plt.rcParams['axes.unicode_minus'] = False
+    configure_chinese_font()
     colors, labels = ['#879bb3', '#149b86'], ['E1 原模型', 'E2 改进测量后重训']
     phases, phase_names = ['test', 'hold', 'blind'], ['新动作', '停止', '相机中断']
     fig, axs = plt.subplots(2, 2, figsize=(13.5, 8.5), layout='constrained')
@@ -73,7 +70,7 @@ def compare(baseline, candidate, output):
     axs[0, 0].margins(y=.25)
     axs[0, 0].legend(fontsize=9)
     for name, color, report in zip(labels, colors, reports):
-        path = Path(report['model_directory'])/'history.json'
+        path = recorded_path(report['model_directory'])/'history.json'
         history = json.loads(path.read_text())
         axs[0, 1].plot([r['epoch'] for r in history], [np.sqrt(r['validation_squared_m'])*1000 for r in history], color=color, label=name+' 验证')
         axs[0, 1].plot([r['epoch'] for r in history], [np.sqrt(r['train_squared_m'])*1000 for r in history], color=color, linestyle=':', alpha=.8)

@@ -5,6 +5,7 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+from project_paths import portable_path
 from datetime import datetime, timezone
 
 import numpy as np
@@ -220,7 +221,7 @@ def evaluate(data, output, reference_data=None, evaluation_output=None):
                   tracker_mode=saved.get('tracker_mode', 'legacy21'),
                   evaluation_data_metadata_sha256=hashlib.sha256((data/'metadata.json').read_bytes()).hexdigest(),
                   evaluation_seed=metadata['seed'], fresh_trajectory=not same_data,
-                  model_directory=str(output.resolve()),
+                  model_directory=portable_path(output),
                   primary='3D predicted surface feature positions in metres, no segmentation objective',
                   calibration=metadata['calibration'], summary=summaries, per_frame=rows,
                   limitations=['One local trajectory family, no full-workspace or real-hardware validation',

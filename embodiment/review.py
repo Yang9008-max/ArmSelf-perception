@@ -6,6 +6,7 @@ import base64
 from io import BytesIO
 import json
 from pathlib import Path
+from project_paths import recorded_path
 
 import matplotlib
 matplotlib.use('Agg')
@@ -17,7 +18,7 @@ from PIL import Image
 def build(data, output, comparison=None, version='E1', active_exploration=None):
     data, output = Path(data), Path(output)
     report = json.loads((output/'metrics.json').read_text(encoding='utf-8'))
-    model_output = Path(report.get('model_directory', str(output)))
+    model_output = recorded_path(report.get('model_directory', str(output)))
     history = json.loads((model_output/'history.json').read_text(encoding='utf-8'))
     metadata = json.loads((data/'metadata.json').read_text(encoding='utf-8'))
     controls = json.loads((model_output/'feedback-discovery-controls.json').read_text(encoding='utf-8'))

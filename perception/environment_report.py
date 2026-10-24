@@ -6,6 +6,7 @@ import hashlib
 import html
 import json
 from pathlib import Path
+from project_paths import recorded_path
 import numpy as np
 from PIL import Image, ImageDraw
 import torch
@@ -34,11 +35,11 @@ def build_report(baseline, exposure, controls, output):
     output = Path(output)
     output.mkdir(parents=True, exist_ok=True)
     torch.set_num_threads(4)
-    root = Path(results[0]['data'])
+    root = recorded_path(results[0]['data'])
     metadata = json.loads((root/'metadata.json').read_text(encoding='utf-8'))
     networks = []
     for result in results:
-        checkpoint = Path(result['checkpoint'])
+        checkpoint = recorded_path(result['checkpoint'])
         if hashlib.sha256(checkpoint.read_bytes()).hexdigest() != result['checkpoint_sha256']:
             raise ValueError('Checkpoint changed after evaluation')
         saved = torch.load(checkpoint, map_location='cpu', weights_only=True)

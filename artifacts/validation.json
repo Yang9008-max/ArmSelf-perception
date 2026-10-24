@@ -1,0 +1,52 @@
+{
+  "validated_utc": "2026-10-24T07:36:11.448502+00:00",
+  "platform": "Windows-10-10.0.19044-SP0",
+  "python": "3.13.5",
+  "method": "Copied source into an independent directory, restored Release archives and reran frozen evaluation; used the existing installed interpreter/dependencies",
+  "clean_dependency_install_tested": false,
+  "linux_or_macos_execution_tested": false,
+  "restored_files": 4406,
+  "per_file_sha256_all_match": true,
+  "unit_tests": {
+    "count": 59,
+    "result": "pass"
+  },
+  "e1_e2": {
+    "phase_summaries_exactly_reproduced": true,
+    "paired_geometry_exactly_reproduced": true,
+    "test_rmse_mm": [
+      14.300144078709446,
+      9.809240359824257
+    ],
+    "hold_rmse_mm": [
+      15.174428147481331,
+      10.89649367009262
+    ],
+    "blind_rmse_mm": [
+      15.105692016648502,
+      10.683805424729668
+    ]
+  },
+  "e3": {
+    "all_36_frozen_scores_exactly_reproduced": true,
+    "final_mean_rmse_mm": {
+      "active": 11.551910366354548,
+      "random": 11.709191334174186,
+      "preset": 16.80822003760851
+    }
+  },
+  "render_and_models": {
+    "mujoco_rgb_640x480": "pass",
+    "e2_41_point_checkpoint": "pass",
+    "live_v6_and_synchronized_camera": "pass",
+    "arm_gripper_dynamics_pause_controls_and_separated_truth": "pass"
+  },
+  "dependency_versions": {
+    "mujoco": "3.14.0",
+    "numpy": "2.4.6",
+    "Pillow": "12.3.0",
+    "torch": "2.14.1+cpu",
+    "opencv-python": "4.13.0.92",
+    "matplotlib": "3.11.2"
+  }
+}

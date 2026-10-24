@@ -8,11 +8,12 @@ from io import BytesIO
 import hashlib
 import json
 from pathlib import Path
+from project_paths import recorded_path
+from project_plot import configure_chinese_font
 
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-from matplotlib import font_manager
 import numpy as np
 from PIL import Image
 
@@ -30,7 +31,7 @@ def evaluate(runs, data):
     config = json.loads((runs/'config.json').read_text())
     if 'all_models_frozen_utc' not in config:
         raise ValueError('Complete and freeze all acquisition runs before evaluating')
-    prior = Path(config['prior_directory'])
+    prior = recorded_path(config['prior_directory'])
     selected = np.array(json.loads((prior/'discovery.json').read_text())['selected'])
     metadata = json.loads((data/'metadata.json').read_text())
     with np.load(prior/'reference.npz') as reference:
@@ -123,11 +124,7 @@ def build(runs):
     output = runs/'report'
     report = json.loads((output/'evaluation.json').read_text())
     config, scores = report['config'], report['scores']
-    font = Path('C:/Windows/Fonts/msyh.ttc')
-    if font.exists():
-        font_manager.fontManager.addfont(str(font))
-        plt.rcParams['font.family'] = font_manager.FontProperties(fname=str(font)).get_name()
-    plt.rcParams['axes.unicode_minus'] = False
+    configure_chinese_font()
     colors = dict(active='#149b86', random='#d18a43', preset='#8499b2')
     labels = dict(active='模型选择动作', random='随机动作', preset='预设动作')
     traces = {}

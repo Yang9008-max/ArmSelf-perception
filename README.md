@@ -1,142 +1,170 @@
 # ArmSelf-perception
 
-结合**摄像头图像与舵机实际反馈**，让模型通过自身活动形成对机械臂这一**持续物理实体**的表示。先实现身体感知，抓取和工具扩展后置；始终静止的底座按环境处理，活动部件暂时停止不应让身体状态消失。
+让模型结合**摄像头图像与舵机实际反馈**，通过自己的活动感知机械臂这一物理实体：它在哪里、如何随反馈变化，以及暂时停止或看不见时如何继续预测它。
 
-**当前方向已纠正为实体空间模型。** 用户明确要求“知道这个机械臂的实体存在”，单帧分割分数不足以证明这一点。此前 V6 已提交为 `65f228c`，新工作位于 `codex/body-existence`。E1 使用双目 RGB 和实际反馈，发现 46 个稀疏空间特征并学习反馈到三维位置的映射，在相机中断后仍可更新预测；打乱反馈时序的发现对照为 0 个。它尚未表示完整形态和实体体积，且轮廓对应存在明显误差。实现、测量和失败见 [实体空间模型记录](docs/body-entity-model.md)。
+这是身体自感知研究原型。先研究感知，抓取后置；活动手臂与夹爪属于身体，始终静止的固定底座按环境处理。完整身体形态、部件关系和学习得到的持续身份**尚未实现**。
 
-**E2 已完成一轮空间测量优化和新轨迹验证。** 在冻结后新采集的 162 帧中，同点同像素配对的新动作几何 RMSE 从 14.30 降到 **9.81 mm**，相机中断时从 15.11 降到 **10.68 mm**；代价是每帧可验证身体点从 26.0 降到 23.2。仍有特征错跟到背景，包含全部候选的整体观测误差为 25.43 mm，不能把局部改进视为完整实体理解。过程与失败见 [E2 数据图与实验记录](docs/entity-stereo-refinement.md)。
+**换平台入口：[迁移与交接说明](docs/migration.md) · [模型、数据和报告下载](https://github.com/Yang9008-max/ArmSelf-perception/releases/tag/handoff-2026-10-24) · [实验经验日志](docs/learning-log.md)**
 
-最新交互数据图和回放在本地 `outputs/embodiment/entity-v2/final-e2/index.html`，当前页面为 <http://127.0.0.1:8767/>；E1 原始回放仍保存在 `outputs/embodiment/entity-v1/run-v1/index.html`。主要源码在 `embodiment/`，绘图入口是 `embodiment/compare.py`。下面的 V6 实时页面与分割实验保留为历史基线，实体模型尚未替换其在线推理。
+## 当前做到哪里
 
-**E3 已接入基于观察的自主探索。** 模型每收到图像与实际 q 就更新空间预测，并给下一步动作评分。三种策略各运行 3 次、每次 112 帧；新轨迹上共同身体点的平均几何误差为：模型选择 **11.55 mm**、随机 **11.71 mm**、预设 **16.81 mm**。相对随机的最终优势很小，主动策略还会丢失更多视觉对应、花费更多运动。本轮使用 E2 已发现的特征作为先验，新增的是概率模型与主动选择规则，没有强化学习策略或完整形态学习。[自主探索过程与数据](docs/active-exploration.md)，[交互图表与三策略回放](http://127.0.0.1:8767/exploration/)。
+| 阶段 | 实际实现 | 不能据此宣称的能力 |
+|---|---|---|
+| E1 / E2 实体空间原型，当前主线 | 双目 RGB 提供空间观测；用实际关节反馈发现可预测的活动特征；小型神经网络学习反馈到三维位置的映射；相机中断时继续更新位置 | 完整形状、实体体积、部件结构、学出来的物体恒存 |
+| E3 自主探索，当前实验 | 根据已观察的图像与反馈更新在线概率回归模型，再选择下一步动作；与随机、预设动作进行同预算比较 | 强化学习策略、端到端动作学习、从零发现整个身体 |
+| V1–V6 图像分割，历史基线 | 图像与实测反馈生成弱监督，训练身体区域与运动响应；V6 接在实时页面 | 仅凭绿色区域或较高 IoU 就证明模型理解实体存在 |
 
-**当前仿真已改为桌面场景。** 桌面高 0.76 m、尺寸 1.6 × 1.1 m，机械臂固定在桌上，另有球、方块和长条物体，通过重力与桌面接触落稳。桌子、固定底座与外物均属于环境，活动机械臂与夹爪属于身体。下述 V4/V5 指标来自此前的地面场景，不代表新桌面场景的模型表现；原场景完整保存在 `sim/scenes/floor-v1.xml`。
+E2 的位置网络是 **7 → 64 → 64 → 123** 的 MLP，约 **1.27 万参数**，对应 41 个稀疏特征；图像跟踪、双目匹配、特征筛选与实体状态规则仍由程序实现。视觉产生训练目标，网络推理位置时主要输入实际 q，不能说已经实现了完整的多模态时序感知。
 
-**V6 已针对当前机器人眼位重新训练并接入实时页面。** 在冻结后新采集的同一批 50 个姿态上，身体 IoU 从旧 V5 的 **17.9% 提高到 84.4%**，运动后停止时为 **84.6%**。外物误判率为 3.3%；即时关节反馈融合收益仍未得到证明，预设遮挡组也未产生实际遮挡。方法、失败记录与复现步骤见 [V6 机器人眼位训练](docs/robot-eye-training.md)。
+E3 使用在线二阶概率回归和显式信息评分，不使用强化学习奖励或策略训练。它从 E2 继承参考图像和 41 个特征身份，不加载 E2 的三维网络权重；前 16 帧共同随机起步，之后再按经验选动作。
 
-首页分别显示摄像头原始 RGB 与同一帧上的绿色身体预测，窄窗口上下排列，宽窗口并排。点击“单独打开”可进入仅显示摄像头原图的 <http://127.0.0.1:8765/camera>。画面显示推理耗时、帧编号和训练来源；绿色仅表示模型判断，夹爪细节、近端边缘及外物仍存在错误。
+学习输入与仿真真值分开保存：`observations/` 放 RGB 和实际反馈，`evaluation/` 放身体身份、深度等评价信息。E2 开发阶段确实使用验证真值诊断了双目误差，最终模型冻结后才采新的测试轨迹；详细过程见实验记录。
 
-**当前相机采用机器人眼位。** 镜头固定在机械臂肩部侧上方的安装参考系中，世界位置为 `(-0.44, -0.16, 1.56)` m，距桌面 0.80 m；相对机械臂底座偏移 `(-0.18, -0.30, 0.80)` m，朝手臂前方和桌面看去，垂直视野为 68°。它与固定安装架相连，手臂运动时镜头保持稳定。原来的外部全景相机以 `overview` 保留在场景中；实时摄像头和模型均使用 `fixed` 这一机器人眼位。
+## 已有数据图与结果
 
-**已完成 V5 环境干扰实验。** 加入同色杂物、独立外物运动、轻度遮挡和组间光照变化。在同一批 50 个新姿态上，身体 IoU 从 V4 的 **62.0% 提高到 66.8%**，杂物像素被当作身体的比例从 **97.8% 降到 53.0%**。仍有大量外物错误，即时关节反馈融合的收益也未得到证明。方法、失败尝试、代价和复现入口见 [V5 环境干扰报告](docs/environment-interference.md) 与 [实验经验记录](docs/learning-log.md)。
+E2 在冻结后新采的同一条 162 帧轨迹上，与 E1 使用同特征、同像素的身体观测配对比较：
 
-此前 V4 在干净场景的 32 个新姿态上，从 V3 的 53.6% 提高到 70.3%；它与本轮的环境干扰指标不能直接横向比较，见 [V4 优化报告](docs/model-optimization.md)。
+| 阶段 | E1 几何 RMSE | E2 几何 RMSE |
+|---|---:|---:|
+| 新动作 | 14.30 mm | **9.81 mm** |
+| 停止保持 | 15.17 mm | **10.90 mm** |
+| 相机中断 | 15.11 mm | **10.68 mm** |
 
-## 研究讨论与模型方案
+![E2 配对误差、训练曲线、相机中断和覆盖](docs/assets/e2-comparison.png)
 
-- [E1 实体空间模型](docs/body-entity-model.md)：最新目标纠正、三维实体候选、反馈依赖、相机中断及实际误差。
-- [完整讨论总结与第一版模型方案](docs/discussion-summary.md)：研究目标、相机和反馈、运动响应学习、伪标签、分割训练、验收与下一步。
-- [第一版模型的实际实现与验证](docs/first-model-experiment.md)：数据采集、训练、独立测试、连续运动演示及已知局限。
-- [V4 边界细化与运动响应保留](docs/model-optimization.md)：实际优化、同一批新姿态上的比较及剩余问题。
-- [V5 环境干扰与对照](docs/environment-interference.md)：三模型配对评价、轻度遮挡覆盖、连续推理与复现。
-- [V6 机器人眼位训练](docs/robot-eye-training.md)：新视角训练、50 个新姿态的配对评价、反馈诊断、遮挡验证缺口与实时接入。
-- [持续记录的实验经验](docs/learning-log.md)：假设、排查证据、失败尝试及每次取舍。
-- [已确认的研究目标与边界](docs/research-scope.md)。
-- [Seeed SO-ARM 官方资料索引](docs/seeed_soarm/README.md)。
-- [摄像头位置与模型输入约定](docs/seeed_soarm/02-camera-and-model-inputs.md)。
+这些是被验证的稀疏身体点误差，**不是整个机械臂重建精度**。E2 每帧可验证身体点由 26.0 降至 23.2，身体点纯度约 65.1%；仍有背景错配，全部有效候选对双目观测的误差为 25.43 mm。一个 821 mm 的错误对应也保留在报告中，未因测试结果而删除。[E2 方法、原始指标和失败分析](docs/entity-stereo-refinement.md)。
 
-第一版使用约 12.7 万参数的小型 U-Net 与反馈编码器，输入当前 RGB 和实际关节位置，输出身体概率图及各反馈通道的像素运动响应。实际反馈变化在网络外与响应相乘，以 RGB 估计的光流监督训练。部分身体标签来自正反向探测的局部线性响应检查，背景负标签另使用仅在训练图像上拟合的静态参考。学习器不读取机械臂 CAD、部件身份或人工身体掩膜；仿真真值仅用于评价。当前优先验证图像与反馈之间的学习关系，影子等复杂干扰后续再处理。
+E3 三种策略各跑三个采集种子，每次 112 帧，在另一条冻结后新轨迹上评价共同身体点：
 
-V4 用逐图像 GrabCut 从上述种子补全弱标签，使训练约束更贴近图像边缘；推理时不运行 GrabCut。最终检查点组合身体分支与独立冻结的原运动分支，约 25.5 万参数，避免分割训练改写已学到的运动响应。
+| 观察预算 | 模型选动作 | 随机动作 | 预设动作 |
+|---|---:|---:|---:|
+| 16 帧 | 39.89 mm | 39.89 mm | 39.89 mm |
+| 32 帧 | 27.87 mm | 29.74 mm | 26.78 mm |
+| 64 帧 | **14.76 mm** | 20.98 mm | 22.58 mm |
+| 112 帧 | **11.55 mm** | 11.71 mm | 16.81 mm |
 
-V5 增加两次实测关节保持的图像对照，只为可靠的独立运动证据增加负种子并单独加权。最终组合再使用冻结 V4 身体候选范围约束新分支，共约 38.2 万参数；这个限制能减少新误报，也会保留旧模型漏检的上限。机械臂与杂物的身份掩膜始终只用于评价。
+![E3 同预算探索比较与实际反馈](docs/assets/e3-exploration.png)
 
-V6 为新视角重新学习身体与运动两个分支，不使用旧视角的候选范围限制，约 25.5 万参数。实际诊断发现：打乱反馈变化会显著恶化运动预测，但打乱当前关节位置几乎不改变分割。当前完成了反馈参与监督的身体学习，分割仍主要依赖视觉；尚未证明即时反馈融合的收益。
+最终相对随机只改善约 0.16 mm，三个种子中有一次更差，尚无稳定优势。自主策略可见特征更少，运动路径也更长；本次匹配了图像数与仿真时间，没有匹配能耗或运动总量。E3 的预测器与评价轨迹不同，数值不能直接与 E2 排名。[E3 自主探索、决策过程与局限](docs/active-exploration.md)。
 
-SO-ARM100/101 为五个手臂关节加夹爪，当前演示模型尚未按其结构对齐。界面的“实测”目前指理想仿真状态，尚未模拟真实传感器误差与通信延迟。仓库包含项目代码、研究摘要和官方来源链接；原始个人报告、下载的第三方规格书、虚拟环境和运行输出保留在本地。
+## 安装与恢复
 
-## 训练与评价模型
+推荐 **Python 3.13**。本次实际运行环境为 Windows x64 / Python 3.13.5，主要依赖版本锁定在 `requirements*.txt`；训练和测试使用 CPU。Linux/macOS 尚未在本次交接中实机验证；Linux 无显示环境配置见[迁移说明](docs/migration.md#linux-无显示环境)。
 
-先通过下面的启动方式建立 `.venv`，再安装模型依赖。当前实验在 CPU 上完成，不需要 CUDA：
+```bash
+git clone https://github.com/Yang9008-max/ArmSelf-perception.git
+cd ArmSelf-perception
+python -m venv .venv
+```
+
+激活环境，Windows PowerShell：
 
 ```powershell
-.\.venv\Scripts\python.exe -m pip install torch==2.14.1 --index-url https://download.pytorch.org/whl/cpu
-.\.venv\Scripts\python.exe -m pip install -r requirements-model.txt
-.\.venv\Scripts\python.exe -m perception.run --output outputs/perception/new-run --train 64 --val 16 --test 16 --motion-epochs 20 --segmentation-epochs 30 --threads 4 --refine-labels --preserve-motion
+.\.venv\Scripts\Activate.ps1
 ```
 
-该命令自动采集、训练、组合和评价，输出 `composed/model.pt`、`report/report.html`、`report/metrics.json` 及预测对比图。输出目录必须为空；首次运行会建立光流缓存。只检查流程可使用 `--train 2 --val 1 --test 1 --motion-epochs 1 --segmentation-epochs 1`，小样本结果不作为准确率结论。省略两个新选项可运行原版共享网络和稀疏标签流程，权重位于 `run/model.pt`。
+Linux/macOS：
 
-历史 V4 权重在 `outputs/perception/run-v4/model.pt`，对比报告在 `outputs/perception/v4-final-report/comparison.html`，完整报告和动态演示在同目录。V3 原权重及报告保持保留。这些生成文件不纳入 Git。报告对应分阶段训练及独立测试种子；精确步骤见实验文档，不能将上述默认命令的新结果当作已记录结果。
-
-历史 V5 权重为 `outputs/perception/run-v5-supported/model.pt`；三模型比较为 `outputs/perception/v5-final-report/environment-comparison.html`，动态演示为同目录 `environment-demo.gif`。当前 V6 权重为 `outputs/perception/v6-eye/model/model.pt`，配对报告为同目录上一层的 `comparison.html`，连续演示为 `final-v6/robot-eye-demo.gif`。默认 `perception.run` 使用新桌面场景；V6 的完整配方见专门报告，实验场景保存在 `sim/scenes/robot-eye-v6.xml`。
-
-学习代码位于 `perception/`，与浏览器试验台独立运行。训练集只读取 `observations/`；`evaluation/` 内的身体真值供评价脚本使用。
-
-## 启动
-
-Windows 下双击 **`start.cmd`**，保持启动窗口运行。浏览器自动打开 <http://127.0.0.1:8765>。关闭启动窗口或按 Ctrl+C 停止服务。
-
-也可在本目录执行：
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\run.ps1
+```bash
+source .venv/bin/activate
 ```
 
-默认端口已占用时：
+然后安装。Windows/Linux 如需 CPU 版 PyTorch，先执行第一条；macOS 省略第一条，直接安装 requirements：
 
-```powershell
-powershell -ExecutionPolicy Bypass -File .\run.ps1 -Port 8766
+```bash
+python -m pip install torch==2.14.1 --index-url https://download.pytorch.org/whl/cpu
+python -m pip install -r requirements-model.txt
 ```
 
-启动脚本创建本项目 `.venv`，优先复用本机已有的 MuJoCo、NumPy 和 Pillow，缺失时从 PyPI 安装 `requirements.txt`。已在 Windows / Python 3.13.5 / MuJoCo 3.14.0 / NumPy 2.4.6 / Pillow 12.3.0 上验证。渲染需要可用的 OpenGL 驱动。
+**只克隆 Git 仓库不会下载 `outputs/`。** 接着选择恢复资料；脚本只依赖 Python 标准库，会校验归档及每个文件的 SHA-256，并拒绝覆盖内容不同的本地实验。
 
-实时模型默认加载本地 `outputs/perception/v6-eye/model/model.pt`，需要前述模型依赖。权重和 PyTorch 不随基础启动脚本自动安装；若缺失或推理异常，页面会明确显示模型不可用，原始相机与关节控制仍能使用。V6 已在当前机器人眼位重新训练，旧权重仍保留，可用 `--checkpoint` 显式指定。实时输入为缩放到 192 × 144 的 RGB 和按检查点参数归一化的七路实测关节位置；动作目标、物体位置、深度和评估掩膜不参与推理。
+```bash
+# 小型预览包：权重、图表、回放、决策、元数据；没有原始 RGB 和评价数组
+python scripts/artifacts.py fetch --bundle runtime
 
-## 先试这几个操作
-
-1. 点击“自动探索”：从初始姿态依次让六个关节和夹爪做小幅往返运动，每次只改变一个目标。观察图像中活动部件与实际关节反馈的对应变化。
-2. 点击“停止探索”，拖动一个关节滑块。目标与实测值分别显示，执行器经过物理仿真逐步到达目标。手动操作也会停止自动探索。
-3. 暂停运动，再切换阴影或拖动光照方向。此时关节状态和仿真时间保持不变，可以比较照明造成的图像变化。
-4. 点击“保存观测快照”。结果保存在本项目 `outputs` 下，界面会显示具体位置。
-
-“回到初始姿态”会重置关节、桌上物体、仿真时间并停止探索；保留暂停和照明设置。暂停时改变滑块只改变目标，恢复运动后执行。夹爪滑块表示**每根手指的单侧滑动行程（mm）**，不是两指间的总距离。
-
-## 快照数据
-
-每次快照创建独立时间目录：
-
-```text
-outputs/<timestamp>/
-  rgb.png                    固定相机的 640×480 RGB 图像
-  state.json                 同一仿真时刻的实际关节状态、动作目标、相机和光照设置
-  prediction/                模型可用时保存；与评价真值独立
-    overlay.png              同一 RGB 上的绿色模型预测
-    body_mask.png            模型预测二值掩膜，640×480
-    probability.npy          原始模型输出经 sigmoid 的数值，144×192
-    metadata.json            权重哈希、归一化、实际输入 q、推理耗时和仿真时间
-  evaluation/
-    body_mask.png            评估用身体区域真值，255 表示可见活动机械臂/夹爪表面
-    depth_m.npy              评估用仿真深度，float32，单位米
+# 换平台继续研究：完整当前实验 + 历史原始实验资料
+python scripts/artifacts.py fetch --bundle all
+python scripts/artifacts.py verify --bundle all
 ```
 
-`state.json` 的 `qpos_rad_or_m` 按 `joint_names` 排列：六个旋转关节使用弧度，左右两个夹爪滑动关节使用米；`command_rad_or_m` 是六个关节及一个夹爪执行器的目标位置。环境物体的自由关节位置与姿态不混入舵机反馈。`sim_time` 是图像对应的仿真秒数。界面及 HTTP `joints` 使用度和毫米方便操作。
+压缩大小：runtime 约 **30.5 MiB**，current 约 **801.5 MiB**，legacy 约 **248.9 MiB**。也可只下载当前 E1/E2/E3：`python scripts/artifacts.py fetch --bundle current`。离线恢复、所含资料与缓存重建方法见[迁移说明](docs/migration.md)。已经安装的相同文件会跳过，先装 runtime 再装 all 也可以。
 
-RGB、状态、深度、掩膜在**不进行中间物理步进**的情况下生成。身体真值排除固定底座、环境和投到环境上的影子，保留处于阴影中的身体表面；只标注当前相机可见表面。真值来自仿真几何，不是模型学出来的，应只用于评价。
+## 先看已有结果
 
-在线 `/api/observation` 将原始画面、预测叠加、帧编号、仿真时间和七路实测 q 一次性发布；浏览器解码两幅图后再一起更新，避免分别拉取时把不同姿态的画面配在一起。`/frame.jpg` 继续提供原始相机 JPEG。
+恢复 runtime 或 current 后，从仓库根目录运行：
 
-`depth_m.npy` 是渲染器提供的理想相机轴向深度，**不是双目匹配估计结果**；远背景可能等于远裁剪面。不要把它直接当作真实双目摄像头的测量精度。当前界面为单个固定 RGB 摄像头。
-
-## 验证
-
-保持服务运行，另开终端执行：
-
-```powershell
-.\.venv\Scripts\python.exe .\sim\smoke_test.py
-# 同时要求模型加载、同帧推理与预测快照检查通过：
-.\.venv\Scripts\python.exe .\sim\smoke_test.py --require-model
+```bash
+python -m http.server 8767 --bind 127.0.0.1 --directory outputs/embodiment/entity-v2/final-e2
 ```
 
-检查实际关节响应、暂停、自动探索、无效控制输入、阴影开关及快照数据一致性。检查会短暂操作场景并保存两份快照，结束后恢复初始姿态和默认光照。
+打开 [E2 数据图与空间预测回放](http://127.0.0.1:8767/)；[E3 三种探索策略的同步相机回放](http://127.0.0.1:8767/exploration/)。这些页面展示保存的实验，不是在线 E3 推理服务。图表旁保留 CSV、JSON 与失败示例；同目录的 `metrics.json` 给出完整逐帧指标。
 
-## 当前边界
+## 运行 MuJoCo 与独立摄像头
 
-- 机械臂是用于试验的通用几何模型，不对应你真实机械臂的尺寸、惯量、电机或标定参数。
-- 采用位置执行器和重力补偿；动作指令与实际关节反馈分开记录。
-- 桌子、地面、外物和身体都参与物理仿真；任意极端关节组合可能发生接触，实际反馈可能因此达不到指令目标。初始自动探索使用较小幅度。
-- 浏览器试验台保存逐次快照；离线学习程序支持成组探测数据采集、光流监督、模型训练和连续运动推理。尚未实现真实硬件接入或抓取任务。
-- MuJoCo 的常规 OpenGL 渲染适合先验证实验流程；真实摄像头噪声、复杂反射、软阴影和材质差异还未建模，仿真效果不等于真实环境效果。
-- 服务仅绑定 `127.0.0.1`，浏览器关闭后进程仍运行；再次打开同一地址即可继续。
+```bash
+python sim/server.py --port 8765
+```
 
-模型在 `sim/scene.xml`，仿真和采样在 `sim/server.py`，界面在 `sim/index.html`。参考 [MuJoCo Python 文档](https://mujoco.readthedocs.io/en/stable/python.html) 和 [MJCF 场景格式](https://mujoco.readthedocs.io/en/stable/XMLreference.html)。
+打开 [桌面仿真与 V6 实时预测](http://127.0.0.1:8765/) 和 [独立原始摄像头](http://127.0.0.1:8765/camera)。Windows 也可双击 `start.cmd`；自动启动脚本只安装基础仿真依赖，模型依赖仍需按上面安装。
+
+实时页面目前加载 **V6 分割基线** `outputs/perception/v6-eye/model/model.pt`，E2/E3 未替换这个在线模型。页面里的“自动探索”是早期预设关节探测；E3 的模型选动作由 `embodiment.explore_run` 单独执行。页面不会把预设动作显示成已学策略。缺少权重时原始摄像头仍能运行，页面会显示模型不可用。
+
+场景是桌上机械臂、夹爪和球/方块/长条物体。相机固定在机械臂肩部侧上方，世界位置 `(-0.44, -0.16, 1.56)` m，距桌面约 0.80 m，垂直视野 68°；E1/E2/E3 增加一台平行相机，双目基线 6 cm，RGB 为 640 × 480。当前演示是六个旋转关节加一通道夹爪，**尚未按 SO-ARM100/101 的五关节加夹爪结构对齐**；反馈也是理想仿真 q，未模拟真实舵机噪声与延迟。
+
+![桌面机械臂与物体](docs/assets/tabletop-scene.png)
+
+## 继续训练和探索
+
+以下命令均在仓库根目录执行，并使用新目录，避免覆盖冻结实验。恢复 current 后，仅重跑 E3：
+
+```bash
+python -m embodiment.explore_run --output outputs/embodiment/repro-active
+python -m embodiment.collect --output outputs/embodiment/repro-active/final-data --evaluation-only --seed 202610244
+python -m embodiment.explore_report evaluate --runs outputs/embodiment/repro-active --data outputs/embodiment/repro-active/final-data
+python -m embodiment.explore_report build --runs outputs/embodiment/repro-active
+```
+
+默认是 active/random/preset × 410/411/412，每次 112 帧，共 1,008 次训练观测；模型全部冻结后才采最终评价集。它使用恢复的 E2 参考图像与特征先验。若要从新的图像采集重新建立 E2：
+
+```bash
+python -m embodiment.collect --output outputs/embodiment/repro-entity/data --seed 20261210
+python -m embodiment.experiment fit --data outputs/embodiment/repro-entity/data --output outputs/embodiment/repro-entity/model --tracker-mode refined11
+python -m embodiment.experiment controls --data outputs/embodiment/repro-entity/data --output outputs/embodiment/repro-entity/model
+python -m embodiment.collect --output outputs/embodiment/repro-entity/final-data --evaluation-only --seed 202610241
+python -m embodiment.experiment evaluate --data outputs/embodiment/repro-entity/final-data --output outputs/embodiment/repro-entity/model --evaluation-output outputs/embodiment/repro-entity/review
+python -m embodiment.review --data outputs/embodiment/repro-entity/final-data --output outputs/embodiment/repro-entity/review --version E2
+```
+
+再运行 E3 时可指定 `--prior outputs/embodiment/repro-entity/model --calibration-data outputs/embodiment/repro-entity/data`。随机种子、浮点运算和渲染环境会影响新实验；已发布指标对应归档权重与原始数据，重训不保证产生完全相同的文件哈希。历史 V6 的完整训练配方见[机器人眼位训练](docs/robot-eye-training.md)。
+
+## 检查与源码导航
+
+```bash
+python -m unittest discover -s tests
+```
+
+在线检查需另一个终端保持仿真服务运行：
+
+```bash
+python sim/smoke_test.py --url http://127.0.0.1:8765 --require-model
+```
+
+| 路径 | 内容 |
+|---|---|
+| `embodiment/collect.py`、`vision.py` | 双目采集、实际 q、RGB 对应和三维观测 |
+| `embodiment/model.py`、`experiment.py` | 候选发现、神经位置模型、冻结与独立评价 |
+| `embodiment/exploration.py`、`explore_run.py` | 在线信念、动作评分、MuJoCo 探索和决策日志 |
+| `embodiment/compare.py`、`review.py`、`explore_report.py` | 配对指标、数据图和可交互回放 |
+| `perception/` | 历史视觉分割、光流弱监督与反馈诊断 |
+| `sim/` | 场景 XML、桌面试验台、独立摄像头页面 |
+| `scripts/artifacts.py`、`artifacts/manifest.json` | 跨平台恢复、逐文件哈希和 Release 清单 |
+| `tests/` | 数据边界、几何、反馈、探索、部署与迁移检查 |
+
+## 研究记录与下一步
+
+- [明确的目标与边界](docs/research-scope.md)、[早期讨论总结](docs/discussion-summary.md)。
+- [E1 实体空间原型](docs/body-entity-model.md)、[E2 测量优化](docs/entity-stereo-refinement.md)、[E3 自主探索](docs/active-exploration.md)。
+- [第一版模型](docs/first-model-experiment.md)、[V4 优化](docs/model-optimization.md)、[V5 环境干扰](docs/environment-interference.md)、[V6 机器人眼位](docs/robot-eye-training.md)。
+- [过程、失败和取舍](docs/learning-log.md)、[Seeed SO-ARM 官方资料索引](docs/seeed_soarm/README.md)、[相机与反馈约定](docs/seeed_soarm/02-camera-and-model-inputs.md)。
+
+下一阶段需要支持探索中新显露区域的注册、跨姿态表面对应与空间范围、从响应中学习部件关系，以及停止/遮挡/重现时的身份恢复。当前固定的 41 个参考点和人为实体状态保持不足以实现这些能力。影子与工具归属问题仍保留，真实机械臂部署也尚未验证。

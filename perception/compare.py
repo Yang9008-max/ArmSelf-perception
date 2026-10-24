@@ -6,6 +6,7 @@ import base64
 import hashlib
 import json
 from pathlib import Path
+from project_paths import recorded_path
 
 import numpy as np
 from PIL import Image, ImageDraw
@@ -39,10 +40,10 @@ def compare_reports(baseline_metrics, candidate_metrics, output):
     }
     torch.set_num_threads(4)
     networks = []
-    data = Path(candidate['data'])
+    data = recorded_path(candidate['data'])
     metadata = json.loads((data/'metadata.json').read_text(encoding='utf-8'))
     for metrics in (baseline, candidate):
-        checkpoint = Path(metrics['checkpoint'])
+        checkpoint = recorded_path(metrics['checkpoint'])
         if hashlib.sha256(checkpoint.read_bytes()).hexdigest() != metrics['checkpoint_sha256']:
             raise ValueError('Checkpoint changed after evaluation')
         saved = torch.load(checkpoint, map_location='cpu', weights_only=True)

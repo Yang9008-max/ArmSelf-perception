@@ -6,6 +6,7 @@ from datetime import datetime, timezone
 import hashlib
 import json
 from pathlib import Path
+from project_paths import portable_path
 
 import mujoco
 import numpy as np
@@ -101,8 +102,8 @@ def run(output, prior='outputs/embodiment/entity-v2/run-v2',
     config = dict(seeds=list(seeds), policies=['active', 'random', 'preset'], budget=112,
                   checkpoints=list(BUDGETS), bootstrap=16, seconds_per_observation=.2,
                   center=HOME.tolist(), amplitude=AMPLITUDE.tolist(), max_normalized_step=.5,
-                  prior_directory=str(prior.resolve()),
-                  calibration_data_directory=str(calibration_data.resolve()),
+                  prior_directory=portable_path(prior),
+                  calibration_data_directory=portable_path(calibration_data),
                   algorithm='Online quadratic Bayesian position belief + explicit information acquisition; no RL policy',
                   rules_frozen_utc=datetime.now(timezone.utc).isoformat(),
                   source_sha256={name: hashlib.sha256(Path(__file__).with_name(name).read_bytes()).hexdigest()
