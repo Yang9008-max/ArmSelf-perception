@@ -14,7 +14,7 @@ import numpy as np
 from PIL import Image
 
 
-def build(data, output, comparison=None, version='E1'):
+def build(data, output, comparison=None, version='E1', active_exploration=None):
     data, output = Path(data), Path(output)
     report = json.loads((output/'metrics.json').read_text(encoding='utf-8'))
     model_output = Path(report.get('model_directory', str(output)))
@@ -22,6 +22,16 @@ def build(data, output, comparison=None, version='E1'):
     metadata = json.loads((data/'metadata.json').read_text(encoding='utf-8'))
     controls = json.loads((model_output/'feedback-discovery-controls.json').read_text(encoding='utf-8'))
     dashboard = ''
+    active_link = ''
+    if active_exploration:
+        source = Path(active_exploration)
+        destination = output/'exploration'
+        destination.mkdir(exist_ok=True)
+        files = ['index.html', 'exploration-comparison.png', 'decision-scores.png', 'scores.csv', 'evaluation.json']
+        files += [f'exploration-{i}.png' for i in range(1, 5)]
+        for name in files:
+            (destination/name).write_bytes((source/name).read_bytes())
+        active_link = '<p class="note"><a href="exploration/">进入 E3 自主探索：模型选动作、随机和预设动作的实测对比与回放</a></p>'
     if comparison:
         comparison = Path(comparison)
         comparison_data = json.loads((comparison/'comparison.json').read_text(encoding='utf-8'))
@@ -85,6 +95,7 @@ def build(data, output, comparison=None, version='E1'):
 <style>.plot-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.plot-grid img{display:block;width:100%;background:white}.table-scroll{overflow-x:auto}strong{color:#7ee3c1}@media(max-width:720px){.plot-grid{grid-template-columns:1fr}}</style>
 <div class="tag">BODY ENTITY / EXPERIMENT __VERSION__</div><h1>实体空间预测 · 实测数据与回放</h1>
 <p>通过双目 RGB 与实际关节反馈，发现随自身状态稳定变化的表面特征，并学习预测它们的三维位置。这里展示冻结模型在未参与学习的连续动作上的结果。</p>
+__ACTIVE_LINK__
 __DASHBOARD__
 <div class="note">这是初步的实体候选模型：__POINT_COUNT__ 个稀疏特征，尚未重建完整表面和实体内部。测试中严格落在机械臂像素内的特征观测为 __PURITY__；轮廓跟踪和双目深度有偏差。三维点的存在不等于已经完成实体理解。</div>
 <div class="bar"><button id="play">播放轨迹</button><button data-phase="test">新动作</button><button data-phase="hold">停止阶段</button><button data-phase="blind">相机中断</button></div>
@@ -115,6 +126,7 @@ function tick(t){if(playing&&t-last>200){index=(index+1)%frames.length;show();la
 </script></body></html>'''
     document = (document.replace('__TABLE__', table).replace('__CHART__', chart)
                 .replace('__VERSION__', version).replace('__DASHBOARD__', dashboard)
+                .replace('__ACTIVE_LINK__', active_link)
                 .replace('__EVAL_COUNT__', str(len(report['per_frame'])))
                 .replace('__TEST_COUNT__', str(report['summary']['test']['frames']))
                 .replace('__HOLD_COUNT__', str(report['summary']['hold']['frames']))
@@ -140,4 +152,5 @@ if __name__ == '__main__':
     parser.add_argument('--output', required=True)
     parser.add_argument('--comparison')
     parser.add_argument('--version', default='E1')
+    parser.add_argument('--active-exploration')
     build(**vars(parser.parse_args()))
