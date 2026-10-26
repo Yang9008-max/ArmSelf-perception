@@ -63,6 +63,8 @@ python scripts/artifacts.py list --manifest artifacts/research-2026-10-26.json -
 
 离线时把 Release ZIP 下载到同一目录，然后将 `fetch` 改为 `restore --archive-dir <附件目录>`。原脚本默认的 `artifacts/manifest.json` 仍指向历史交接，不改变其内容。
 
+较大的阶段拆为约 100 MiB 的独立 ZIP，原始成员没有修改。`--bundle e13-visual-evidence` 等阶段名称会自动选择该阶段的所有小包；`all` 选择完整快照。无需手动拼接 ZIP，也不重复下载已校验的分包。同一次恢复共用 Release 元数据查询，避免每个小包重复请求清单。
+
 ## 保存与复现边界
 
 源码、协议、报告和测试进入 Git；大文件由 Release 保存。各阶段原始数据、模型、评分、开发试验和失败均保留；排除 Python 字节码、字体缓存及可从原图再生成的逐样本光流缓存，冻结背景参考与缓存元数据保留。runtime 与完整阶段包有相同文件，恢复器会校验后跳过相同内容，拒绝覆盖不同内容。

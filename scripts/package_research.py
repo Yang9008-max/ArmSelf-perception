@@ -26,7 +26,20 @@ def excluded_reason(relative):
     return None
 
 
-def package(destination, tag, source, support_sources=()):
+def split_entries(entries, max_bytes):
+    parts, current, size = [], [], 0
+    for entry in entries:
+        if current and size + entry['bytes'] > max_bytes:
+            parts.append(current)
+            current, size = [], 0
+        current.append(entry)
+        size += entry['bytes']
+    if current:
+        parts.append(current)
+    return parts
+
+
+def package(destination, tag, source, support_sources=(), max_bundle_bytes=100*1024**2):
     if not re.fullmatch(r'[a-zA-Z0-9][a-zA-Z0-9._-]*', tag):
         raise ValueError('Use a plain release tag')
     source, destination = source.resolve(), destination.resolve()
@@ -70,11 +83,22 @@ def package(destination, tag, source, support_sources=()):
         raise ValueError('No research files found')
     runtime = [e for entries in groups.values() for e in entries
                if Path(e['path']).suffix not in ('.npz', '.npy')]
+    bundle_groups, partitioned = {}, {}
+    for name, entries in groups.items():
+        parts = split_entries(entries, max_bundle_bytes)
+        if len(parts) == 1:
+            partitioned[name] = parts[0]
+        else:
+            names = [f'{name}-part{i:03d}' for i in range(1, len(parts)+1)]
+            bundle_groups[name] = names
+            partitioned.update(zip(names, parts))
+    groups = partitioned
     manifest = dict(format='arm-self-perception-artifacts-v1', tag=tag,
         created_utc=datetime.now(timezone.utc).isoformat(),
         source_root=source.relative_to(ROOT).as_posix(),
         prerequisites_manifest='artifacts/manifest.json',
         default_bundles=sorted(groups), excluded=excluded,
+        bundle_groups=bundle_groups,
         exclusion_reason='Python/font caches and regenerable optical-flow arrays omitted; frozen background references, raw data, failed trials and test logs retained',
         bundles={})
     descriptions = {name: f'Complete frozen snapshot for {name}, including raw arrays and failures'

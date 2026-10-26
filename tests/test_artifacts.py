@@ -16,10 +16,10 @@ class ArtifactRestoreTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             manifest = root/'manifest.json'
-            manifest.write_text(json.dumps(dict(default_bundles=['e13'], bundles={
+            manifest.write_text(json.dumps(dict(default_bundles=['e13'], bundle_groups={'phase': ['e13']}, bundles={
                 'e13': dict(files=[], asset='e13.zip'),
                 'runtime': dict(files=[dict(path='outputs/missing', bytes=1, sha256='bad')])})), encoding='utf-8')
-            for bundle in ('e13', 'all'):
+            for bundle in ('e13', 'all', 'phase'):
                 with patch('sys.argv', ['artifacts', 'verify', '--bundle', bundle,
                                        '--manifest', str(manifest), '--root', str(root)]):
                     main()
@@ -46,18 +46,20 @@ class ArtifactRestoreTests(unittest.TestCase):
             (support/'cache/sample.npz').write_bytes(b'regenerable')
             destination = root/'.artifacts/release'
             with patch.object(package_research, 'ROOT', root):
-                package_research.package(destination, 'test-snapshot', source, [support])
+                package_research.package(destination, 'test-snapshot', source, [support], max_bundle_bytes=8)
             manifest = json.loads((root/'artifacts/test-snapshot.json').read_text(encoding='utf-8'))
             runtime = manifest['bundles']['runtime']
-            full = manifest['bundles']['e13']
-            supporting = manifest['bundles']['supporting-data']
-            self.assertEqual({e['path'] for e in supporting['files']}, {
+            full = [manifest['bundles'][n] for n in manifest['bundle_groups']['e13']]
+            supporting = [manifest['bundles'][n] for n in manifest['bundle_groups']['supporting-data']]
+            self.assertGreater(len(full), 1)
+            self.assertEqual({e['path'] for b in supporting for e in b['files']}, {
                 'outputs/perception/v7/model.pt', 'outputs/perception/v7/cache/background-reference.npz'})
             self.assertNotIn('outputs/local-check-20261024/e13/observations/1.npz',
                              [e['path'] for e in runtime['files']])
             clean = root/'clean-checkout'
             clean.mkdir()
-            restore(destination/full['asset'], full, clean)
+            for bundle in full + supporting:
+                restore(destination/bundle['asset'], bundle, clean)
             for name in ('e13/observations/1.npz', 'e13/unittest.log', 'e13/report/index.html'):
                 self.assertEqual((clean/'outputs/local-check-20261024'/name).read_bytes(), files[name])
             self.assertFalse((clean/'outputs/local-check-20261024/.mpl-cache').exists())
@@ -92,8 +94,11 @@ class ArtifactRestoreTests(unittest.TestCase):
         response = dict(assets=[dict(name='other.zip', size=42, state='uploaded', url='wrong'),
                                 dict(name='model.zip', size=42, state='uploaded',
                                      url='https://api.github.com/repos/owner/repo/releases/assets/7')])
-        with patch('scripts.artifacts.urlopen', return_value=io.BytesIO(json.dumps(response).encode())):
-            self.assertEqual(download_url(bundle), response['assets'][1]['url'])
+        with patch('scripts.artifacts.urlopen', return_value=io.BytesIO(json.dumps(response).encode())) as opener:
+            metadata_cache = {}
+            self.assertEqual(download_url(bundle, metadata_cache), response['assets'][1]['url'])
+            self.assertEqual(download_url(bundle, metadata_cache), response['assets'][1]['url'])
+            self.assertEqual(opener.call_count, 1)
         response['assets'][1]['size'] = 41
         with patch('scripts.artifacts.urlopen', return_value=io.BytesIO(json.dumps(response).encode())):
             with self.assertRaisesRegex(ValueError, 'incomplete'):

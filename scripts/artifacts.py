@@ -62,7 +62,7 @@ def restore(archive, bundle, root):
     print(f'Restored {len(members)} verified files from {bundle["asset"]}', flush=True)
 
 
-def download_url(bundle):
+def download_url(bundle, release_cache=None):
     """Use the public asset API, avoiding an extra github.com redirect hop."""
     parsed = urlsplit(bundle['url'])
     parts = parsed.path.strip('/').split('/')
@@ -71,10 +71,15 @@ def download_url(bundle):
     owner, repo, _, _, tag, _ = parts
     endpoint = f'https://api.github.com/repos/{owner}/{repo}/releases/tags/{quote(tag, safe="")}'
     try:
-        request = Request(endpoint, headers={'User-Agent': 'ArmSelf-perception-artifact-restore',
-                                             'Accept': 'application/vnd.github+json'})
-        with urlopen(request, timeout=20) as response:
-            release = json.load(response)
+        if release_cache is not None and endpoint in release_cache:
+            release = release_cache[endpoint]
+        else:
+            request = Request(endpoint, headers={'User-Agent': 'ArmSelf-perception-artifact-restore',
+                                                 'Accept': 'application/vnd.github+json'})
+            with urlopen(request, timeout=20) as response:
+                release = json.load(response)
+            if release_cache is not None:
+                release_cache[endpoint] = release
         asset = next(entry for entry in release['assets'] if entry['name'] == bundle['asset'])
         if asset['size'] != bundle['bytes'] or asset['state'] != 'uploaded':
             raise ValueError(f'Release asset is incomplete: {bundle["asset"]}')
@@ -85,7 +90,7 @@ def download_url(bundle):
         return bundle['url']
 
 
-def download(bundle, cache):
+def download(bundle, cache, release_cache=None):
     archive = cache/bundle['asset']
     if archive.is_file() and sha256(archive) == bundle['sha256']:
         return archive
@@ -95,7 +100,7 @@ def download(bundle, cache):
             partial.replace(archive)
             return archive
         partial.unlink()
-    url = download_url(bundle)
+    url = download_url(bundle, release_cache)
     for attempt in range(3):
         try:
             offset = partial.stat().st_size if partial.exists() else 0
@@ -133,10 +138,12 @@ def main():
     parser.add_argument('--manifest', type=Path, default=ROOT/'artifacts/manifest.json')
     args = parser.parse_args()
     manifest = json.loads(args.manifest.read_text(encoding='utf-8'))
-    names = tuple(manifest.get('default_bundles', ('current', 'legacy'))) if args.bundle == 'all' else (args.bundle,)
+    names = (tuple(manifest.get('default_bundles', ('current', 'legacy'))) if args.bundle == 'all'
+             else tuple(manifest.get('bundle_groups', {}).get(args.bundle, (args.bundle,))))
     unknown = set(names) - set(manifest['bundles'])
     if unknown:
         parser.error(f'Unknown bundles: {sorted(unknown)}; available: {sorted(manifest["bundles"])} and all')
+    release_cache = {}
     for name in names:
         bundle = manifest['bundles'][name]
         if args.mode == 'list':
@@ -150,7 +157,7 @@ def main():
             print(f'{name}: all {len(bundle["files"])} installed files match SHA-256')
         else:
             args.archive_dir.mkdir(parents=True, exist_ok=True)
-            archive = download(bundle, args.archive_dir) if args.mode == 'fetch' else args.archive_dir/bundle['asset']
+            archive = download(bundle, args.archive_dir, release_cache) if args.mode == 'fetch' else args.archive_dir/bundle['asset']
             restore(archive, bundle, args.root)
 
 

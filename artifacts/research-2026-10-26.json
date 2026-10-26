@@ -7,25 +7,116 @@
   "default_bundles": [
     "comparison",
     "e1-fresh",
-    "e10-body-conflict",
-    "e11-body-hypotheses",
-    "e12-branch-body",
-    "e13-visual-evidence",
+    "e10-body-conflict-part001",
+    "e10-body-conflict-part002",
+    "e10-body-conflict-part003",
+    "e10-body-conflict-part004",
+    "e10-body-conflict-part005",
+    "e10-body-conflict-part006",
+    "e11-body-hypotheses-part001",
+    "e11-body-hypotheses-part002",
+    "e11-body-hypotheses-part003",
+    "e11-body-hypotheses-part004",
+    "e11-body-hypotheses-part005",
+    "e11-body-hypotheses-part006",
+    "e11-body-hypotheses-part007",
+    "e11-body-hypotheses-part008",
+    "e11-body-hypotheses-part009",
+    "e11-body-hypotheses-part010",
+    "e11-body-hypotheses-part011",
+    "e11-body-hypotheses-part012",
+    "e11-body-hypotheses-part013",
+    "e11-body-hypotheses-part014",
+    "e11-body-hypotheses-part015",
+    "e11-body-hypotheses-part016",
+    "e12-branch-body-part001",
+    "e12-branch-body-part002",
+    "e12-branch-body-part003",
+    "e12-branch-body-part004",
+    "e12-branch-body-part005",
+    "e12-branch-body-part006",
+    "e12-branch-body-part007",
+    "e12-branch-body-part008",
+    "e12-branch-body-part009",
+    "e12-branch-body-part010",
+    "e12-branch-body-part011",
+    "e12-branch-body-part012",
+    "e12-branch-body-part013",
+    "e13-visual-evidence-part001",
+    "e13-visual-evidence-part002",
+    "e13-visual-evidence-part003",
+    "e13-visual-evidence-part004",
+    "e13-visual-evidence-part005",
+    "e13-visual-evidence-part006",
+    "e13-visual-evidence-part007",
+    "e13-visual-evidence-part008",
+    "e13-visual-evidence-part009",
+    "e13-visual-evidence-part010",
+    "e13-visual-evidence-part011",
+    "e13-visual-evidence-part012",
+    "e13-visual-evidence-part013",
+    "e13-visual-evidence-part014",
+    "e13-visual-evidence-part015",
+    "e13-visual-evidence-part016",
     "e2-archive",
     "e2-fresh",
     "e3-exploration",
-    "e4-body-cycle",
-    "e4-fixture-pilot",
-    "e5-body-memory",
-    "e6-action-body",
-    "e7-learned-trust",
-    "e8-reliable-state",
-    "e8b-reliable-state",
-    "e9-body-extent",
-    "e9b-body-extent",
-    "fresh-data",
-    "overview",
-    "v7-static",
+    "e4-body-cycle-part001",
+    "e4-body-cycle-part002",
+    "e4-body-cycle-part003",
+    "e4-body-cycle-part004",
+    "e4-body-cycle-part005",
+    "e4-body-cycle-part006",
+    "e4-body-cycle-part007",
+    "e4-body-cycle-part008",
+    "e4-body-cycle-part009",
+    "e4-fixture-pilot-part001",
+    "e5-body-memory-part001",
+    "e5-body-memory-part002",
+    "e5-body-memory-part003",
+    "e5-body-memory-part004",
+    "e6-action-body-part001",
+    "e6-action-body-part002",
+    "e6-action-body-part003",
+    "e6-action-body-part004",
+    "e7-learned-trust-part001",
+    "e7-learned-trust-part002",
+    "e7-learned-trust-part003",
+    "e7-learned-trust-part004",
+    "e7-learned-trust-part005",
+    "e8-reliable-state-part001",
+    "e8-reliable-state-part002",
+    "e8-reliable-state-part003",
+    "e8-reliable-state-part004",
+    "e8-reliable-state-part005",
+    "e8-reliable-state-part006",
+    "e8b-reliable-state-part001",
+    "e8b-reliable-state-part002",
+    "e8b-reliable-state-part003",
+    "e8b-reliable-state-part004",
+    "e8b-reliable-state-part005",
+    "e8b-reliable-state-part006",
+    "e9-body-extent-part001",
+    "e9-body-extent-part002",
+    "e9-body-extent-part003",
+    "e9-body-extent-part004",
+    "e9-body-extent-part005",
+    "e9-body-extent-part006",
+    "e9-body-extent-part007",
+    "e9-body-extent-part008",
+    "e9-body-extent-part009",
+    "e9b-body-extent-part001",
+    "e9b-body-extent-part002",
+    "e9b-body-extent-part003",
+    "e9b-body-extent-part004",
+    "e9b-body-extent-part005",
+    "e9b-body-extent-part006",
+    "e9b-body-extent-part007",
+    "e9b-body-extent-part008",
+    "fresh-data-part001",
+    "fresh-data-part002",
+    "overview-part001",
+    "v7-static-part001",
     "supporting-data"
   ],
   "excluded": [
@@ -10794,12 +10885,12 @@
         }
       ]
     },
-    "e10-body-conflict": {
-      "asset": "ArmSelf-perception-research-2026-10-26-e10-body-conflict.zip",
-      "bytes": 481663310,
-      "sha256": "ef5bbac0fe8d564b3c54f0e2ce5891850530cd611622b5482f488d594bd7d757",
-      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e10-body-conflict.zip",
-      "description": "Complete frozen snapshot for e10-body-conflict, including raw arrays and failures",
+    "e10-body-conflict-part001": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e10-body-conflict-part001.zip",
+      "bytes": 104814112,
+      "sha256": "6c059210df72f7f38277810660204604cd0b43dc702e494b459ca2bd484dd4cd",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e10-body-conflict-part001.zip",
+      "description": "e10-body-conflict: independent ZIP 1/6; original member bytes unchanged",
       "files": [
         {
           "path": "outputs/local-check-20261024/e10-body-conflict/action.pt",
@@ -13390,7 +13481,16 @@
           "path": "outputs/local-check-20261024/e10-body-conflict/data-2026103011/evaluation/00154.npz",
           "bytes": 370848,
           "sha256": "fe2247f7a2a4b96b39d88e457106c02649b421a046dc565c38feaebe2f831ea4"
-        },
+        }
+      ]
+    },
+    "e10-body-conflict-part002": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e10-body-conflict-part002.zip",
+      "bytes": 104820622,
+      "sha256": "e78f0fe672602c793b189f56f625e05f7ccdfc4c2b7429a1a8230b5819628cee",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e10-body-conflict-part002.zip",
+      "description": "e10-body-conflict: independent ZIP 2/6; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e10-body-conflict/data-2026103011/evaluation/00155.npz",
           "bytes": 379897,
@@ -15985,7 +16085,16 @@
           "path": "outputs/local-check-20261024/e10-body-conflict/data-2026103031/evaluation/00130.npz",
           "bytes": 403881,
           "sha256": "edf2c9be242992c7a254dec12e2e422dea5e71dfe68b304605d54eb4d5398d15"
-        },
+        }
+      ]
+    },
+    "e10-body-conflict-part003": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e10-body-conflict-part003.zip",
+      "bytes": 104918988,
+      "sha256": "5a0bb2d8be20a3af57009fc82dc4bf78abf317d08d19a730ee061ad345e58fc7",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e10-body-conflict-part003.zip",
+      "description": "e10-body-conflict: independent ZIP 3/6; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e10-body-conflict/data-2026103031/evaluation/00131.npz",
           "bytes": 403695,
@@ -18570,7 +18679,16 @@
           "path": "outputs/local-check-20261024/e10-body-conflict/data-2026103032/evaluation/00104.npz",
           "bytes": 414852,
           "sha256": "c0047a4093898587db82aea400ad20f97e8cdececdde6a0e95a7702e810a87e3"
-        },
+        }
+      ]
+    },
+    "e10-body-conflict-part004": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e10-body-conflict-part004.zip",
+      "bytes": 104886683,
+      "sha256": "485c0996d01710889a26f667c0519aa5745c02e76966e0f06e090f308e32fc91",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e10-body-conflict-part004.zip",
+      "description": "e10-body-conflict: independent ZIP 4/6; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e10-body-conflict/data-2026103032/evaluation/00105.npz",
           "bytes": 414489,
@@ -21165,7 +21283,16 @@
           "path": "outputs/local-check-20261024/e10-body-conflict/data-2026103033/evaluation/00080.npz",
           "bytes": 406905,
           "sha256": "f785edacf7d0b05256897c715da349202162840010062322075d7dda02b2a1cd"
-        },
+        }
+      ]
+    },
+    "e10-body-conflict-part005": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e10-body-conflict-part005.zip",
+      "bytes": 61619654,
+      "sha256": "078a7dd565591f13b37bd84ca1b64fc76cf3db45229f78e1c7d646b9ff059d00",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e10-body-conflict-part005.zip",
+      "description": "e10-body-conflict: independent ZIP 5/6; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e10-body-conflict/data-2026103033/evaluation/00081.npz",
           "bytes": 407261,
@@ -22455,7 +22582,16 @@
           "path": "outputs/local-check-20261024/e10-body-conflict/report/recovery.png",
           "bytes": 116758,
           "sha256": "1b7a6a34505b15d2f7671625aca78a79e83c9bc6544820f404f65adad22623b1"
-        },
+        }
+      ]
+    },
+    "e10-body-conflict-part006": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e10-body-conflict-part006.zip",
+      "bytes": 5434807,
+      "sha256": "b0541272e6d6d6f1b3e8fec8d657a3a3ec4c76b1077d5c8ab4d0aee32c126e33",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e10-body-conflict-part006.zip",
+      "description": "e10-body-conflict: independent ZIP 6/6; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e10-body-conflict/report/replay.json",
           "bytes": 40984388,
@@ -22683,12 +22819,12 @@
         }
       ]
     },
-    "e11-body-hypotheses": {
-      "asset": "ArmSelf-perception-research-2026-10-26-e11-body-hypotheses.zip",
-      "bytes": 1580818686,
-      "sha256": "39ae005e59a53aa66e511949a2015cd5b5f17b28a7ac34d92ad319d5644be379",
-      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e11-body-hypotheses.zip",
-      "description": "Complete frozen snapshot for e11-body-hypotheses, including raw arrays and failures",
+    "e11-body-hypotheses-part001": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e11-body-hypotheses-part001.zip",
+      "bytes": 104819955,
+      "sha256": "0fa1a9d1bbf30fa296e0d6a0cfcae82fcdfd0c0aa5b73ca4db9944ef4465c985",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e11-body-hypotheses-part001.zip",
+      "description": "e11-body-hypotheses: independent ZIP 1/16; original member bytes unchanged",
       "files": [
         {
           "path": "outputs/local-check-20261024/e11-body-hypotheses/action.pt",
@@ -25279,7 +25415,16 @@
           "path": "outputs/local-check-20261024/e11-body-hypotheses/data-2026103111/evaluation/00154.npz",
           "bytes": 416242,
           "sha256": "3bd7ed87c044f617a013d1a023109a42a04e236b7910f9f35ea4eb5bc0d5171a"
-        },
+        }
+      ]
+    },
+    "e11-body-hypotheses-part002": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e11-body-hypotheses-part002.zip",
+      "bytes": 104613065,
+      "sha256": "b0bc29cea6c2a6f421fdcb09970bd81204fdaed0e47b9fccd4f12a6848681c0e",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e11-body-hypotheses-part002.zip",
+      "description": "e11-body-hypotheses: independent ZIP 2/16; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e11-body-hypotheses/data-2026103111/evaluation/00155.npz",
           "bytes": 416794,
@@ -28269,7 +28414,16 @@
           "path": "outputs/local-check-20261024/e11-body-hypotheses/data-2026103111-held/evaluation/00029.npz",
           "bytes": 403797,
           "sha256": "599293015d69ece991aecbcbeece0752d7cad14d6fbe1ee2c7e54af81fbc9c71"
-        },
+        }
+      ]
+    },
+    "e11-body-hypotheses-part003": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e11-body-hypotheses-part003.zip",
+      "bytes": 104748334,
+      "sha256": "0d8cac3c307def6f68ba3d1ca5484622c38c6d60b39d76c61d6aab026f4d9a2b",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e11-body-hypotheses-part003.zip",
+      "description": "e11-body-hypotheses: independent ZIP 3/16; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e11-body-hypotheses/data-2026103111-held/evaluation/00030.npz",
           "bytes": 403016,
@@ -29974,7 +30128,16 @@
           "path": "outputs/local-check-20261024/e11-body-hypotheses/data-2026103131/after/00007.npz",
           "bytes": 224010,
           "sha256": "f8308d676d2e43922edbdb132cb356b9d9b3ebcd1136fa8dcf9e44056165590b"
-        },
+        }
+      ]
+    },
+    "e11-body-hypotheses-part004": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e11-body-hypotheses-part004.zip",
+      "bytes": 104672366,
+      "sha256": "80e007ef23952819072037205f17205468b3fe5baa69baa74c6b0471f10286bf",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e11-body-hypotheses-part004.zip",
+      "description": "e11-body-hypotheses: independent ZIP 4/16; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e11-body-hypotheses/data-2026103131/after/00008.npz",
           "bytes": 224010,
@@ -32534,7 +32697,16 @@
           "path": "outputs/local-check-20261024/e11-body-hypotheses/data-2026103131/evaluation/00159.npz",
           "bytes": 408012,
           "sha256": "c09b2d27b2e1bde3c68a022aed5409c294af3e5ef20309bc5628082b5e84f0cb"
-        },
+        }
+      ]
+    },
+    "e11-body-hypotheses-part005": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e11-body-hypotheses-part005.zip",
+      "bytes": 104906010,
+      "sha256": "e28ac4389a91ebdb7201dad8ed0259fbe1b7d52acccdcd854b4c072bf1d8ba38",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e11-body-hypotheses-part005.zip",
+      "description": "e11-body-hypotheses: independent ZIP 5/16; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e11-body-hypotheses/data-2026103131/evaluation/00160.npz",
           "bytes": 410216,
@@ -35534,7 +35706,16 @@
           "path": "outputs/local-check-20261024/e11-body-hypotheses/data-2026103131-held/evaluation/00036.npz",
           "bytes": 414428,
           "sha256": "6061be8072d202018b8997ff3c41d2916ac9182c8c4f408d1ddf1a0aa1467d18"
-        },
+        }
+      ]
+    },
+    "e11-body-hypotheses-part006": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e11-body-hypotheses-part006.zip",
+      "bytes": 104724178,
+      "sha256": "05a6f65269318df951c86e94f78a0dd30386151efda4d69597d878e8c9158ad9",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e11-body-hypotheses-part006.zip",
+      "description": "e11-body-hypotheses: independent ZIP 6/16; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e11-body-hypotheses/data-2026103131-held/evaluation/00037.npz",
           "bytes": 414379,
@@ -37284,7 +37465,16 @@
           "path": "outputs/local-check-20261024/e11-body-hypotheses/data-2026103161/after/00023.npz",
           "bytes": 229126,
           "sha256": "4932828afad4dc5cce398859198b6554c5c126562c8c8c498ab9c206a2dc8b4b"
-        },
+        }
+      ]
+    },
+    "e11-body-hypotheses-part007": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e11-body-hypotheses-part007.zip",
+      "bytes": 104940653,
+      "sha256": "ae05490f8917680afa3e4c9a3307e57f0f2bc47b286e79841c4bd30a46df756f",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e11-body-hypotheses-part007.zip",
+      "description": "e11-body-hypotheses: independent ZIP 7/16; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e11-body-hypotheses/data-2026103161/after/00024.npz",
           "bytes": 229182,
@@ -39804,7 +39994,16 @@
           "path": "outputs/local-check-20261024/e11-body-hypotheses/data-2026103161/evaluation/00167.npz",
           "bytes": 414101,
           "sha256": "b79a6dcd9420ed28eec0c0976ee410c92dfd846ccc83f4c554924d1bb3f5f05f"
-        },
+        }
+      ]
+    },
+    "e11-body-hypotheses-part008": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e11-body-hypotheses-part008.zip",
+      "bytes": 104788030,
+      "sha256": "000d7f38c048dcc6286cb422854f346b69aab4bbabc780541ceb222577ea81b2",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e11-body-hypotheses-part008.zip",
+      "description": "e11-body-hypotheses: independent ZIP 8/16; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e11-body-hypotheses/data-2026103161/evaluation/00168.npz",
           "bytes": 410472,
@@ -42799,7 +42998,16 @@
           "path": "outputs/local-check-20261024/e11-body-hypotheses/data-2026103161-held/evaluation/00043.npz",
           "bytes": 410977,
           "sha256": "74a7193f27d16cf643758afe37690f6b49ef3a4bddda10811922dba7fadc66b3"
-        },
+        }
+      ]
+    },
+    "e11-body-hypotheses-part009": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e11-body-hypotheses-part009.zip",
+      "bytes": 104730560,
+      "sha256": "31b6749041db93c23183140c1d041dfb2b8b4f9d9afd508839109608059d59d2",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e11-body-hypotheses-part009.zip",
+      "description": "e11-body-hypotheses: independent ZIP 9/16; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e11-body-hypotheses/data-2026103161-held/evaluation/00044.npz",
           "bytes": 410956,
@@ -44564,7 +44772,16 @@
           "path": "outputs/local-check-20261024/e11-body-hypotheses/data-2026103162/after/00033.npz",
           "bytes": 225973,
           "sha256": "6da461bc80ab6d030c114e285cd9ae8c1d49654ef50ec544d1e57f79a2488a1d"
-        },
+        }
+      ]
+    },
+    "e11-body-hypotheses-part010": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e11-body-hypotheses-part010.zip",
+      "bytes": 104617949,
+      "sha256": "7fe2890348a27514318dc8e9b6aae2de4ab7b0496061ffb78d76ae7d85a889ae",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e11-body-hypotheses-part010.zip",
+      "description": "e11-body-hypotheses: independent ZIP 10/16; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e11-body-hypotheses/data-2026103162/after/00034.npz",
           "bytes": 225819,
@@ -47064,7 +47281,16 @@
           "path": "outputs/local-check-20261024/e11-body-hypotheses/data-2026103162/evaluation/00173.npz",
           "bytes": 415308,
           "sha256": "07074acd99503fd2d12cba6fd8312a947d32af07b2accea70fc6f21b84143009"
-        },
+        }
+      ]
+    },
+    "e11-body-hypotheses-part011": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e11-body-hypotheses-part011.zip",
+      "bytes": 104631749,
+      "sha256": "0bfe7145430f167af03b8e4e90b1ce847bd4375da5d2a6d35e3d2bb940c98e34",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e11-body-hypotheses-part011.zip",
+      "description": "e11-body-hypotheses: independent ZIP 11/16; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e11-body-hypotheses/data-2026103162/evaluation/00174.npz",
           "bytes": 414398,
@@ -50059,7 +50285,16 @@
           "path": "outputs/local-check-20261024/e11-body-hypotheses/data-2026103162-held/evaluation/00049.npz",
           "bytes": 414812,
           "sha256": "d42333dd3a3203bfbe4869a4f43dc0351cebf727ca6a86e44b4e5e0a57985868"
-        },
+        }
+      ]
+    },
+    "e11-body-hypotheses-part012": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e11-body-hypotheses-part012.zip",
+      "bytes": 104716056,
+      "sha256": "58600906bac181c1d95d4ba717a412779fd2da73856b9384b65e53cab31c198a",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e11-body-hypotheses-part012.zip",
+      "description": "e11-body-hypotheses: independent ZIP 12/16; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e11-body-hypotheses/data-2026103162-held/evaluation/00050.npz",
           "bytes": 414803,
@@ -51859,7 +52094,16 @@
           "path": "outputs/local-check-20261024/e11-body-hypotheses/data-2026103163/after/00046.npz",
           "bytes": 222960,
           "sha256": "06d128f747aa99d4a1dd197bdca74768a5ebbeca086170a41dcbc718d30b71c6"
-        },
+        }
+      ]
+    },
+    "e11-body-hypotheses-part013": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e11-body-hypotheses-part013.zip",
+      "bytes": 104776498,
+      "sha256": "39a645747d702121fa697a14d2ee9f4341b1fadd969068dd314cb41f22fa834b",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e11-body-hypotheses-part013.zip",
+      "description": "e11-body-hypotheses: independent ZIP 13/16; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e11-body-hypotheses/data-2026103163/after/00047.npz",
           "bytes": 223265,
@@ -54344,7 +54588,16 @@
           "path": "outputs/local-check-20261024/e11-body-hypotheses/data-2026103163/rgb/00001.npz",
           "bytes": 223622,
           "sha256": "476b1c26944ba57734dfa02f48b1e02e65af89ae5ca3e12c0eaee93bd65d08a8"
-        },
+        }
+      ]
+    },
+    "e11-body-hypotheses-part014": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e11-body-hypotheses-part014.zip",
+      "bytes": 104729980,
+      "sha256": "aa09c2b226e604a0a57b80d020c0236d99f16ea511cf803159cdbd20b7ccf4f4",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e11-body-hypotheses-part014.zip",
+      "description": "e11-body-hypotheses: independent ZIP 14/16; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e11-body-hypotheses/data-2026103163/rgb/00002.npz",
           "bytes": 223622,
@@ -57324,7 +57577,16 @@
           "path": "outputs/local-check-20261024/e11-body-hypotheses/data-2026103163-held/evaluation/00056.npz",
           "bytes": 412977,
           "sha256": "9c993173d4fea784c35f6d3025148c137ef92e7b684bc6621a08da732d41e97c"
-        },
+        }
+      ]
+    },
+    "e11-body-hypotheses-part015": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e11-body-hypotheses-part015.zip",
+      "bytes": 95861229,
+      "sha256": "630b3551ded1490ee3e72b19fb143036f0cd34445008c4e2e024140f1d97dd79",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e11-body-hypotheses-part015.zip",
+      "description": "e11-body-hypotheses: independent ZIP 15/16; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e11-body-hypotheses/data-2026103163-held/evaluation/00057.npz",
           "bytes": 412967,
@@ -59319,7 +59581,16 @@
           "path": "outputs/local-check-20261024/e11-body-hypotheses/measurements/2026103161-both.json",
           "bytes": 313,
           "sha256": "669d6812c976542e680e71650c17a248468b343f79f3eb86adf591c1a0e7b6ba"
-        },
+        }
+      ]
+    },
+    "e11-body-hypotheses-part016": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e11-body-hypotheses-part016.zip",
+      "bytes": 31910053,
+      "sha256": "db1133f38671fa1b1de3439b16dc9aa38f12bf21eff67fe5e18046cda66528b5",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e11-body-hypotheses-part016.zip",
+      "description": "e11-body-hypotheses: independent ZIP 16/16; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e11-body-hypotheses/measurements/2026103161-both.npz",
           "bytes": 59098,
@@ -61832,12 +62103,12 @@
         }
       ]
     },
-    "e12-branch-body": {
-      "asset": "ArmSelf-perception-research-2026-10-26-e12-branch-body.zip",
-      "bytes": 1274867326,
-      "sha256": "c394f235d2c23a12bb6bfe761cbb0c760d8d480f7bbcdd8b41be8e800278fa4d",
-      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e12-branch-body.zip",
-      "description": "Complete frozen snapshot for e12-branch-body, including raw arrays and failures",
+    "e12-branch-body-part001": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e12-branch-body-part001.zip",
+      "bytes": 104860137,
+      "sha256": "bd3e3fc459c7899fdbe7b1a2b000d108903054b6d26db91fa6357ba85813d799",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e12-branch-body-part001.zip",
+      "description": "e12-branch-body: independent ZIP 1/13; original member bytes unchanged",
       "files": [
         {
           "path": "outputs/local-check-20261024/e12-branch-body/action.pt",
@@ -64433,7 +64704,16 @@
           "path": "outputs/local-check-20261024/e12-branch-body/data-2026103211/evaluation/00154.npz",
           "bytes": 381016,
           "sha256": "e5cd819da400006bbfd1106045274358b23b7b5bdb735fe1fe50aef613bd9877"
-        },
+        }
+      ]
+    },
+    "e12-branch-body-part002": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e12-branch-body-part002.zip",
+      "bytes": 104798947,
+      "sha256": "65e81f678e94efbb511f573d9cb1ff37af3afaadae90428d9482d0e4e5d74377",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e12-branch-body-part002.zip",
+      "description": "e12-branch-body: independent ZIP 2/13; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e12-branch-body/data-2026103211/evaluation/00155.npz",
           "bytes": 370862,
@@ -67433,7 +67713,16 @@
           "path": "outputs/local-check-20261024/e12-branch-body/data-2026103211-held/evaluation/00031.npz",
           "bytes": 415241,
           "sha256": "dab90e1e9fabd3b0e3c207cd00af6dc8db77559d978f2ce3305767bc57d4ca10"
-        },
+        }
+      ]
+    },
+    "e12-branch-body-part003": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e12-branch-body-part003.zip",
+      "bytes": 104766655,
+      "sha256": "50e7f62726ba60b3fc4f5c3c7de6f47441f5f3fcf043f506d66326b0d9b4caaf",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e12-branch-body-part003.zip",
+      "description": "e12-branch-body: independent ZIP 3/13; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e12-branch-body/data-2026103211-held/evaluation/00032.npz",
           "bytes": 415131,
@@ -69148,7 +69437,16 @@
           "path": "outputs/local-check-20261024/e12-branch-body/data-2026103231/after/00011.npz",
           "bytes": 224212,
           "sha256": "ce2246d3a640a2c11fd7738c0b16e369d27b868042929161d608feb71b1fb274"
-        },
+        }
+      ]
+    },
+    "e12-branch-body-part004": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e12-branch-body-part004.zip",
+      "bytes": 104719256,
+      "sha256": "db90b9f2a5172a9cc8941c1567a93f37b1a055bb13d9c083c97830cb6d5fedbe",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e12-branch-body-part004.zip",
+      "description": "e12-branch-body: independent ZIP 4/13; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e12-branch-body/data-2026103231/after/00012.npz",
           "bytes": 223998,
@@ -71698,7 +71996,16 @@
           "path": "outputs/local-check-20261024/e12-branch-body/data-2026103231/evaluation/00161.npz",
           "bytes": 417514,
           "sha256": "961c958803ee6cec0ac51951070fc3451f42396991a5d02014f42139f1548640"
-        },
+        }
+      ]
+    },
+    "e12-branch-body-part005": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e12-branch-body-part005.zip",
+      "bytes": 104849474,
+      "sha256": "e9b61df5b80c3d061bc093a58a67ed86b85895d94779fa9624bac33a28f28cae",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e12-branch-body-part005.zip",
+      "description": "e12-branch-body: independent ZIP 5/13; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e12-branch-body/data-2026103231/evaluation/00162.npz",
           "bytes": 418687,
@@ -74693,7 +75000,16 @@
           "path": "outputs/local-check-20261024/e12-branch-body/data-2026103231-held/evaluation/00037.npz",
           "bytes": 421843,
           "sha256": "9fdd101a526030892aee3d0429515e273ea21987f60b2fc517c7c0995ebce2ab"
-        },
+        }
+      ]
+    },
+    "e12-branch-body-part006": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e12-branch-body-part006.zip",
+      "bytes": 104778564,
+      "sha256": "c9428bb26f31165e193f69bd51dcd8b8844d3304a94b68b8a03ce80e389d30df",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e12-branch-body-part006.zip",
+      "description": "e12-branch-body: independent ZIP 6/13; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e12-branch-body/data-2026103231-held/evaluation/00038.npz",
           "bytes": 421777,
@@ -76413,7 +76729,16 @@
           "path": "outputs/local-check-20261024/e12-branch-body/data-2026103232/after/00018.npz",
           "bytes": 225022,
           "sha256": "ac58601316820392986a7f2c32fb6e3b4e8e94c2e5e7cf5db8fccbd47dd0f665"
-        },
+        }
+      ]
+    },
+    "e12-branch-body-part007": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e12-branch-body-part007.zip",
+      "bytes": 104889892,
+      "sha256": "a6ab6f158e44f1bc8296cbdad1bfd1150aa56737aeff809e80bddfc0aa240891",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e12-branch-body-part007.zip",
+      "description": "e12-branch-body: independent ZIP 7/13; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e12-branch-body/data-2026103232/after/00019.npz",
           "bytes": 225850,
@@ -78948,7 +79273,16 @@
           "path": "outputs/local-check-20261024/e12-branch-body/data-2026103232/evaluation/00165.npz",
           "bytes": 417521,
           "sha256": "b02cf6a54694159daa198ef2c1128233e4c43b72dcc8a8138adffabc67028492"
-        },
+        }
+      ]
+    },
+    "e12-branch-body-part008": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e12-branch-body-part008.zip",
+      "bytes": 104755599,
+      "sha256": "a187a26c13fd415b7b3cd0870bf89e2c699e369db5067755b5cd6b5dce36a31b",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e12-branch-body-part008.zip",
+      "description": "e12-branch-body: independent ZIP 8/13; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e12-branch-body/data-2026103232/evaluation/00166.npz",
           "bytes": 416348,
@@ -81943,7 +82277,16 @@
           "path": "outputs/local-check-20261024/e12-branch-body/data-2026103232-held/evaluation/00041.npz",
           "bytes": 411570,
           "sha256": "4a08b2be1dd544ef2fc52875e57e7010386da2ef118661eb5f2f18e292fc86e6"
-        },
+        }
+      ]
+    },
+    "e12-branch-body-part009": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e12-branch-body-part009.zip",
+      "bytes": 104763690,
+      "sha256": "e6ceb77130c0b678e157151076496f40793dd0c6e24c8be65dc381ed2a75b046",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e12-branch-body-part009.zip",
+      "description": "e12-branch-body: independent ZIP 9/13; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e12-branch-body/data-2026103232-held/evaluation/00042.npz",
           "bytes": 411557,
@@ -83703,7 +84046,16 @@
           "path": "outputs/local-check-20261024/e12-branch-body/data-2026103233/after/00030.npz",
           "bytes": 227868,
           "sha256": "3832f4008a2d4a2a9c06d206d2df12790b5a8b80e49ccdf8b3b5ef56116ed41a"
-        },
+        }
+      ]
+    },
+    "e12-branch-body-part010": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e12-branch-body-part010.zip",
+      "bytes": 104618766,
+      "sha256": "8d8a2868e6408db7583b3655e4f832fad11d756c8522469cce8f0ad11161d1f0",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e12-branch-body-part010.zip",
+      "description": "e12-branch-body: independent ZIP 10/13; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e12-branch-body/data-2026103233/after/00031.npz",
           "bytes": 227687,
@@ -86208,7 +86560,16 @@
           "path": "outputs/local-check-20261024/e12-branch-body/data-2026103233/evaluation/00171.npz",
           "bytes": 407898,
           "sha256": "a9413db99659c275b96a85bdb922e61a3cd266bb36e75843b3074c22471208b5"
-        },
+        }
+      ]
+    },
+    "e12-branch-body-part011": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e12-branch-body-part011.zip",
+      "bytes": 104888960,
+      "sha256": "8932c316b81c6b7e59b2e816ff617f3caf24ec42b3844d6549a9ef35313719b7",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e12-branch-body-part011.zip",
+      "description": "e12-branch-body: independent ZIP 11/13; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e12-branch-body/data-2026103233/evaluation/00172.npz",
           "bytes": 408429,
@@ -89203,7 +89564,16 @@
           "path": "outputs/local-check-20261024/e12-branch-body/data-2026103233-held/evaluation/00047.npz",
           "bytes": 410844,
           "sha256": "b0ae6b386988a0f6ffab33a97fc3608dc41b03c1b2819527ad0e9701f3be51ef"
-        },
+        }
+      ]
+    },
+    "e12-branch-body-part012": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e12-branch-body-part012.zip",
+      "bytes": 100773140,
+      "sha256": "040383c92baa0f2353928595d540b0d2a843f7e8a017dc59ef542c91085704f7",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e12-branch-body-part012.zip",
+      "description": "e12-branch-body: independent ZIP 12/13; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e12-branch-body/data-2026103233-held/evaluation/00048.npz",
           "bytes": 410884,
@@ -91238,7 +91608,16 @@
           "path": "outputs/local-check-20261024/e12-branch-body/engineering-thresholds.json",
           "bytes": 94,
           "sha256": "b3d02973a8796dbc76b8a4ba62487449fa275af055290a2a9f52f0720e022564"
-        },
+        }
+      ]
+    },
+    "e12-branch-body-part013": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e12-branch-body-part013.zip",
+      "bytes": 32515795,
+      "sha256": "332f7b0efc6ec2833100b2a44436689a4e9f8855dbdca1b39947fc117de49836",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e12-branch-body-part013.zip",
+      "description": "e12-branch-body: independent ZIP 13/13; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e12-branch-body/frame-scores.json",
           "bytes": 14257591,
@@ -93561,12 +93940,12 @@
         }
       ]
     },
-    "e13-visual-evidence": {
-      "asset": "ArmSelf-perception-research-2026-10-26-e13-visual-evidence.zip",
-      "bytes": 1590834270,
-      "sha256": "87981867dfc3f02bab3ea6da54ab8be766587d13116759b1f53f41fa142d0d1b",
-      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e13-visual-evidence.zip",
-      "description": "Complete frozen snapshot for e13-visual-evidence, including raw arrays and failures",
+    "e13-visual-evidence-part001": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e13-visual-evidence-part001.zip",
+      "bytes": 104616743,
+      "sha256": "7891fa64bc6674060ce0f9acd86a6cd28474d2413c3beab999763cf9ce22063a",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e13-visual-evidence-part001.zip",
+      "description": "e13-visual-evidence: independent ZIP 1/16; original member bytes unchanged",
       "files": [
         {
           "path": "outputs/local-check-20261024/e13-visual-evidence/action.pt",
@@ -96157,7 +96536,16 @@
           "path": "outputs/local-check-20261024/e13-visual-evidence/data-2026103311/evaluation/00154.npz",
           "bytes": 413017,
           "sha256": "e8162b1ebe1b9b568bce55aa98022780974e7614cff5479be986b0393f2b80f1"
-        },
+        }
+      ]
+    },
+    "e13-visual-evidence-part002": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e13-visual-evidence-part002.zip",
+      "bytes": 104551956,
+      "sha256": "b6aa91ee0c31e5ee5a6c88673b20bf0fb1c6ec08bda7845c552166083e9262be",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e13-visual-evidence-part002.zip",
+      "description": "e13-visual-evidence: independent ZIP 2/16; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e13-visual-evidence/data-2026103311/evaluation/00155.npz",
           "bytes": 413003,
@@ -99147,7 +99535,16 @@
           "path": "outputs/local-check-20261024/e13-visual-evidence/data-2026103311-held/evaluation/00029.npz",
           "bytes": 416236,
           "sha256": "b6eff5646134f37673d5cff7b583b5e8f510012a072fe602714c92c259cd49c7"
-        },
+        }
+      ]
+    },
+    "e13-visual-evidence-part003": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e13-visual-evidence-part003.zip",
+      "bytes": 104827259,
+      "sha256": "f5861292db89c53bafd427c007439f28b6236a61b1ee2c32f952a73b0ecab5cc",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e13-visual-evidence-part003.zip",
+      "description": "e13-visual-evidence: independent ZIP 3/16; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e13-visual-evidence/data-2026103311-held/evaluation/00030.npz",
           "bytes": 416039,
@@ -100847,7 +101244,16 @@
           "path": "outputs/local-check-20261024/e13-visual-evidence/data-2026103312/after/00006.npz",
           "bytes": 224010,
           "sha256": "bae3085e9c840f39da4db246439804a03ef85d99e6b1f0fc1d7b3966fb251d15"
-        },
+        }
+      ]
+    },
+    "e13-visual-evidence-part004": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e13-visual-evidence-part004.zip",
+      "bytes": 104594119,
+      "sha256": "40a0959d42566b990f52aaf96e127777831c4ea2c997112500c7942847419d0b",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e13-visual-evidence-part004.zip",
+      "description": "e13-visual-evidence: independent ZIP 4/16; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e13-visual-evidence/data-2026103312/after/00007.npz",
           "bytes": 224010,
@@ -103407,7 +103813,16 @@
           "path": "outputs/local-check-20261024/e13-visual-evidence/data-2026103312/evaluation/00158.npz",
           "bytes": 414111,
           "sha256": "97a6faa86ba712812a9cac00c61dccf84c8d39b402095f6a3ee9ce3a7429dee4"
-        },
+        }
+      ]
+    },
+    "e13-visual-evidence-part005": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e13-visual-evidence-part005.zip",
+      "bytes": 104860227,
+      "sha256": "2d0fc2e21d8064852716f4bae8d1bcef32d976e0acbca160a881b2749b90e93f",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e13-visual-evidence-part005.zip",
+      "description": "e13-visual-evidence: independent ZIP 5/16; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e13-visual-evidence/data-2026103312/evaluation/00159.npz",
           "bytes": 414993,
@@ -106407,7 +106822,16 @@
           "path": "outputs/local-check-20261024/e13-visual-evidence/data-2026103312-held/evaluation/00035.npz",
           "bytes": 407299,
           "sha256": "a6468b6fe51fb673aee0cbf35a66266db88473a8c49d5a14a41a98bcd42f0b99"
-        },
+        }
+      ]
+    },
+    "e13-visual-evidence-part006": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e13-visual-evidence-part006.zip",
+      "bytes": 104753224,
+      "sha256": "814b0285c102879e0545be5f89de5bb9a4165d17b154f8267eae27ad915b1f62",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e13-visual-evidence-part006.zip",
+      "description": "e13-visual-evidence: independent ZIP 6/16; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e13-visual-evidence/data-2026103312-held/evaluation/00036.npz",
           "bytes": 407171,
@@ -108157,7 +108581,16 @@
           "path": "outputs/local-check-20261024/e13-visual-evidence/data-2026103331/after/00022.npz",
           "bytes": 224458,
           "sha256": "100eb5fadfce2a307d6bda9fe4587bfd814d43b9b544dc3fd3a225cd004f4334"
-        },
+        }
+      ]
+    },
+    "e13-visual-evidence-part007": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e13-visual-evidence-part007.zip",
+      "bytes": 104704684,
+      "sha256": "b4beb8bf7f3b946eace13c8d3e360b8411c98b4e7531b00daf5f9d5ca5cdb173",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e13-visual-evidence-part007.zip",
+      "description": "e13-visual-evidence: independent ZIP 7/16; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e13-visual-evidence/data-2026103331/after/00023.npz",
           "bytes": 224354,
@@ -110682,7 +111115,16 @@
           "path": "outputs/local-check-20261024/e13-visual-evidence/data-2026103331/evaluation/00167.npz",
           "bytes": 413942,
           "sha256": "6999b4b1ebe3204aa25c9a665ab98ebb2d6655d3e5def9fc4fd1443b1f60aec2"
-        },
+        }
+      ]
+    },
+    "e13-visual-evidence-part008": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e13-visual-evidence-part008.zip",
+      "bytes": 104688691,
+      "sha256": "c70864eb135f2c3e2e23013ed9e701480ea60e9a2784e494b412473e85866cef",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e13-visual-evidence-part008.zip",
+      "description": "e13-visual-evidence: independent ZIP 8/16; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e13-visual-evidence/data-2026103331/evaluation/00168.npz",
           "bytes": 413098,
@@ -113677,7 +114119,16 @@
           "path": "outputs/local-check-20261024/e13-visual-evidence/data-2026103331-held/evaluation/00043.npz",
           "bytes": 416904,
           "sha256": "25854a5efccc5075eddd92a1bd1785ec34c095d9efd01e6803c3aeeac64d1edc"
-        },
+        }
+      ]
+    },
+    "e13-visual-evidence-part009": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e13-visual-evidence-part009.zip",
+      "bytes": 104892088,
+      "sha256": "547c1ae53af2d371ff1f91bd564a050e8d39978d77d875d76c83032aae47e4ce",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e13-visual-evidence-part009.zip",
+      "description": "e13-visual-evidence: independent ZIP 9/16; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e13-visual-evidence/data-2026103331-held/evaluation/00044.npz",
           "bytes": 417033,
@@ -115437,7 +115888,16 @@
           "path": "outputs/local-check-20261024/e13-visual-evidence/data-2026103332/after/00032.npz",
           "bytes": 228944,
           "sha256": "9dca603e2bb156149f28b3fa9dad0394a9f2f27e98262e8ff496327e6c4e589e"
-        },
+        }
+      ]
+    },
+    "e13-visual-evidence-part010": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e13-visual-evidence-part010.zip",
+      "bytes": 104806609,
+      "sha256": "f28e7d704b55b096389aecff5674f6e07143cbc92157d630bf7b52a9e5109429",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e13-visual-evidence-part010.zip",
+      "description": "e13-visual-evidence: independent ZIP 10/16; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e13-visual-evidence/data-2026103332/after/00033.npz",
           "bytes": 229220,
@@ -117937,7 +118397,16 @@
           "path": "outputs/local-check-20261024/e13-visual-evidence/data-2026103332/evaluation/00172.npz",
           "bytes": 421669,
           "sha256": "7f34a2912f63ceab592126addeace27f3a17c2b3df3084ea6442df18a7c41da9"
-        },
+        }
+      ]
+    },
+    "e13-visual-evidence-part011": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e13-visual-evidence-part011.zip",
+      "bytes": 104642566,
+      "sha256": "0a94c2b48662a917f789e8510010db04023cc0fcf43556e6311411c904dd6377",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e13-visual-evidence-part011.zip",
+      "description": "e13-visual-evidence: independent ZIP 11/16; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e13-visual-evidence/data-2026103332/evaluation/00173.npz",
           "bytes": 421078,
@@ -120927,7 +121396,16 @@
           "path": "outputs/local-check-20261024/e13-visual-evidence/data-2026103332-held/evaluation/00047.npz",
           "bytes": 425005,
           "sha256": "ee15becedaca7a4858c621e678a26c6e4c9b6e00f977520ba4f7cfd795381415"
-        },
+        }
+      ]
+    },
+    "e13-visual-evidence-part012": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e13-visual-evidence-part012.zip",
+      "bytes": 104710260,
+      "sha256": "2d2a2c842b693c62f93e790ac169c5ce22c1cbf297bc914977fbdff2d83bf5cc",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e13-visual-evidence-part012.zip",
+      "description": "e13-visual-evidence: independent ZIP 12/16; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e13-visual-evidence/data-2026103332-held/evaluation/00048.npz",
           "bytes": 425014,
@@ -122677,7 +123155,16 @@
           "path": "outputs/local-check-20261024/e13-visual-evidence/data-2026103333/after/00034.npz",
           "bytes": 225205,
           "sha256": "758fb34ff7d214266a7ce7a3eff406474f740d92c70f089b54649eed5f247f7e"
-        },
+        }
+      ]
+    },
+    "e13-visual-evidence-part013": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e13-visual-evidence-part013.zip",
+      "bytes": 104732290,
+      "sha256": "51e9e22938d6582e241cd309b3fa5ec87555f09a9a84ea44d4b7e62b43a0309b",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e13-visual-evidence-part013.zip",
+      "description": "e13-visual-evidence: independent ZIP 13/16; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e13-visual-evidence/data-2026103333/after/00035.npz",
           "bytes": 225462,
@@ -125172,7 +125659,16 @@
           "path": "outputs/local-check-20261024/e13-visual-evidence/data-2026103333/evaluation/00173.npz",
           "bytes": 409782,
           "sha256": "96e1a40d667f501063ba5143850f9b4eac9556587975ca7d0142c332253eef1a"
-        },
+        }
+      ]
+    },
+    "e13-visual-evidence-part014": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e13-visual-evidence-part014.zip",
+      "bytes": 104795404,
+      "sha256": "4a7c9e1e687f3ea944488f7626cf791c36b8f17d6abd41a8d46a9d2b02100676",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e13-visual-evidence-part014.zip",
+      "description": "e13-visual-evidence: independent ZIP 14/16; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e13-visual-evidence/data-2026103333/evaluation/00174.npz",
           "bytes": 410392,
@@ -128172,7 +128668,16 @@
           "path": "outputs/local-check-20261024/e13-visual-evidence/data-2026103333-held/evaluation/00050.npz",
           "bytes": 417067,
           "sha256": "bb333ec8328cc8a28a674076edc41870de531b102ff5471aef9cf7c00891f71f"
-        },
+        }
+      ]
+    },
+    "e13-visual-evidence-part015": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e13-visual-evidence-part015.zip",
+      "bytes": 97594275,
+      "sha256": "ce29a3c63529f404208c60bc9c9db4f942609c71105e47677a7239c0e0f1e051",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e13-visual-evidence-part015.zip",
+      "description": "e13-visual-evidence: independent ZIP 15/16; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e13-visual-evidence/data-2026103333-held/evaluation/00051.npz",
           "bytes": 416993,
@@ -130027,7 +130532,16 @@
           "path": "outputs/local-check-20261024/e13-visual-evidence/engineering-hold_no_feedback.npz",
           "bytes": 43786,
           "sha256": "60a30f07ef9323aad644f400f32529554f4c37f83123629dbf2da1673526be5e"
-        },
+        }
+      ]
+    },
+    "e13-visual-evidence-part016": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e13-visual-evidence-part016.zip",
+      "bytes": 40765727,
+      "sha256": "be581f78f675ed199570fddf32f0f51bf9f79711943f4108871f0554264e37e9",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e13-visual-evidence-part016.zip",
+      "description": "e13-visual-evidence: independent ZIP 16/16; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e13-visual-evidence/frame-scores.json",
           "bytes": 17672556,
@@ -139847,12 +140361,12 @@
         }
       ]
     },
-    "e4-body-cycle": {
-      "asset": "ArmSelf-perception-research-2026-10-26-e4-body-cycle.zip",
-      "bytes": 879357935,
-      "sha256": "c017c1a65c329f2eed957c1c43d8f93ee2551689cbd1bed4a2966fe4bd77ee85",
-      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e4-body-cycle.zip",
-      "description": "Complete frozen snapshot for e4-body-cycle, including raw arrays and failures",
+    "e4-body-cycle-part001": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e4-body-cycle-part001.zip",
+      "bytes": 104614062,
+      "sha256": "701031a05730d8362d2357c095159b8305258d0b6ef707a63570f87ba9ae90ef",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e4-body-cycle-part001.zip",
+      "description": "e4-body-cycle: independent ZIP 1/9; original member bytes unchanged",
       "files": [
         {
           "path": "outputs/local-check-20261024/e4-body-cycle/bridge/eval-2026102481.npz",
@@ -141213,7 +141727,16 @@
           "path": "outputs/local-check-20261024/e4-body-cycle/evaluation-2026102481/observations/00096.npz",
           "bytes": 230172,
           "sha256": "778a361ecf57021403f13a5724ec30442f2dcd3ebb57063340ff193d99e9856c"
-        },
+        }
+      ]
+    },
+    "e4-body-cycle-part002": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e4-body-cycle-part002.zip",
+      "bytes": 104750751,
+      "sha256": "ebd93655b8978cfe679820ee9492ce984612407f4d8268965f14551e2581e32b",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e4-body-cycle-part002.zip",
+      "description": "e4-body-cycle: independent ZIP 2/9; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e4-body-cycle/evaluation-2026102481/observations/00097.npz",
           "bytes": 230238,
@@ -142793,7 +143316,16 @@
           "path": "outputs/local-check-20261024/e4-body-cycle/evaluation-2026102482/observations/00086.npz",
           "bytes": 232435,
           "sha256": "d70b4c5e153aa4c1eca51d8c0fbcf31102b9d23472573bc2beab292737ed9236"
-        },
+        }
+      ]
+    },
+    "e4-body-cycle-part003": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e4-body-cycle-part003.zip",
+      "bytes": 104798427,
+      "sha256": "e3bff116dd82a1be92f436070409a674acfc8a66420e3e7f2992d740fdcca595",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e4-body-cycle-part003.zip",
+      "description": "e4-body-cycle: independent ZIP 3/9; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e4-body-cycle/evaluation-2026102482/observations/00087.npz",
           "bytes": 232446,
@@ -144363,7 +144895,16 @@
           "path": "outputs/local-check-20261024/e4-body-cycle/evaluation-2026102483/observations/00074.npz",
           "bytes": 232406,
           "sha256": "f4bd85212527f66116680678beb20fafe4ae89c34ab47993faae8aea3887b414"
-        },
+        }
+      ]
+    },
+    "e4-body-cycle-part004": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e4-body-cycle-part004.zip",
+      "bytes": 104597563,
+      "sha256": "28634c28bfcb9510ee9b0eb3d518cf6a399a0f387a3f724224b3531e46fb809c",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e4-body-cycle-part004.zip",
+      "description": "e4-body-cycle: independent ZIP 4/9; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e4-body-cycle/evaluation-2026102483/observations/00075.npz",
           "bytes": 232652,
@@ -146538,7 +147079,16 @@
           "path": "outputs/local-check-20261024/e4-body-cycle/occlusion-data-2026102481/observations/00084.npz",
           "bytes": 225218,
           "sha256": "74767d6dab6bb712d9367f71e8e11182536a5e43d5858473a5d84c68fa8fb257"
-        },
+        }
+      ]
+    },
+    "e4-body-cycle-part005": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e4-body-cycle-part005.zip",
+      "bytes": 104830580,
+      "sha256": "5e0a2fd0a5fcfed632791ec7b90906d5d2addd3bfb117474ae8057a41b332eb1",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e4-body-cycle-part005.zip",
+      "description": "e4-body-cycle: independent ZIP 5/9; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e4-body-cycle/occlusion-data-2026102481/observations/00085.npz",
           "bytes": 224836,
@@ -148288,7 +148838,16 @@
           "path": "outputs/local-check-20261024/e4-body-cycle/occlusion-data-2026102483/evaluation/00011.npz",
           "bytes": 368334,
           "sha256": "a2845a3326d1bdcf147be3205a779f1d4dc16d33002da1b0918f58f20f785a63"
-        },
+        }
+      ]
+    },
+    "e4-body-cycle-part006": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e4-body-cycle-part006.zip",
+      "bytes": 104372562,
+      "sha256": "ee3a489c29227b901855fbb1985db142f0b49de5f0eb98e3fcfbd303b4a54bb1",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e4-body-cycle-part006.zip",
+      "description": "e4-body-cycle: independent ZIP 6/9; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e4-body-cycle/occlusion-data-2026102483/evaluation/00012.npz",
           "bytes": 368901,
@@ -149858,7 +150417,16 @@
           "path": "outputs/local-check-20261024/e4-body-cycle/training-data/evaluation/00033.npz",
           "bytes": 433229,
           "sha256": "09f1cf13bf917216189c51d2d1029d1ff4f4f9a6215a432f37a35baec7fb02e9"
-        },
+        }
+      ]
+    },
+    "e4-body-cycle-part007": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e4-body-cycle-part007.zip",
+      "bytes": 104624682,
+      "sha256": "73e09d645a8f1722e47abfc2c92be0ccc6ed02258e2f220fe6e8a3d3255ecc55",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e4-body-cycle-part007.zip",
+      "description": "e4-body-cycle: independent ZIP 7/9; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e4-body-cycle/training-data/evaluation/00034.npz",
           "bytes": 433365,
@@ -151073,7 +151641,16 @@
           "path": "outputs/local-check-20261024/e4-body-cycle/training-data/evaluation/00276.npz",
           "bytes": 429757,
           "sha256": "2b5fa8a2c491f8dca6772c4ce1dc9d30e26c99b89c9b0c89dfacf16ca2afa8b9"
-        },
+        }
+      ]
+    },
+    "e4-body-cycle-part008": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e4-body-cycle-part008.zip",
+      "bytes": 104723046,
+      "sha256": "8ba835b41b6459491fa8e0f10a975d683db3b5c3697c3576245abf5acd50876e",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e4-body-cycle-part008.zip",
+      "description": "e4-body-cycle: independent ZIP 8/9; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e4-body-cycle/training-data/evaluation/00277.npz",
           "bytes": 430071,
@@ -152748,7 +153325,16 @@
           "path": "outputs/local-check-20261024/e4-body-cycle/training-data/observations/00196.npz",
           "bytes": 232477,
           "sha256": "00ee037f0e348488509ac79325431f209faa3a6bc79f9e7ae8e3c80447eb2fc4"
-        },
+        }
+      ]
+    },
+    "e4-body-cycle-part009": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e4-body-cycle-part009.zip",
+      "bytes": 50361624,
+      "sha256": "10506c32b94412a4b151bd4a0f00f678cfcb2caaf5797baf889492b761bf3494",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e4-body-cycle-part009.zip",
+      "description": "e4-body-cycle: independent ZIP 9/9; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e4-body-cycle/training-data/observations/00197.npz",
           "bytes": 232523,
@@ -153851,12 +154437,12 @@
         }
       ]
     },
-    "e4-fixture-pilot": {
-      "asset": "ArmSelf-perception-research-2026-10-26-e4-fixture-pilot.zip",
+    "e4-fixture-pilot-part001": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e4-fixture-pilot-part001.zip",
       "bytes": 233573,
       "sha256": "7b9a279d7b665126fc045a4e44a5fd8173939f0de3911ce785c2b4257fe73fc6",
-      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e4-fixture-pilot.zip",
-      "description": "Complete frozen snapshot for e4-fixture-pilot, including raw arrays and failures",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e4-fixture-pilot-part001.zip",
+      "description": "e4-fixture-pilot: independent ZIP 1/1; original member bytes unchanged",
       "files": [
         {
           "path": "outputs/local-check-20261024/e4-fixture-pilot/pilot.png",
@@ -153870,12 +154456,12 @@
         }
       ]
     },
-    "e5-body-memory": {
-      "asset": "ArmSelf-perception-research-2026-10-26-e5-body-memory.zip",
-      "bytes": 367541872,
-      "sha256": "b434eafd552d2c0e19ae0175d2f0f5e9500a330d3478811011071028c7ecf733",
-      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e5-body-memory.zip",
-      "description": "Complete frozen snapshot for e5-body-memory, including raw arrays and failures",
+    "e5-body-memory-part001": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e5-body-memory-part001.zip",
+      "bytes": 104891994,
+      "sha256": "669beca6346f806f2ccf945b707fc28c2ed85b0e3db137d41fc1f0db1c4d0120",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e5-body-memory-part001.zip",
+      "description": "e5-body-memory: independent ZIP 1/4; original member bytes unchanged",
       "files": [
         {
           "path": "outputs/local-check-20261024/e5-body-memory/audit/2026102501.json",
@@ -155546,7 +156132,16 @@
           "path": "outputs/local-check-20261024/e5-body-memory/final-data-2026102501/evaluation/00042.npz",
           "bytes": 411027,
           "sha256": "9c3dda7b4fba7e881a3b324f8c40e8a9c62d697aed270e00891484f05ed221ef"
-        },
+        }
+      ]
+    },
+    "e5-body-memory-part002": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e5-body-memory-part002.zip",
+      "bytes": 104718620,
+      "sha256": "fcb418d24edf5812c341ec34eaddf0780f20527228730c0fade50d93cfb27523",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e5-body-memory-part002.zip",
+      "description": "e5-body-memory: independent ZIP 2/4; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e5-body-memory/final-data-2026102501/evaluation/00043.npz",
           "bytes": 410578,
@@ -157161,7 +157756,16 @@
           "path": "outputs/local-check-20261024/e5-body-memory/final-data-2026102502/evaluation/00083.npz",
           "bytes": 411148,
           "sha256": "e76f54a6271cbd6b4d088e2230af2a86f95ee5be0a8eae179de60d5d8e17ea90"
-        },
+        }
+      ]
+    },
+    "e5-body-memory-part003": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e5-body-memory-part003.zip",
+      "bytes": 104880041,
+      "sha256": "02afc526f7ca47e9d60382f87bbe8f105c7eae0be80e2dd9f8e1bb295d8c8641",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e5-body-memory-part003.zip",
+      "description": "e5-body-memory: independent ZIP 3/4; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e5-body-memory/final-data-2026102502/evaluation/00084.npz",
           "bytes": 410628,
@@ -158781,7 +159385,16 @@
           "path": "outputs/local-check-20261024/e5-body-memory/final-data-2026102503/evaluation/00125.npz",
           "bytes": 368106,
           "sha256": "4d20554b3561e7cdcdb218d9d8e4c13e3fd189b1714ab133a1204d831b845e53"
-        },
+        }
+      ]
+    },
+    "e5-body-memory-part004": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e5-body-memory-part004.zip",
+      "bytes": 56909469,
+      "sha256": "b232898e8800eedba20e76a92cab628c5854f77932f3e799f24f96c0355a268f",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e5-body-memory-part004.zip",
+      "description": "e5-body-memory: independent ZIP 4/4; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e5-body-memory/final-data-2026102503/evaluation/00126.npz",
           "bytes": 369263,
@@ -159849,12 +160462,12 @@
         }
       ]
     },
-    "e6-action-body": {
-      "asset": "ArmSelf-perception-research-2026-10-26-e6-action-body.zip",
-      "bytes": 348042465,
-      "sha256": "6aa87045afb60d3df5d4325aa8ead25dbecffa365c44e4a2358822b15030fbc7",
-      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e6-action-body.zip",
-      "description": "Complete frozen snapshot for e6-action-body, including raw arrays and failures",
+    "e6-action-body-part001": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e6-action-body-part001.zip",
+      "bytes": 104786769,
+      "sha256": "d18bb4dbad8a265243a45bb831140f2e4c008e821d736a59a03832f74463ca4a",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e6-action-body-part001.zip",
+      "description": "e6-action-body: independent ZIP 1/4; original member bytes unchanged",
       "files": [
         {
           "path": "outputs/local-check-20261024/e6-action-body/action.pt",
@@ -162210,7 +162823,16 @@
           "path": "outputs/local-check-20261024/e6-action-body/data-2026102631/after/00105.npz",
           "bytes": 230568,
           "sha256": "84bf6e3dd0b3f11eb44a1ed2fe634aefc0ee12d57e15747b0a9bc2720b4fd7fe"
-        },
+        }
+      ]
+    },
+    "e6-action-body-part002": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e6-action-body-part002.zip",
+      "bytes": 104607850,
+      "sha256": "353b895c0dfb089b23620480efd92b919b703ee42b80ea3de89902130501ae6f",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e6-action-body-part002.zip",
+      "description": "e6-action-body: independent ZIP 2/4; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e6-action-body/data-2026102631/after/00106.npz",
           "bytes": 231174,
@@ -164935,7 +165557,16 @@
           "path": "outputs/local-check-20261024/e6-action-body/data-2026102632/evaluation/00047.npz",
           "bytes": 431464,
           "sha256": "74c6d80aec2249f16d4075d72c5dd6d937703cf402a2c094244a7b2c60242f17"
-        },
+        }
+      ]
+    },
+    "e6-action-body-part003": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e6-action-body-part003.zip",
+      "bytes": 104760107,
+      "sha256": "4038328ed95db2c811541c5617c7c3de30730113e00715e5f71f300c35b09352",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e6-action-body-part003.zip",
+      "description": "e6-action-body: independent ZIP 3/4; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e6-action-body/data-2026102632/evaluation/00048.npz",
           "bytes": 429303,
@@ -167035,7 +167666,16 @@
           "path": "outputs/local-check-20261024/e6-action-body/data-2026102633/evaluation/00104.npz",
           "bytes": 431265,
           "sha256": "971bb99506c5e29d42c1e4ac1be985c32dd5c138f60d1590c5a6b0e732b552b9"
-        },
+        }
+      ]
+    },
+    "e6-action-body-part004": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e6-action-body-part004.zip",
+      "bytes": 37342545,
+      "sha256": "4a18e2b46582c7b16ade2734faeddd856a31daee7f42340bb2b0577982fb0456",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e6-action-body-part004.zip",
+      "description": "e6-action-body: independent ZIP 4/4; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e6-action-body/data-2026102633/evaluation/00105.npz",
           "bytes": 431268,
@@ -167983,12 +168623,12 @@
         }
       ]
     },
-    "e7-learned-trust": {
-      "asset": "ArmSelf-perception-research-2026-10-26-e7-learned-trust.zip",
-      "bytes": 496473427,
-      "sha256": "1c55abd86810927731b9c63ff47d242c579879ea3ac53918bc0f341b537ec7f6",
-      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e7-learned-trust.zip",
-      "description": "Complete frozen snapshot for e7-learned-trust, including raw arrays and failures",
+    "e7-learned-trust-part001": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e7-learned-trust-part001.zip",
+      "bytes": 104966821,
+      "sha256": "795bbdfeabf47f4ce042c320496b1ac6ea898af9ce1d005398f72015330c0d94",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e7-learned-trust-part001.zip",
+      "description": "e7-learned-trust: independent ZIP 1/5; original member bytes unchanged",
       "files": [
         {
           "path": "outputs/local-check-20261024/e7-learned-trust/action.pt",
@@ -172529,7 +173169,16 @@
           "path": "outputs/local-check-20261024/e7-learned-trust/data-2026102711/before/00149.npz",
           "bytes": 1127,
           "sha256": "0e7be6bf6da567b095328afa85368cbb8de83febe61eded1edb832adeba69593"
-        },
+        }
+      ]
+    },
+    "e7-learned-trust-part002": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e7-learned-trust-part002.zip",
+      "bytes": 104764257,
+      "sha256": "9999174bb7d89c675dee09660719d2e7ac8e56ebf02485bd217c58bdd9db9ab7",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e7-learned-trust-part002.zip",
+      "description": "e7-learned-trust: independent ZIP 2/5; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e7-learned-trust/data-2026102711/evaluation/00000.npz",
           "bytes": 429840,
@@ -174854,7 +175503,16 @@
           "path": "outputs/local-check-20261024/e7-learned-trust/data-2026102731/evaluation/00011.npz",
           "bytes": 428138,
           "sha256": "ee16dc1d6c0ff0014fe8c568285eebb5286e113b7c404ad639ec559da51a5ff2"
-        },
+        }
+      ]
+    },
+    "e7-learned-trust-part003": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e7-learned-trust-part003.zip",
+      "bytes": 104662740,
+      "sha256": "8c59dbf08608cada99ae8736944eb30bf73572d8603e38ca58d8c4474799dbb8",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e7-learned-trust-part003.zip",
+      "description": "e7-learned-trust: independent ZIP 3/5; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e7-learned-trust/data-2026102731/evaluation/00012.npz",
           "bytes": 427966,
@@ -177179,7 +177837,16 @@
           "path": "outputs/local-check-20261024/e7-learned-trust/data-2026102732/evaluation/00023.npz",
           "bytes": 427675,
           "sha256": "ba9656b8930e76dcf4debb438fa0e409dd480b8c9f83de3576ef8ec8bf506358"
-        },
+        }
+      ]
+    },
+    "e7-learned-trust-part004": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e7-learned-trust-part004.zip",
+      "bytes": 104659504,
+      "sha256": "bfcdb03188f541d4116cdaa4323d2e6f6c7fde69f658f1f2aabe359f6d098ce7",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e7-learned-trust-part004.zip",
+      "description": "e7-learned-trust: independent ZIP 4/5; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e7-learned-trust/data-2026102732/evaluation/00024.npz",
           "bytes": 427585,
@@ -179504,7 +180171,16 @@
           "path": "outputs/local-check-20261024/e7-learned-trust/data-2026102733/evaluation/00035.npz",
           "bytes": 437136,
           "sha256": "8c1546fdb4869a014099ca62c6401ded7f1321d92cc310118393c19a1a9f882c"
-        },
+        }
+      ]
+    },
+    "e7-learned-trust-part005": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e7-learned-trust-part005.zip",
+      "bytes": 80984929,
+      "sha256": "469a0a7edd28fa32c587c3235115889c1c8d1ea64fdc02ce53add90f6dded79d",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e7-learned-trust-part005.zip",
+      "description": "e7-learned-trust: independent ZIP 5/5; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e7-learned-trust/data-2026102733/evaluation/00036.npz",
           "bytes": 437351,
@@ -180857,12 +181533,12 @@
         }
       ]
     },
-    "e8-reliable-state": {
-      "asset": "ArmSelf-perception-research-2026-10-26-e8-reliable-state.zip",
-      "bytes": 523325322,
-      "sha256": "f95a735eda036101b6f77a235a51450aa713815083234eb591d4277bdb0615bf",
-      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e8-reliable-state.zip",
-      "description": "Complete frozen snapshot for e8-reliable-state, including raw arrays and failures",
+    "e8-reliable-state-part001": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e8-reliable-state-part001.zip",
+      "bytes": 104701365,
+      "sha256": "e85a05b4dd54d21b8bc6dc022165db21e32a65d1aa5799cd7abb0db8294da368",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e8-reliable-state-part001.zip",
+      "description": "e8-reliable-state: independent ZIP 1/6; original member bytes unchanged",
       "files": [
         {
           "path": "outputs/local-check-20261024/e8-reliable-state/action.pt",
@@ -183258,7 +183934,16 @@
           "path": "outputs/local-check-20261024/e8-reliable-state/data-2026102821/after/00020.npz",
           "bytes": 232844,
           "sha256": "45c7605decf39370e997e6778b6a1675d3650839389b6553c7e628a5eb9370c1"
-        },
+        }
+      ]
+    },
+    "e8-reliable-state-part002": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e8-reliable-state-part002.zip",
+      "bytes": 104755989,
+      "sha256": "30d06709494a0e7ca75d1a8996aa8c7b70072bb3c6b861b011e02df7e782839c",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e8-reliable-state-part002.zip",
+      "description": "e8-reliable-state: independent ZIP 2/6; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e8-reliable-state/data-2026102821/after/00021.npz",
           "bytes": 232843,
@@ -185633,7 +186318,16 @@
           "path": "outputs/local-check-20261024/e8-reliable-state/data-2026102831/after/00042.npz",
           "bytes": 231843,
           "sha256": "4b046bf95e8b248a1f7f517d4fce6bfeedf5188ee0f36d72b4af1bcced3cadd2"
-        },
+        }
+      ]
+    },
+    "e8-reliable-state-part003": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e8-reliable-state-part003.zip",
+      "bytes": 104874722,
+      "sha256": "28d464ac1f8cab368eca607a7c606a32175905129a093b7b7572208df2ffd5f4",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e8-reliable-state-part003.zip",
+      "description": "e8-reliable-state: independent ZIP 3/6; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e8-reliable-state/data-2026102831/after/00043.npz",
           "bytes": 232296,
@@ -188013,7 +188707,16 @@
           "path": "outputs/local-check-20261024/e8-reliable-state/data-2026102832/after/00065.npz",
           "bytes": 232390,
           "sha256": "c19667c83718fd6a4c50ecebd3ffe88df9b3d14a371317e55724db9ff2feef2c"
-        },
+        }
+      ]
+    },
+    "e8-reliable-state-part004": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e8-reliable-state-part004.zip",
+      "bytes": 104900454,
+      "sha256": "c9c7ed53acd935476ea639a9f5c5ad6db5d1857d77b91ca379d13aeea8b2d17c",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e8-reliable-state-part004.zip",
+      "description": "e8-reliable-state: independent ZIP 4/6; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e8-reliable-state/data-2026102832/after/00066.npz",
           "bytes": 232352,
@@ -190393,7 +191096,16 @@
           "path": "outputs/local-check-20261024/e8-reliable-state/data-2026102833/after/00088.npz",
           "bytes": 230999,
           "sha256": "d4c588ea8469a56b67cf26b193846aca285adf50909d920e4efaa98da45b890d"
-        },
+        }
+      ]
+    },
+    "e8-reliable-state-part005": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e8-reliable-state-part005.zip",
+      "bytes": 103606565,
+      "sha256": "5c4f1d8d21016f17d0974818b95340d4fcfd63709793bab54d283937dfccf9c4",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e8-reliable-state-part005.zip",
+      "description": "e8-reliable-state: independent ZIP 5/6; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e8-reliable-state/data-2026102833/after/00089.npz",
           "bytes": 231791,
@@ -192813,7 +193525,16 @@
           "path": "outputs/local-check-20261024/e8-reliable-state/report/e8-biased_feedback.gif",
           "bytes": 2634542,
           "sha256": "752bfcad98d3891abd975a810a8e838d1206014bfd097830d6e574fb19aa56cc"
-        },
+        }
+      ]
+    },
+    "e8-reliable-state-part006": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e8-reliable-state-part006.zip",
+      "bytes": 4552742,
+      "sha256": "b32c3baa4942ad2e9c15183622a4785cb6487c03e3fb5688abb299bd2e488bef",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e8-reliable-state-part006.zip",
+      "description": "e8-reliable-state: independent ZIP 6/6; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e8-reliable-state/report/e8-wrong_rgb.gif",
           "bytes": 2586789,
@@ -192971,12 +193692,12 @@
         }
       ]
     },
-    "e8b-reliable-state": {
-      "asset": "ArmSelf-perception-research-2026-10-26-e8b-reliable-state.zip",
-      "bytes": 524050864,
-      "sha256": "f3d25e48beec84c3a4d9b3aef8268ec3a6989ef85058a13a1ecdfdf6a53af3dd",
-      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e8b-reliable-state.zip",
-      "description": "Complete frozen snapshot for e8b-reliable-state, including raw arrays and failures",
+    "e8b-reliable-state-part001": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e8b-reliable-state-part001.zip",
+      "bytes": 104918740,
+      "sha256": "66689e09c85d9c34f13f70d0eb1bd5724d48d0c0101e7617731c21976216f9dc",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e8b-reliable-state-part001.zip",
+      "description": "e8b-reliable-state: independent ZIP 1/6; original member bytes unchanged",
       "files": [
         {
           "path": "outputs/local-check-20261024/e8b-reliable-state/action.pt",
@@ -195377,7 +196098,16 @@
           "path": "outputs/local-check-20261024/e8b-reliable-state/data-2026102851/after/00021.npz",
           "bytes": 232281,
           "sha256": "d53da1fcb6c0f8bb7b8f8ea905e7e5e0709091b0bd3fab785f310cb570b8d13c"
-        },
+        }
+      ]
+    },
+    "e8b-reliable-state-part002": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e8b-reliable-state-part002.zip",
+      "bytes": 104812005,
+      "sha256": "4210e49315d7f767fc4063b5e300e9e8b9150de04bc3a8aace09f74dd8c9e29a",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e8b-reliable-state-part002.zip",
+      "description": "e8b-reliable-state: independent ZIP 2/6; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e8b-reliable-state/data-2026102851/after/00022.npz",
           "bytes": 231014,
@@ -197757,7 +198487,16 @@
           "path": "outputs/local-check-20261024/e8b-reliable-state/data-2026102861/after/00044.npz",
           "bytes": 232004,
           "sha256": "9ea1175839c0c6659378b95062001e37601b1396f363d2ae9991ca966ccb8729"
-        },
+        }
+      ]
+    },
+    "e8b-reliable-state-part003": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e8b-reliable-state-part003.zip",
+      "bytes": 104746631,
+      "sha256": "8d1caf0794344319725a8291b9e9641b6dc81a06536d564bd03de5023929b002",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e8b-reliable-state-part003.zip",
+      "description": "e8b-reliable-state: independent ZIP 3/6; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e8b-reliable-state/data-2026102861/after/00045.npz",
           "bytes": 232258,
@@ -200132,7 +200871,16 @@
           "path": "outputs/local-check-20261024/e8b-reliable-state/data-2026102862/after/00066.npz",
           "bytes": 231653,
           "sha256": "d6136cd7730a5564cc13668740d3e2de987253a080103454301a522019482903"
-        },
+        }
+      ]
+    },
+    "e8b-reliable-state-part004": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e8b-reliable-state-part004.zip",
+      "bytes": 104727081,
+      "sha256": "ac6eb7d00849cebf0cbc148958fed21de0942c656350d4ccab308cb76af85372",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e8b-reliable-state-part004.zip",
+      "description": "e8b-reliable-state: independent ZIP 4/6; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e8b-reliable-state/data-2026102862/after/00067.npz",
           "bytes": 232585,
@@ -202507,7 +203255,16 @@
           "path": "outputs/local-check-20261024/e8b-reliable-state/data-2026102863/after/00088.npz",
           "bytes": 232574,
           "sha256": "529c634e622987fb2c4cb9a38c3b1322700e816ced3c72ec332a39dab08322f0"
-        },
+        }
+      ]
+    },
+    "e8b-reliable-state-part005": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e8b-reliable-state-part005.zip",
+      "bytes": 104030366,
+      "sha256": "a926e44789228a4797ac8dab2f25476f56fcacbddcf12a8a558992aaf0e40f15",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e8b-reliable-state-part005.zip",
+      "description": "e8b-reliable-state: independent ZIP 5/6; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e8b-reliable-state/data-2026102863/after/00089.npz",
           "bytes": 230699,
@@ -204937,7 +205694,16 @@
           "path": "outputs/local-check-20261024/e8b-reliable-state/report/e8-biased_feedback.gif",
           "bytes": 3062035,
           "sha256": "918adf06b37458de870a19aef9fc2436275e59c8eb4de68242a02c9be532fea9"
-        },
+        }
+      ]
+    },
+    "e8b-reliable-state-part006": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e8b-reliable-state-part006.zip",
+      "bytes": 4896139,
+      "sha256": "525ec13902a44d19706b7083055bc1a0477e6f8945fceca0e8daa189f4f4607a",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e8b-reliable-state-part006.zip",
+      "description": "e8b-reliable-state: independent ZIP 6/6; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e8b-reliable-state/report/e8-wrong_rgb.gif",
           "bytes": 2956879,
@@ -205100,12 +205866,12 @@
         }
       ]
     },
-    "e9-body-extent": {
-      "asset": "ArmSelf-perception-research-2026-10-26-e9-body-extent.zip",
-      "bytes": 833766044,
-      "sha256": "6ef0e5704bd2a3d539c462c697ffabf94bf5b5f3636f5404a98677d2199f36a8",
-      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e9-body-extent.zip",
-      "description": "Complete frozen snapshot for e9-body-extent, including raw arrays and failures",
+    "e9-body-extent-part001": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e9-body-extent-part001.zip",
+      "bytes": 104247291,
+      "sha256": "5b3ce4972a454438ba5f9745c75e75dd4274768eadfa4096f4437edd56433322",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e9-body-extent-part001.zip",
+      "description": "e9-body-extent: independent ZIP 1/9; original member bytes unchanged",
       "files": [
         {
           "path": "outputs/local-check-20261024/e9-body-extent/action.pt",
@@ -207031,7 +207797,16 @@
           "path": "outputs/local-check-20261024/e9-body-extent/data-2026102911/evaluation/00079.npz",
           "bytes": 815871,
           "sha256": "e8d5b3559297a78fd83152714219beeca95d7de8a30ef923ca7066eb8fcd5960"
-        },
+        }
+      ]
+    },
+    "e9-body-extent-part002": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e9-body-extent-part002.zip",
+      "bytes": 104806644,
+      "sha256": "56f515444c0a6ea31eca1ffd6edbb671bfaca7b28bc202707f655d829f896f1d",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e9-body-extent-part002.zip",
+      "description": "e9-body-extent: independent ZIP 2/9; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e9-body-extent/data-2026102911/evaluation/00080.npz",
           "bytes": 815985,
@@ -208961,7 +209736,16 @@
           "path": "outputs/local-check-20261024/e9-body-extent/data-2026102931/evaluation/00012.npz",
           "bytes": 834085,
           "sha256": "193e78fef5168d9f6d5d66016ba279c42029f29534446ceace7324ab6efdc763"
-        },
+        }
+      ]
+    },
+    "e9-body-extent-part003": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e9-body-extent-part003.zip",
+      "bytes": 104851581,
+      "sha256": "41a51e6e80a50b3ec36fb7294e7af371c0a2326d1d5e82fec9acf2cae6e39ff6",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e9-body-extent-part003.zip",
+      "description": "e9-body-extent: independent ZIP 3/9; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e9-body-extent/data-2026102931/evaluation/00013.npz",
           "bytes": 826591,
@@ -209586,7 +210370,16 @@
           "path": "outputs/local-check-20261024/e9-body-extent/data-2026102931/evaluation/00137.npz",
           "bytes": 831909,
           "sha256": "5410c1111457fae3fc98c247877b868a80766304cd551100e3afc4e395dcbedc"
-        },
+        }
+      ]
+    },
+    "e9-body-extent-part004": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e9-body-extent-part004.zip",
+      "bytes": 104128246,
+      "sha256": "feaf01d6c8246bb6be931c15dbf7dbf5eee46767f528e45e1528f68ec781c0cf",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e9-body-extent-part004.zip",
+      "description": "e9-body-extent: independent ZIP 4/9; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e9-body-extent/data-2026102931/evaluation/00138.npz",
           "bytes": 832003,
@@ -211521,7 +212314,16 @@
           "path": "outputs/local-check-20261024/e9-body-extent/data-2026102932/evaluation/00071.npz",
           "bytes": 853646,
           "sha256": "76fb4bcc67b524c66c6e17095546d99dd937227f79d50d50a2c9cd718063cb10"
-        },
+        }
+      ]
+    },
+    "e9-body-extent-part005": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e9-body-extent-part005.zip",
+      "bytes": 104476122,
+      "sha256": "a339ee8d5f7e65e2687e6924eb90122d70f278fae06ba6beb22f6e7e23ba469a",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e9-body-extent-part005.zip",
+      "description": "e9-body-extent: independent ZIP 5/9; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e9-body-extent/data-2026102932/evaluation/00072.npz",
           "bytes": 851610,
@@ -213456,7 +214258,16 @@
           "path": "outputs/local-check-20261024/e9-body-extent/data-2026102933/evaluation/00005.npz",
           "bytes": 837262,
           "sha256": "00062589441e41294b1ade7a911b3d5f254c41ccb62a7410193adc9bf15a7d48"
-        },
+        }
+      ]
+    },
+    "e9-body-extent-part006": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e9-body-extent-part006.zip",
+      "bytes": 104165214,
+      "sha256": "9f405ac9908ee3656509a297581e86a60f460bb855935ed85cef315031175ee6",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e9-body-extent-part006.zip",
+      "description": "e9-body-extent: independent ZIP 6/9; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e9-body-extent/data-2026102933/evaluation/00006.npz",
           "bytes": 837265,
@@ -214081,7 +214892,16 @@
           "path": "outputs/local-check-20261024/e9-body-extent/data-2026102933/evaluation/00130.npz",
           "bytes": 814218,
           "sha256": "9c31433741ee607051525ae6a2d4553b1dc0af34b082704deaf43c2bc762a3b4"
-        },
+        }
+      ]
+    },
+    "e9-body-extent-part007": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e9-body-extent-part007.zip",
+      "bytes": 103483719,
+      "sha256": "1eaa4691dcf2645a16364341bec75b35239de19f19423a95412fb2faacb6d4a8",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e9-body-extent-part007.zip",
+      "description": "e9-body-extent: independent ZIP 7/9; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e9-body-extent/data-2026102933/evaluation/00131.npz",
           "bytes": 812825,
@@ -214296,7 +215116,16 @@
           "path": "outputs/local-check-20261024/e9-body-extent/extent-predictions/2026102932-clean.json",
           "bytes": 223,
           "sha256": "051641e5d70626f3421ec6a29fc1564e303179343470b73f8c3898db6bed657d"
-        },
+        }
+      ]
+    },
+    "e9-body-extent-part008": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e9-body-extent-part008.zip",
+      "bytes": 90950339,
+      "sha256": "8779b2bd31bb96b9bb59462951f9709d9b009a4855d51ee5c9124d311e6f0918",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e9-body-extent-part008.zip",
+      "description": "e9-body-extent: independent ZIP 8/9; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e9-body-extent/extent-predictions/2026102932-clean.npz",
           "bytes": 9889849,
@@ -214431,7 +215260,16 @@
           "path": "outputs/local-check-20261024/e9-body-extent/predictions/data-2026102931-clean.json",
           "bytes": 440,
           "sha256": "77c9dac738cfe228a89bb0cacb4a393ffceab2267e50f66444a70ddb2632a0f7"
-        },
+        }
+      ]
+    },
+    "e9-body-extent-part009": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e9-body-extent-part009.zip",
+      "bytes": 18403320,
+      "sha256": "8cf5a35cd60e2c53f396d7208634e1601920ff019172c9c84990271f9a1ba84a",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e9-body-extent-part009.zip",
+      "description": "e9-body-extent: independent ZIP 9/9; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e9-body-extent/predictions/data-2026102931-clean.npz",
           "bytes": 479915,
@@ -214714,12 +215552,12 @@
         }
       ]
     },
-    "e9b-body-extent": {
-      "asset": "ArmSelf-perception-research-2026-10-26-e9b-body-extent.zip",
-      "bytes": 750307330,
-      "sha256": "19393e1d307a2a012e65ee1a2346212851cd953bc05ba49f142f583ad212c191",
-      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e9b-body-extent.zip",
-      "description": "Complete frozen snapshot for e9b-body-extent, including raw arrays and failures",
+    "e9b-body-extent-part001": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e9b-body-extent-part001.zip",
+      "bytes": 104710015,
+      "sha256": "fee5c06b5e6e819f8b1c4513b118a6d0e685dde8797cf126385d26f29b617eda",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e9b-body-extent-part001.zip",
+      "description": "e9b-body-extent: independent ZIP 1/8; original member bytes unchanged",
       "files": [
         {
           "path": "outputs/local-check-20261024/e9b-body-extent/action.pt",
@@ -216650,7 +217488,16 @@
           "path": "outputs/local-check-20261024/e9b-body-extent/data-2026102941/evaluation/00080.npz",
           "bytes": 866055,
           "sha256": "61d6162acbbbe850a67929b603c6f014836377c93ef32b28359f9576e1e7dcbb"
-        },
+        }
+      ]
+    },
+    "e9b-body-extent-part002": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e9b-body-extent-part002.zip",
+      "bytes": 104762846,
+      "sha256": "8318c30d26e8d26b04d7b4e2aa40e0bd3165e0488a6ea6a1a6ed4083fae38944",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e9b-body-extent-part002.zip",
+      "description": "e9b-body-extent: independent ZIP 2/8; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e9b-body-extent/data-2026102941/evaluation/00081.npz",
           "bytes": 865856,
@@ -218580,7 +219427,16 @@
           "path": "outputs/local-check-20261024/e9b-body-extent/data-2026102961/evaluation/00013.npz",
           "bytes": 841315,
           "sha256": "bd2558d6d433cb1a801290b37c7280ceebe4a4dcc817e4bca82bb9c7a8e0e5cc"
-        },
+        }
+      ]
+    },
+    "e9b-body-extent-part003": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e9b-body-extent-part003.zip",
+      "bytes": 104347941,
+      "sha256": "d76d854e068f059f589d0989383a67d879e1c7afb1e610791611601fb609ca4b",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e9b-body-extent-part003.zip",
+      "description": "e9b-body-extent: independent ZIP 3/8; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e9b-body-extent/data-2026102961/evaluation/00014.npz",
           "bytes": 842315,
@@ -219205,7 +220061,16 @@
           "path": "outputs/local-check-20261024/e9b-body-extent/data-2026102961/evaluation/00138.npz",
           "bytes": 779352,
           "sha256": "2163cc10fdea8db19971e0cbabba037b4baa3135235f07565dda8a8501228a54"
-        },
+        }
+      ]
+    },
+    "e9b-body-extent-part004": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e9b-body-extent-part004.zip",
+      "bytes": 104640586,
+      "sha256": "8797b218cc2044b226f2aca7f55af4f8e1a2db30f9f867e27e44c1e635ee2318",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e9b-body-extent-part004.zip",
+      "description": "e9b-body-extent: independent ZIP 4/8; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e9b-body-extent/data-2026102961/evaluation/00139.npz",
           "bytes": 748680,
@@ -221145,7 +222010,16 @@
           "path": "outputs/local-check-20261024/e9b-body-extent/data-2026102962/evaluation/00073.npz",
           "bytes": 843862,
           "sha256": "4d4fa6bacd3aeb1825e8522b2c23cb8a94d0dede0a3dbfe01b8771ae2ddcde3c"
-        },
+        }
+      ]
+    },
+    "e9b-body-extent-part005": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e9b-body-extent-part005.zip",
+      "bytes": 104658662,
+      "sha256": "efa07fcdf823124a5dbadb94e83b7b1d8a6be8be5eb5311529b4d97904d67dd5",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e9b-body-extent-part005.zip",
+      "description": "e9b-body-extent: independent ZIP 5/8; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e9b-body-extent/data-2026102962/evaluation/00074.npz",
           "bytes": 845720,
@@ -223080,7 +223954,16 @@
           "path": "outputs/local-check-20261024/e9b-body-extent/data-2026102963/evaluation/00007.npz",
           "bytes": 837264,
           "sha256": "0488a7c264c304f77b0b4d0f5904aca80b1d457421991f8d2f6ff32760f8a4fd"
-        },
+        }
+      ]
+    },
+    "e9b-body-extent-part006": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e9b-body-extent-part006.zip",
+      "bytes": 104185126,
+      "sha256": "0a8a4cfbfc2cbd4f7ccee19a8c0655757212d3c68a2ff8244e94fe39655a2242",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e9b-body-extent-part006.zip",
+      "description": "e9b-body-extent: independent ZIP 6/8; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e9b-body-extent/data-2026102963/evaluation/00008.npz",
           "bytes": 837258,
@@ -223705,7 +224588,16 @@
           "path": "outputs/local-check-20261024/e9b-body-extent/data-2026102963/evaluation/00132.npz",
           "bytes": 852698,
           "sha256": "405dcc2549fe8bba673c0a1d909ac06016789bb55932b668dc087c2174ad3554"
-        },
+        }
+      ]
+    },
+    "e9b-body-extent-part007": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e9b-body-extent-part007.zip",
+      "bytes": 101667614,
+      "sha256": "7d611f8c02bf224d717107408354bb5d6e5ec484072df37cab54c109c4e950ce",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e9b-body-extent-part007.zip",
+      "description": "e9b-body-extent: independent ZIP 7/8; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e9b-body-extent/data-2026102963/evaluation/00133.npz",
           "bytes": 853484,
@@ -224005,7 +224897,16 @@
           "path": "outputs/local-check-20261024/e9b-body-extent/fixed.pt",
           "bytes": 1563,
           "sha256": "c48b0a026dcc9b7c464cad026268c3674ede5551f5751c5165bbceb7ffcd219c"
-        },
+        }
+      ]
+    },
+    "e9b-body-extent-part008": {
+      "asset": "ArmSelf-perception-research-2026-10-26-e9b-body-extent-part008.zip",
+      "bytes": 26998252,
+      "sha256": "e49857a8bf41adaa5acd156cc5fed7ac3317c0d846f182fc619b9ea59a25c527",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-e9b-body-extent-part008.zip",
+      "description": "e9b-body-extent: independent ZIP 8/8; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/e9b-body-extent/frame-scores.json",
           "bytes": 15348809,
@@ -224348,12 +225249,12 @@
         }
       ]
     },
-    "fresh-data": {
-      "asset": "ArmSelf-perception-research-2026-10-26-fresh-data.zip",
-      "bytes": 107555057,
-      "sha256": "1bb913b40b8bc414b27e3e9d0f840b94e7e0d0f7414c728dd91b3804507f51d3",
-      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-fresh-data.zip",
-      "description": "Complete frozen snapshot for fresh-data, including raw arrays and failures",
+    "fresh-data-part001": {
+      "asset": "ArmSelf-perception-research-2026-10-26-fresh-data-part001.zip",
+      "bytes": 104678364,
+      "sha256": "452bdeb04e1d17ed0c69d1b58b1f2f0477fbbf66c1ad70250e47b27ee4480a78",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-fresh-data-part001.zip",
+      "description": "fresh-data: independent ZIP 1/2; original member bytes unchanged",
       "files": [
         {
           "path": "outputs/local-check-20261024/fresh-data/evaluation/00000.npz",
@@ -225664,7 +226565,16 @@
           "path": "outputs/local-check-20261024/fresh-data/observations/00098.npz",
           "bytes": 238254,
           "sha256": "aef62f0d919c36c94dfba139591614f0d3aa3478239dce2b2ea1ad0593aa83cc"
-        },
+        }
+      ]
+    },
+    "fresh-data-part002": {
+      "asset": "ArmSelf-perception-research-2026-10-26-fresh-data-part002.zip",
+      "bytes": 3685956,
+      "sha256": "d12253a749642f349d67add56dce5c6ff1459753b67db872b7aaed72a7d413b3",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-fresh-data-part002.zip",
+      "description": "fresh-data: independent ZIP 2/2; original member bytes unchanged",
+      "files": [
         {
           "path": "outputs/local-check-20261024/fresh-data/observations/00099.npz",
           "bytes": 237925,
@@ -225987,12 +226897,12 @@
         }
       ]
     },
-    "overview": {
-      "asset": "ArmSelf-perception-research-2026-10-26-overview.zip",
+    "overview-part001": {
+      "asset": "ArmSelf-perception-research-2026-10-26-overview-part001.zip",
       "bytes": 8054868,
       "sha256": "ad6212925db8c1e59e647c07c5287e8aefb4db101250026008fc97796b255571",
-      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-overview.zip",
-      "description": "Complete frozen snapshot for overview, including raw arrays and failures",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-overview-part001.zip",
+      "description": "overview: independent ZIP 1/1; original member bytes unchanged",
       "files": [
         {
           "path": "outputs/local-check-20261024/e4-reference.png",
@@ -226046,12 +226956,12 @@
         }
       ]
     },
-    "v7-static": {
-      "asset": "ArmSelf-perception-research-2026-10-26-v7-static.zip",
+    "v7-static-part001": {
+      "asset": "ArmSelf-perception-research-2026-10-26-v7-static-part001.zip",
       "bytes": 8759403,
       "sha256": "36f70453b9d23b98dc59128d1b303ae51ac463f6ce9cc9fbce309b7cb13f17d1",
-      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-v7-static.zip",
-      "description": "Complete frozen snapshot for v7-static, including raw arrays and failures",
+      "url": "https://github.com/Yang9008-max/ArmSelf-perception/releases/download/research-2026-10-26/ArmSelf-perception-research-2026-10-26-v7-static-part001.zip",
+      "description": "v7-static: independent ZIP 1/1; original member bytes unchanged",
       "files": [
         {
           "path": "outputs/local-check-20261024/v7-static/comparison.gif",
@@ -229181,5 +230091,146 @@
     "outputs/20261024-175413-018227",
     "outputs/20261024-180939-323248",
     "outputs/20261024-180939-690974"
-  ]
+  ],
+  "bundle_groups": {
+    "e10-body-conflict": [
+      "e10-body-conflict-part001",
+      "e10-body-conflict-part002",
+      "e10-body-conflict-part003",
+      "e10-body-conflict-part004",
+      "e10-body-conflict-part005",
+      "e10-body-conflict-part006"
+    ],
+    "e11-body-hypotheses": [
+      "e11-body-hypotheses-part001",
+      "e11-body-hypotheses-part002",
+      "e11-body-hypotheses-part003",
+      "e11-body-hypotheses-part004",
+      "e11-body-hypotheses-part005",
+      "e11-body-hypotheses-part006",
+      "e11-body-hypotheses-part007",
+      "e11-body-hypotheses-part008",
+      "e11-body-hypotheses-part009",
+      "e11-body-hypotheses-part010",
+      "e11-body-hypotheses-part011",
+      "e11-body-hypotheses-part012",
+      "e11-body-hypotheses-part013",
+      "e11-body-hypotheses-part014",
+      "e11-body-hypotheses-part015",
+      "e11-body-hypotheses-part016"
+    ],
+    "e12-branch-body": [
+      "e12-branch-body-part001",
+      "e12-branch-body-part002",
+      "e12-branch-body-part003",
+      "e12-branch-body-part004",
+      "e12-branch-body-part005",
+      "e12-branch-body-part006",
+      "e12-branch-body-part007",
+      "e12-branch-body-part008",
+      "e12-branch-body-part009",
+      "e12-branch-body-part010",
+      "e12-branch-body-part011",
+      "e12-branch-body-part012",
+      "e12-branch-body-part013"
+    ],
+    "e13-visual-evidence": [
+      "e13-visual-evidence-part001",
+      "e13-visual-evidence-part002",
+      "e13-visual-evidence-part003",
+      "e13-visual-evidence-part004",
+      "e13-visual-evidence-part005",
+      "e13-visual-evidence-part006",
+      "e13-visual-evidence-part007",
+      "e13-visual-evidence-part008",
+      "e13-visual-evidence-part009",
+      "e13-visual-evidence-part010",
+      "e13-visual-evidence-part011",
+      "e13-visual-evidence-part012",
+      "e13-visual-evidence-part013",
+      "e13-visual-evidence-part014",
+      "e13-visual-evidence-part015",
+      "e13-visual-evidence-part016"
+    ],
+    "e4-body-cycle": [
+      "e4-body-cycle-part001",
+      "e4-body-cycle-part002",
+      "e4-body-cycle-part003",
+      "e4-body-cycle-part004",
+      "e4-body-cycle-part005",
+      "e4-body-cycle-part006",
+      "e4-body-cycle-part007",
+      "e4-body-cycle-part008",
+      "e4-body-cycle-part009"
+    ],
+    "e4-fixture-pilot": [
+      "e4-fixture-pilot-part001"
+    ],
+    "e5-body-memory": [
+      "e5-body-memory-part001",
+      "e5-body-memory-part002",
+      "e5-body-memory-part003",
+      "e5-body-memory-part004"
+    ],
+    "e6-action-body": [
+      "e6-action-body-part001",
+      "e6-action-body-part002",
+      "e6-action-body-part003",
+      "e6-action-body-part004"
+    ],
+    "e7-learned-trust": [
+      "e7-learned-trust-part001",
+      "e7-learned-trust-part002",
+      "e7-learned-trust-part003",
+      "e7-learned-trust-part004",
+      "e7-learned-trust-part005"
+    ],
+    "e8-reliable-state": [
+      "e8-reliable-state-part001",
+      "e8-reliable-state-part002",
+      "e8-reliable-state-part003",
+      "e8-reliable-state-part004",
+      "e8-reliable-state-part005",
+      "e8-reliable-state-part006"
+    ],
+    "e8b-reliable-state": [
+      "e8b-reliable-state-part001",
+      "e8b-reliable-state-part002",
+      "e8b-reliable-state-part003",
+      "e8b-reliable-state-part004",
+      "e8b-reliable-state-part005",
+      "e8b-reliable-state-part006"
+    ],
+    "e9-body-extent": [
+      "e9-body-extent-part001",
+      "e9-body-extent-part002",
+      "e9-body-extent-part003",
+      "e9-body-extent-part004",
+      "e9-body-extent-part005",
+      "e9-body-extent-part006",
+      "e9-body-extent-part007",
+      "e9-body-extent-part008",
+      "e9-body-extent-part009"
+    ],
+    "e9b-body-extent": [
+      "e9b-body-extent-part001",
+      "e9b-body-extent-part002",
+      "e9b-body-extent-part003",
+      "e9b-body-extent-part004",
+      "e9b-body-extent-part005",
+      "e9b-body-extent-part006",
+      "e9b-body-extent-part007",
+      "e9b-body-extent-part008"
+    ],
+    "fresh-data": [
+      "fresh-data-part001",
+      "fresh-data-part002"
+    ],
+    "overview": [
+      "overview-part001"
+    ],
+    "v7-static": [
+      "v7-static-part001"
+    ]
+  }
 }
