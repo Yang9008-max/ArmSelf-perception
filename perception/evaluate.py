@@ -172,7 +172,7 @@ def _examples_image(examples: list[dict[str, Any]], output: Path) -> list[str]:
     panel = Image.new("RGB", (3 * width * scale, len(selected) * 2 * row_height + 36), "#17202c")
     draw = ImageDraw.Draw(panel)
     font = _font(17)
-    for col, caption in enumerate(("Camera RGB", "Predicted body (threshold 0.5)", "Evaluation truth (never trained)")):
+    for col, caption in enumerate(("Camera RGB", "Predicted body", "Evaluation truth (never trained)")):
         draw.text((col * width * scale + 8, 8), caption, font=font, fill="white")
     row = 0
     for sample in selected:
@@ -201,6 +201,9 @@ def _number(value: float | None, percentage: bool = False) -> str:
 
 
 def _html_report(metrics: dict[str, Any], image_path: Path) -> str:
+    static_only = set(metrics.get('by_environment', {})) == {'static'}
+    refinement_note = ('随后用当前 RGB 和网络置信度种子做 GrabCut 边界细化；二值输出不代表重新校准的概率。'
+                       if metrics.get('postprocessing') else '')
     source = metrics["source"]["macro"]
     stopped = metrics["stopped_after_motion"]["macro"]
     segmentation_rows = "".join(
@@ -237,7 +240,8 @@ def _html_report(metrics: dict[str, Any], image_path: Path) -> str:
         environment_html = f'<h2>环境干扰分组</h2><table><tr><th>场景</th><th>姿态组</th><th>身体 IoU</th><th>保持姿态 IoU</th><th>杂物像素被当成身体</th></tr>{environment_rows}</table><p>杂物率只统计可见杂物像素，干净/纯光照场景无杂物时无此指标。遮挡场景只评价当前可见身体。杂物几何分组只用于评价。</p>'
         if metrics.get('null_controls'):
             held = metrics['null_controls']
-            environment_html += (f"<p>单独的机械臂保持、环境继续变化对照，共 {held['body']['count']} 帧：身体 IoU "
+            control_protocol = '机械臂与干扰物均保持静止的对照' if static_only else '机械臂保持的环境对照（按上表场景配置）'
+            environment_html += (f"<p>单独的{control_protocol}，共 {held['body']['count']} 帧：身体 IoU "
                                  f"{_number(held['body']['macro']['iou'], True)}，杂物误判率 "
                                  f"{_number(held['distractors']['false_positive_rate'], True)}。</p>")
     feedback_html = ""
@@ -256,11 +260,14 @@ def _html_report(metrics: dict[str, Any], image_path: Path) -> str:
                        if metrics.get('by_environment') else '相机和场景外观固定。')
     remaining_note = ('本轮光照变化只覆盖指定范围、且组内探测照明不变；未知工具、相机移动、动态照明与影子区分仍未验证。'
                       if metrics.get('by_environment') else '未知工具、相机移动、光照变化或影子区分尚未验证。')
+    if static_only:
+        appearance_note = '相机固定，干扰物在各姿态组内全程静止，位置只在姿态组之间重新采样；光照固定。'
+        remaining_note = '本测试未验证移动杂物、相机移动、真实硬件或变化光照。'
     return f"""<!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>机械臂自感知：实测结果</title>
 <style>body{{margin:0;background:#111827;color:#e5e7eb;font:16px/1.7 system-ui,'Microsoft YaHei',sans-serif}}main{{max-width:1180px;margin:auto;padding:32px 24px}}h1,h2{{line-height:1.3}}h2{{margin-top:32px;color:#93c5fd}}p{{max-width:1000px}}table{{border-collapse:collapse;width:100%;background:#1f2937}}th,td{{text-align:left;padding:12px;border-bottom:1px solid #374151}}img{{width:100%;height:auto;border:1px solid #374151}}code,pre{{font-family:Consolas,monospace}}pre{{white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#0b1220;padding:16px}}.note{{padding:14px 18px;background:#243147;border-left:4px solid #60a5fa}}small{{color:#a8b3c5}}</style></head>
 <body><main><h1>机械臂自感知：实测结果</h1>
-<p>固定相机图像与实际仿真关节反馈输入模型，输出可见身体区域。数据分组：<strong>{html.escape(metrics['split'])}</strong>，共 <strong>{metrics['source']['count']}</strong> 个独立初始姿态。阈值预先固定为 0.5。</p>
+<p>固定相机图像与实际仿真关节反馈输入模型，输出可见身体区域。数据分组：<strong>{html.escape(metrics['split'])}</strong>，共 <strong>{metrics['source']['count']}</strong> 个独立初始姿态。网络阈值预先固定为 0.5。{refinement_note}</p>
 <p class="note">这是通用六旋转关节加夹爪的 7 通道 MuJoCo 原型，当前{shadow_note}。没有完成 SO-ARM 或真实硬件验证。训练未读取 CAD、几何 ID、深度或身体真值掩膜；仿真掩膜只由本评估器读取。</p>
 {architecture_html}
 <h2>身体分割</h2><p>下表为逐姿态平均；像素汇总指标与每个姿态的结果见末尾完整记录。</p><table><thead><tr><th>帧类型</th><th>IoU</th><th>精确率</th><th>召回率</th></tr></thead><tbody>{segmentation_rows}</tbody></table>
@@ -277,6 +284,7 @@ def evaluate_checkpoint(data: str | Path, checkpoint: str | Path, output: str | 
                         feedback_diagnostic: str | Path | None = None) -> dict[str, Any]:
     """Run selected weights against held-out observations, then score with masks."""
     from .model import BodyPerception
+    from .boundary import prediction_mask
 
     if threads < 1:
         raise ValueError("threads must be positive")
@@ -304,7 +312,8 @@ def evaluate_checkpoint(data: str | Path, checkpoint: str | Path, output: str | 
         image_tensor = torch.from_numpy(np.ascontiguousarray(rgb.transpose(2, 0, 1))).float()[None] / 255.0
         q_tensor = torch.from_numpy(np.asarray((q - q_center) / q_scale, dtype=np.float32))[None]
         prediction = model(image_tensor, q_tensor)
-        mask = (torch.sigmoid(prediction["logits"])[0, 0] >= 0.5).cpu().numpy()
+        probability = torch.sigmoid(prediction["logits"])[0, 0].cpu().numpy()
+        mask = prediction_mask(rgb, probability, saved.get('postprocessing'))
         jacobian = prediction["jacobian"][0].cpu().numpy()
         if not np.isfinite(jacobian).all() or not torch.isfinite(prediction["logits"]).all():
             raise ValueError("Model produced non-finite outputs")
@@ -371,6 +380,7 @@ def evaluate_checkpoint(data: str | Path, checkpoint: str | Path, output: str | 
         "shadows": bool(metadata.get("shadows", False)),
         "scene_file": metadata.get("scene_file"), "scene_sha256": metadata.get("scene_sha256"),
         "model_config": saved["model_config"], "training": saved.get("training", {}),
+        "postprocessing": saved.get('postprocessing'),
         "preprocessing": saved["preprocessing"],
         "source": _aggregate_masks([row["source"] for row in rows]),
         "stopped_after_motion": _aggregate_masks([row["stopped_after_motion"] for row in rows]),
@@ -403,7 +413,9 @@ def evaluate_checkpoint(data: str | Path, checkpoint: str | Path, output: str | 
                     'body': _aggregate_masks([control['body'] for control in null_group]),
                     'distractors': _aggregate_distractors([control['distractors'] for control in null_group])}
         metrics['distractors'] = _aggregate_distractors([row['distractors'] for row in rows])
-        metrics['environment_protocol'] = metadata.get('distractor_policy')
+        metrics['environment_protocol'] = ('Static noncontact props within each pose group; placement randomized between groups'
+                                           if metadata.get('environment') == 'static'
+                                           else metadata.get('distractor_policy'))
         if 'occlusion' in rows[0]:
             metrics['occlusion_coverage'] = {
                 'poses_with_occlusion': sum(row['occlusion']['covered_body_pixels'] > 0 for row in rows),

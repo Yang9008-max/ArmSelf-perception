@@ -6,10 +6,26 @@ import mujoco
 import numpy as np
 
 from perception.collect import DEFAULT_SCENE, collect_dataset
-from perception.environment import create_environment_model, EnvironmentController
+from perception.environment import create_environment_model, create_static_scene_model, EnvironmentController
 
 
 class EnvironmentTests(unittest.TestCase):
+    def test_live_props_stay_fixed_while_robot_joints_move(self):
+        model = create_static_scene_model(DEFAULT_SCENE)
+        data = mujoco.MjData(model)
+        mujoco.mj_resetDataKeyframe(model, data, 0)
+        mujoco.mj_forward(model, data)
+        props = [model.body(f'table_object_{i}').id for i in range(3)]
+        positions, rotations = data.xpos[props].copy(), data.xquat[props].copy()
+        robot = data.qpos.copy()
+        data.ctrl[0] += .3
+        mujoco.mj_step(model, data, nstep=500)
+        mujoco.mj_forward(model, data)
+        np.testing.assert_array_equal(data.xpos[props], positions)
+        np.testing.assert_array_equal(data.xquat[props], rotations)
+        self.assertGreater(np.linalg.norm(data.qpos - robot), .1)
+        self.assertEqual(model.nq, 8)
+
     def test_shadow_option_changes_rgb_without_changing_robot_or_body_geometry(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

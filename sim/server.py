@@ -22,7 +22,9 @@ import numpy as np
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_CHECKPOINT = ROOT / "outputs/perception/v6-eye/model/model.pt"
+STATIC_CHECKPOINT = ROOT / "outputs/perception/v7-static/model/model.pt"
+DEFAULT_CHECKPOINT = (STATIC_CHECKPOINT if STATIC_CHECKPOINT.is_file()
+                      else ROOT / "outputs/perception/v6-eye/model/model.pt")
 WIDTH, HEIGHT = 640, 480
 LABELS = ["J1 底部旋转", "J2 肩关节", "J3 肘关节", "J4 腕部旋转", "J5 腕部俯仰", "J6 末端旋转", "夹爪单侧行程"]
 
@@ -113,7 +115,10 @@ class Simulation:
             raise RuntimeError("仿真响应超时，请检查服务日志") from None
 
     def _load(self):
-        self.model = mujoco.MjModel.from_xml_path(str(ROOT / "sim" / "scene.xml"))
+        if str(ROOT) not in sys.path:
+            sys.path.insert(0, str(ROOT))
+        from perception.environment import create_static_scene_model
+        self.model = create_static_scene_model(ROOT / "sim" / "scene.xml")
         self.data = mujoco.MjData(self.model)
         self.home_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_KEY, "home")
         if self.home_id < 0 or self.model.nu != 7:
@@ -243,6 +248,7 @@ class Simulation:
                        unit="deg" if i < 6 else "mm") for i in range(7)]
         return dict(ready=True, sim_time=float(self.data.time), paused=self.paused,
                     auto=self.auto, shadows=self.shadows, light_angle=self.light_angle,
+                    environment_motion="static tabletop props",
                     fps=round(self.fps, 1), joints=joints, active_joint=self.active_joint,
                     last_snapshot=self.last_snapshot, perception=self.perception_status, error=None)
 

@@ -1,5 +1,7 @@
 # 换平台运行与研究交接
 
+**2026-10-26 更新：E4—E13 与 R1 真机方案的最新交接，见[研究快照与恢复方法](research-snapshot-2026-10-26.md)。以下保留原始 E1—E3 交接说明与附件清单。**
+
 本次交接日期：2026-10-24。仓库：<https://github.com/Yang9008-max/ArmSelf-perception>。固定资料版本：[handoff-2026-10-24](https://github.com/Yang9008-max/ArmSelf-perception/releases/tag/handoff-2026-10-24)。源码、研究讨论、失败经验和代表图在 Git；大文件在同名 Release，不能只下载 GitHub 的 Source code ZIP 就认为已经有权重和数据。
 
 ## 带走什么

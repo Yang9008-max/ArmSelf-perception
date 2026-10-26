@@ -16,6 +16,30 @@ import numpy as np
 PROFILES = ('clean', 'static', 'moving', 'occlusion', 'lighting')
 
 
+def create_static_scene_model(scene):
+    """Keep tabletop props at their scene poses while the arm moves physically.
+
+    Only the three trailing free-object joints are removed. Their geometry and
+    appearance remain in the camera image and in evaluation renders.
+    """
+    root = ET.fromstring(Path(scene).read_text(encoding='utf-8'))
+    count = 0
+    for body in root.findall('worldbody/body'):
+        if body.get('name', '').startswith('table_object_'):
+            joints = body.findall('joint') + body.findall('freejoint')
+            for joint in joints:
+                if joint.tag == 'freejoint' or joint.get('type') == 'free':
+                    body.remove(joint)
+                    count += 1
+    if count:
+        for key in root.findall('keyframe/key'):
+            for field, size in (('qpos', 7), ('qvel', 6)):
+                values = key.get(field, '').split()
+                if values:
+                    key.set(field, ' '.join(values[:-size * count]))
+    return mujoco.MjModel.from_xml_string(ET.tostring(root, encoding='unicode'))
+
+
 def create_environment_model(scene):
     root = ET.fromstring(Path(scene).read_text(encoding='utf-8'))
     world = root.find('worldbody')

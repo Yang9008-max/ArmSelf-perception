@@ -7,7 +7,7 @@ from perception.collect import DEFAULT_SCENE
 
 class TabletopTests(unittest.TestCase):
     def test_free_objects_settle_on_table_and_home_restores_their_poses(self):
-        model = mujoco.MjModel.from_xml_path(str(DEFAULT_SCENE))
+        model = mujoco.MjModel.from_xml_string(DEFAULT_SCENE.read_text(encoding="utf-8"))
         data = mujoco.MjData(model)
         top = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_GEOM, 'tabletop')
         self.assertGreaterEqual(top, 0, 'The default scene needs a table')

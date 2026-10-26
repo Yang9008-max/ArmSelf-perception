@@ -15,6 +15,7 @@ import torch
 from .collect import DEFAULT_SCENE, HOME
 from .evaluate import mask_metrics, distractor_metrics
 from .model import BodyPerception
+from .boundary import prediction_mask
 
 
 WIDTH, HEIGHT = 192, 144
@@ -78,7 +79,8 @@ def generate_demo(checkpoint: str | Path, output: str | Path, frames: int = 90,
         model, environment_xml_hash = create_environment_model(scene)
         controller = EnvironmentController(model)
     else:
-        model = mujoco.MjModel.from_xml_path(str(scene))
+        from .environment import create_static_scene_model
+        model = create_static_scene_model(scene)
     data = mujoco.MjData(model)
     if model.nu != 7 or np.any(model.actuator_trntype != int(mujoco.mjtTrn.mjTRN_JOINT)):
         raise ValueError("Demo scene must have seven joint actuators")
@@ -136,7 +138,8 @@ def generate_demo(checkpoint: str | Path, output: str | Path, frames: int = 90,
                 logits = network(tensor_rgb, tensor_q)["logits"]
                 if not torch.isfinite(logits).all():
                     raise RuntimeError("Network produced non-finite logits")
-                prediction = (torch.sigmoid(logits)[0, 0] >= 0.5).cpu().numpy()
+                probability = torch.sigmoid(logits)[0, 0].cpu().numpy()
+                prediction = prediction_mask(rgb, probability, saved.get('postprocessing'))
 
                 # Privileged geometry enters only the comparison AFTER inference.
                 update_scene()
@@ -187,10 +190,12 @@ def generate_demo(checkpoint: str | Path, output: str | Path, frames: int = 90,
         "repeatability_seed": 20261024, "random_motion": False,
         "environment": environment, "environment_seed": 20261103 if controller else None,
         "environment_xml_sha256": environment_xml_hash,
-        "environment_trajectory": 'Independent bounded sinusoidal prop motion continues during arm hold' if controller else None,
+        "environment_trajectory": ('Independent bounded sinusoidal prop motion continues during arm hold'
+                                   if environment in ('moving', 'occlusion') else 'Props remain fixed throughout the trajectory'),
         "versions": {"mujoco": mujoco.__version__, "torch": str(torch.__version__), "numpy": np.__version__},
         "frames": frames, "fps": fps, "moving_frames": moving_frames,
         "resolution": [WIDTH, HEIGHT], "threshold": 0.5, "shadows": bool(shadows),
+        "postprocessing": saved.get('postprocessing'),
         "settle_before_motion_seconds": 0.8,
         "hold_metric_excludes_first_seconds": 0.3,
         "trajectory": "All seven commands follow home + amplitude * sin(phase); phase progresses from 0 to 1.5*pi, then the final non-home target is held.",

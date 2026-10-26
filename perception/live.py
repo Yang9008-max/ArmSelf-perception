@@ -10,6 +10,7 @@ from PIL import Image
 import torch
 
 from .model import BodyPerception
+from .boundary import prediction_mask
 
 
 class LiveBodyPredictor:
@@ -31,6 +32,7 @@ class LiveBodyPredictor:
         self.network.load_state_dict(saved['state_dict'])
         self.network.eval()
         deployment = saved.get('deployment', {})
+        self.postprocessing = saved.get('postprocessing')
         self.metadata = {
             'model': deployment.get('model', 'V5' if checkpoint.parent.name == 'run-v5-supported' else checkpoint.parent.name),
             'checkpoint': str(checkpoint),
@@ -41,6 +43,7 @@ class LiveBodyPredictor:
             'training_scene': deployment.get('training_scene', '旧场景；当前眼位尚未重新训练'),
             'training_scene_sha256': deployment.get('scene_sha256'),
             'live_scene_sha256': deployment.get('live_scene_sha256'),
+            'postprocessing': self.postprocessing,
         }
 
     def predict(self, rgb, measured_q):
@@ -59,7 +62,7 @@ class LiveBodyPredictor:
             if not torch.isfinite(logits).all():
                 raise RuntimeError('Model produced non-finite body logits')
             probability = torch.sigmoid(logits)[0, 0].cpu().numpy().copy()
-        low_mask = (probability >= self.threshold).astype(np.uint8)*255
+        low_mask = prediction_mask(image, probability, self.postprocessing).astype(np.uint8)*255
         mask = np.asarray(Image.fromarray(low_mask).resize(
             (rgb.shape[1], rgb.shape[0]), Image.Resampling.NEAREST)) > 0
         overlay = rgb.copy()

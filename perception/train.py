@@ -31,7 +31,8 @@ def objective(model, batch, stage, probe_slice, motion_weight=.1, control_weight
 def train(data, cache, output, motion_epochs=25, segmentation_epochs=35,
           batch_size=4, width=8, threads=4, seed=20261024, use_feedback=True,
           init_checkpoint=None, reuse_cache=None, refine_labels=False,
-          use_null_evidence=False, motion_weight=.1, control_weight=0.):
+          use_null_evidence=False, motion_weight=.1, control_weight=0.,
+          segmentation_lr=.001, color_jitter=0.):
     started = time.perf_counter()
     if min(batch_size, threads) < 1 or min(motion_epochs, segmentation_epochs) < 0:
         raise ValueError('Batch size/threads must be positive; epochs must be nonnegative')
@@ -39,6 +40,10 @@ def train(data, cache, output, motion_epochs=25, segmentation_epochs=35,
         raise ValueError('At least one training stage must run')
     if motion_weight < 0 or not np.isfinite(motion_weight):
         raise ValueError('Motion weight must be finite and nonnegative')
+    if not np.isfinite(segmentation_lr) or segmentation_lr <= 0:
+        raise ValueError('Segmentation learning rate must be finite and positive')
+    if not np.isfinite(color_jitter) or not 0 <= color_jitter < 1:
+        raise ValueError('Color jitter must be in [0, 1)')
     if control_weight < 0 or not np.isfinite(control_weight) or (control_weight > 0 and not use_null_evidence):
         raise ValueError('Positive control weight requires stationary-control evidence')
     torch.set_num_threads(threads)
@@ -82,7 +87,7 @@ def train(data, cache, output, motion_epochs=25, segmentation_epochs=35,
     history = []
     best_by_stage = {}
     for stage, epochs, learning_rate in [('motion', motion_epochs, .002),
-                                         ('segmentation', segmentation_epochs, .001)]:
+                                         ('segmentation', segmentation_epochs, segmentation_lr)]:
         optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate, weight_decay=1e-4)
         scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, max(epochs, 1), eta_min=learning_rate*.1)
         best, best_state = float('inf'), None
@@ -91,6 +96,13 @@ def train(data, cache, output, motion_epochs=25, segmentation_epochs=35,
             totals = np.zeros(3)
             for batch in loader:
                 optimizer.zero_grad(set_to_none=True)
+                if color_jitter and stage == 'segmentation':
+                    # Photometric changes preserve geometry, flow and labels.
+                    rgb = batch['rgb']
+                    shape = (len(rgb), 1, 1, 1)
+                    gain = 1 + (torch.rand(shape) * 2 - 1) * color_jitter
+                    offset = (torch.rand(shape) * 2 - 1) * color_jitter * .25
+                    batch['rgb'] = (rgb * gain + offset).clamp(0, 1)
                 # Positive directions fit the predictor; negative directions remain a check.
                 losses = objective(model, batch, stage, slice(0, None, 2), motion_weight, control_weight)
                 if not torch.isfinite(losses[0]):
@@ -134,6 +146,8 @@ def train(data, cache, output, motion_epochs=25, segmentation_epochs=35,
     record['segmentation_motion_weight'] = motion_weight
     record['stationary_control_evidence'] = bool(use_null_evidence)
     record['stationary_control_loss_weight'] = control_weight
+    record['segmentation_learning_rate'] = segmentation_lr
+    record['training_color_jitter'] = color_jitter
     record['background_reference_sha256'] = hashlib.sha256(
         (Path(cache) / 'background-reference.npz').read_bytes()).hexdigest()
     record['negative_label_extension'] = 'Fixed-camera background reference fitted only on training source RGB; same-coordinate probe appearance must remain unchanged.'
@@ -166,6 +180,8 @@ def main():
     parser.add_argument('--use-null-evidence', action='store_true')
     parser.add_argument('--motion-weight', type=float, default=.1)
     parser.add_argument('--control-weight', type=float, default=0.)
+    parser.add_argument('--segmentation-lr', type=float, default=.001)
+    parser.add_argument('--color-jitter', type=float, default=0.)
     args = vars(parser.parse_args())
     args['use_feedback'] = not args.pop('image_only')
     train(**args)

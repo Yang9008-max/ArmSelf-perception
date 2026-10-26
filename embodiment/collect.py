@@ -21,7 +21,7 @@ def stereo_scene(scene, output, width=640, height=480, baseline=.06):
         raise ValueError('Robot eye camera is required')
     # MuJoCo accepts xyaxes/euler/quaternion camera orientation encodings.
     # Its compiled camera quaternion resolves all of them in the parent frame.
-    compiled = mujoco.MjModel.from_xml_path(str(scene))
+    compiled = mujoco.MjModel.from_xml_string(Path(scene).read_text(encoding='utf-8'))
     rotation = np.empty(9)
     mujoco.mju_quat2Mat(rotation, compiled.cam_quat[compiled.camera('fixed').id])
     right_axis = rotation.reshape(3, 3)[:, 0]

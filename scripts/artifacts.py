@@ -125,14 +125,18 @@ def download(bundle, cache):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('mode', choices=('fetch', 'restore', 'verify', 'list'))
-    parser.add_argument('--bundle', choices=('runtime', 'current', 'legacy', 'all'), default='runtime')
+    parser.add_argument('--bundle', default='runtime',
+                        help='Bundle name from the selected manifest, or all for its complete dataset')
     parser.add_argument('--archive-dir', type=Path, default=ROOT/'.artifacts',
                         help='Download cache, or directory containing offline Release ZIPs')
     parser.add_argument('--root', type=Path, default=ROOT, help='Destination checkout')
     parser.add_argument('--manifest', type=Path, default=ROOT/'artifacts/manifest.json')
     args = parser.parse_args()
     manifest = json.loads(args.manifest.read_text(encoding='utf-8'))
-    names = ('current', 'legacy') if args.bundle == 'all' else (args.bundle,)
+    names = tuple(manifest.get('default_bundles', ('current', 'legacy'))) if args.bundle == 'all' else (args.bundle,)
+    unknown = set(names) - set(manifest['bundles'])
+    if unknown:
+        parser.error(f'Unknown bundles: {sorted(unknown)}; available: {sorted(manifest["bundles"])} and all')
     for name in names:
         bundle = manifest['bundles'][name]
         if args.mode == 'list':

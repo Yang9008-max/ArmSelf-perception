@@ -7,10 +7,55 @@ import unittest
 import zipfile
 from unittest.mock import patch
 
-from scripts.artifacts import checked_target, download, download_url, restore, sha256
+from scripts.artifacts import checked_target, download, download_url, restore, sha256, main
+from scripts import package_research
 
 
 class ArtifactRestoreTests(unittest.TestCase):
+    def test_named_snapshot_bundles_and_all_use_the_selected_manifest(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            manifest = root/'manifest.json'
+            manifest.write_text(json.dumps(dict(default_bundles=['e13'], bundles={
+                'e13': dict(files=[], asset='e13.zip'),
+                'runtime': dict(files=[dict(path='outputs/missing', bytes=1, sha256='bad')])})), encoding='utf-8')
+            for bundle in ('e13', 'all'):
+                with patch('sys.argv', ['artifacts', 'verify', '--bundle', bundle,
+                                       '--manifest', str(manifest), '--root', str(root)]):
+                    main()
+            with patch('sys.argv', ['artifacts', 'verify', '--bundle', 'unknown', '--manifest', str(manifest)]):
+                with self.assertRaises(SystemExit) as error:
+                    main()
+                self.assertEqual(error.exception.code, 2)
+
+    def test_research_snapshot_preserves_raw_failures_and_can_restore_into_a_clean_checkout(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root/'outputs/local-check-20261024'
+            files = {'e13/report/index.html': b'report', 'e13/observations/1.npz': b'raw',
+                     'e13/unittest.log': b'failure retained', '.mpl-cache/fontlist.json': b'cache'}
+            for name, value in files.items():
+                path = source/name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes(value)
+            (root/'artifacts').mkdir()
+            destination = root/'.artifacts/release'
+            with patch.object(package_research, 'ROOT', root):
+                package_research.package(destination, 'test-snapshot', source)
+            manifest = json.loads((root/'artifacts/test-snapshot.json').read_text(encoding='utf-8'))
+            runtime = manifest['bundles']['runtime']
+            full = manifest['bundles']['e13']
+            self.assertNotIn('outputs/local-check-20261024/e13/observations/1.npz',
+                             [e['path'] for e in runtime['files']])
+            clean = root/'clean-checkout'
+            clean.mkdir()
+            restore(destination/full['asset'], full, clean)
+            for name in ('e13/observations/1.npz', 'e13/unittest.log', 'e13/report/index.html'):
+                self.assertEqual((clean/'outputs/local-check-20261024'/name).read_bytes(), files[name])
+            self.assertFalse((clean/'outputs/local-check-20261024/.mpl-cache').exists())
+            with patch.object(package_research, 'ROOT', root), self.assertRaises(FileExistsError):
+                package_research.package(destination, 'test-snapshot', source)
+
     def test_interrupted_download_keeps_received_bytes_and_resumes_at_offset(self):
         class Dropped(io.BytesIO):
             status = 200

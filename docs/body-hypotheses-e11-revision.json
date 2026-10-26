@@ -1,0 +1,18 @@
+{
+  "created_utc": "2026-10-25T07:07:17.409875+00:00",
+  "reason": "Independent render contexts differ by at most one pixel intensity before physical divergence; force observational twin prefix to reuse exactly one recorded sensor stream.",
+  "previous_final_seeds": [
+    2026103131,
+    2026103132,
+    2026103133
+  ],
+  "new_final_seeds": [
+    2026103161,
+    2026103162,
+    2026103163
+  ],
+  "previous_final_role": "unscored preflight; partial collection and predictions preserved",
+  "final_truth_scores_read": false,
+  "model_and_profile_grid_unchanged": true,
+  "development_seed": 2026103111
+}

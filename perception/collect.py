@@ -146,7 +146,9 @@ def collect_dataset(
         "environment": environment,
         "environment_xml_sha256": environment_xml_sha256,
         "null_control_count": 2 if environment_controller else 0,
-        "distractor_policy": 'Independent randomized per-probe visual mocap trajectories; noncontact; group 2 used only for evaluation',
+        "distractor_policy": ('Static noncontact props within each pose group; placement randomized between groups; group 2 used only for evaluation'
+                              if environment == 'static' else
+                              'Independent randomized per-probe visual mocap trajectories; noncontact; group 2 used only for evaluation'),
     }
     metadata_path = output / "metadata.json"
     metadata_path.write_text(json.dumps(metadata, indent=2), encoding="utf-8")
