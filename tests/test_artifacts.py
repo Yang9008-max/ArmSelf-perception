@@ -5,6 +5,7 @@ from pathlib import Path
 import tempfile
 import unittest
 import zipfile
+from urllib.error import HTTPError
 from unittest.mock import patch
 
 from scripts.artifacts import checked_target, download, download_url, restore, sha256, main
@@ -12,6 +13,20 @@ from scripts import package_research
 
 
 class ArtifactRestoreTests(unittest.TestCase):
+    def test_binary_api_rate_limit_falls_back_to_public_release_download(self):
+        payload = b'abcdef'
+        public_url = 'https://github.com/owner/repo/releases/download/snapshot/model.zip'
+        api_url = 'https://api.github.com/repos/owner/repo/releases/assets/7'
+        bundle = dict(asset='model.zip', bytes=len(payload), sha256=hashlib.sha256(payload).hexdigest(), url=public_url)
+        response = io.BytesIO(payload)
+        response.status = 200
+        with tempfile.TemporaryDirectory() as directory:
+            with patch('scripts.artifacts.download_url', return_value=api_url), \
+                    patch('scripts.artifacts.urlopen', side_effect=[HTTPError(api_url, 403, 'rate limit', {}, None), response]) as opener:
+                path = download(bundle, Path(directory), {})
+            self.assertEqual(path.read_bytes(), payload)
+            self.assertEqual([call.args[0].full_url for call in opener.call_args_list], [api_url, public_url])
+
     def test_named_snapshot_bundles_and_all_use_the_selected_manifest(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

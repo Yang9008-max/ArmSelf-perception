@@ -121,6 +121,10 @@ def download(bundle, cache, release_cache=None):
             partial.replace(archive)
             return archive
         except (OSError, ValueError) as error:
+            if attempt < 2 and getattr(error, 'code', None) in (403, 429) and urlsplit(url).hostname == 'api.github.com':
+                print('GitHub API download restricted; trying the direct Release URL', flush=True)
+                url = bundle['url']
+                continue
             if attempt == 2:
                 raise
             print(f'Download retry {attempt+1}: {error}', flush=True)
