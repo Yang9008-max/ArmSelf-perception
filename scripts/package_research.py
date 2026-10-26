@@ -21,10 +21,12 @@ def group_name(relative):
 def excluded_reason(relative):
     if any(p in ('__pycache__', '.mpl-cache') for p in relative.parts) or relative.suffix == '.pyc':
         return 'machine cache'
+    if 'cache' in relative.parts and relative.suffix == '.npz' and relative.name != 'background-reference.npz':
+        return 'regenerable optical-flow cache; frozen background and metadata retained'
     return None
 
 
-def package(destination, tag, source):
+def package(destination, tag, source, support_sources=()):
     if not re.fullmatch(r'[a-zA-Z0-9][a-zA-Z0-9._-]*', tag):
         raise ValueError('Use a plain release tag')
     source, destination = source.resolve(), destination.resolve()
@@ -48,6 +50,22 @@ def package(destination, tag, source):
         entry = dict(path=path.relative_to(ROOT).as_posix(), bytes=path.stat().st_size,
                      sha256=sha256(path))
         groups.setdefault(group_name(relative), []).append(entry)
+    existing = {e['path'] for entries in groups.values() for e in entries}
+    for support in support_sources:
+        support = support.resolve()
+        if not support.is_relative_to((ROOT/'outputs').resolve()) or not support.is_dir():
+            raise ValueError('Supporting sources must be directories inside outputs')
+        for path in sorted(support.rglob('*')):
+            if not path.is_file() or path.relative_to(ROOT).as_posix() in existing:
+                continue
+            relative = path.relative_to(ROOT)
+            reason = excluded_reason(relative)
+            if reason:
+                excluded.append(dict(path=relative.as_posix(), reason=reason))
+                continue
+            entry = dict(path=relative.as_posix(), bytes=path.stat().st_size, sha256=sha256(path))
+            groups.setdefault('supporting-data', []).append(entry)
+            existing.add(entry['path'])
     if not groups:
         raise ValueError('No research files found')
     runtime = [e for entries in groups.values() for e in entries
@@ -57,7 +75,7 @@ def package(destination, tag, source):
         source_root=source.relative_to(ROOT).as_posix(),
         prerequisites_manifest='artifacts/manifest.json',
         default_bundles=sorted(groups), excluded=excluded,
-        exclusion_reason='Only Python bytecode and matplotlib/Python caches omitted; raw data, failed trials and test logs retained',
+        exclusion_reason='Python/font caches and regenerable optical-flow arrays omitted; frozen background references, raw data, failed trials and test logs retained',
         bundles={})
     descriptions = {name: f'Complete frozen snapshot for {name}, including raw arrays and failures'
                     for name in groups}
@@ -88,4 +106,6 @@ if __name__ == '__main__':
     parser.add_argument('--destination', required=True, type=Path)
     parser.add_argument('--tag', default='research-2026-10-26')
     parser.add_argument('--source', type=Path, default=ROOT/'outputs/local-check-20261024')
+    parser.add_argument('--support-sources', nargs='*', type=Path, default=[],
+                        help='Additional output directories required by the snapshot')
     package(**vars(parser.parse_args()))

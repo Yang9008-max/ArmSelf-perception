@@ -39,12 +39,20 @@ class ArtifactRestoreTests(unittest.TestCase):
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_bytes(value)
             (root/'artifacts').mkdir()
+            support = root/'outputs/perception/v7'
+            (support/'cache').mkdir(parents=True)
+            (support/'model.pt').write_bytes(b'required weight')
+            (support/'cache/background-reference.npz').write_bytes(b'frozen reference')
+            (support/'cache/sample.npz').write_bytes(b'regenerable')
             destination = root/'.artifacts/release'
             with patch.object(package_research, 'ROOT', root):
-                package_research.package(destination, 'test-snapshot', source)
+                package_research.package(destination, 'test-snapshot', source, [support])
             manifest = json.loads((root/'artifacts/test-snapshot.json').read_text(encoding='utf-8'))
             runtime = manifest['bundles']['runtime']
             full = manifest['bundles']['e13']
+            supporting = manifest['bundles']['supporting-data']
+            self.assertEqual({e['path'] for e in supporting['files']}, {
+                'outputs/perception/v7/model.pt', 'outputs/perception/v7/cache/background-reference.npz'})
             self.assertNotIn('outputs/local-check-20261024/e13/observations/1.npz',
                              [e['path'] for e in runtime['files']])
             clean = root/'clean-checkout'

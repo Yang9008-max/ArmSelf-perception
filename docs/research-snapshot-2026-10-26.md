@@ -55,7 +55,7 @@ python scripts/artifacts.py fetch --manifest artifacts/research-2026-10-26.json 
 python scripts/artifacts.py verify --manifest artifacts/research-2026-10-26.json --bundle all
 ```
 
-本次新增文件原始大小约 9.7 GiB，下载压缩大小以 manifest 为准。下载缓存与解压内容分别占用空间。按阶段单独恢复可把 `all` 换成 `e13-visual-evidence` 等名称；单阶段通常还有旧模型和前序阶段依赖，不代表独立重算环境。列出全部包：
+本次新增文件原始大小约 9.8 GiB，共 43,648 个文件，下载压缩大小以 manifest 为准。下载缓存与解压内容分别占用空间。按阶段单独恢复可把 `all` 换成 `e13-visual-evidence` 等名称；单阶段通常还有旧模型和前序阶段依赖，不代表独立重算环境。`supporting-data` 另含 V7 部署权重、原始静态训练／最终数据、冻结背景参考和六份本机场景快照；完整恢复会自动包含。列出全部包：
 
 ```powershell
 python scripts/artifacts.py list --manifest artifacts/research-2026-10-26.json --bundle all
@@ -65,7 +65,7 @@ python scripts/artifacts.py list --manifest artifacts/research-2026-10-26.json -
 
 ## 保存与复现边界
 
-源码、协议、报告和测试进入 Git；大文件由 Release 保存。各阶段原始数据、模型、评分、开发试验和失败均保留；只排除 Python 字节码与字体缓存。runtime 与完整阶段包有相同文件，恢复器会校验后跳过相同内容，拒绝覆盖不同内容。
+源码、协议、报告和测试进入 Git；大文件由 Release 保存。各阶段原始数据、模型、评分、开发试验和失败均保留；排除 Python 字节码、字体缓存及可从原图再生成的逐样本光流缓存，冻结背景参考与缓存元数据保留。runtime 与完整阶段包有相同文件，恢复器会校验后跳过相同内容，拒绝覆盖不同内容。
 
 本次回归：150 项通过，包含新增的分包恢复测试。测试未重新训练模型或重新采集最终实验。各阶段原有的 73、84、148 等测试数是阶段历史记录，不改写为当前测试数。
 
